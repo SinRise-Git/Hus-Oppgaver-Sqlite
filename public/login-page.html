@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<body>
+    <div class="main">
+        <div class="loginDiv">
+            <h1>Login</h1>
+            <form id="loginForm">
+                <label for="loginEmail">Email</label>
+                <input type="text" id="loginEmail" placeholder="Email">
+                <label for="loginPassword">Password</label>
+                <input type="password" id="loginPassword" placeholder="Password">
+                <button type="submit">
+                    Login
+                </button>
+            </form>
+            <p>Har du ikke bruker? <a href="" onclick="">Signup</a></p>
+        </div>
+        <div class="signupDiv">
+            <h1>Signup</h1>
+            <form id="signupForm">
+                <label for="signupNavn">Navn</label>
+                <input type="text" id="signupNavn" placeholder="Navn">
+                <label for="signupEmail">Email</label>
+                <input type="text" id="signupEmail" placeholder="Email">
+                <label for="signupPassword">Password</label>
+                <input type="password" id="signupPassword" placeholder="Password">
+                <label for="usertypeSelect">Velg role</label>
+                <select id="usertypeSelect">
+                </select>
+                <div class="workspaceSelection">
+                 <div id="workspaceTypeDiv" style="display: none;">
+                    <label for="workspaceType">Hva vil du gjør?</label>
+                    <select id="workspaceType">
+                        <option value="1">Bli med i en gruppen</option>
+                        <option value="2">Lage en gruppen</option>
+                    </select>
+                 </div>
+                 <div id="joinGroupDiv" style="display: block;">
+                    <label for="joinGroup">Velg gruppe</label>
+                    <select id="joinGroup">
+
+                    </select>
+                 </div>               
+                 <div id="createGroupDiv" style="display: none;">
+                    <label for="createGroup">Lage en gruppe</label>
+                    <input id="createGroup" type="text">
+                 </div>
+                </div>
+                <button type="submit">
+                    Signup
+                </button>
+                <p>Har du allerede bruker? <a href="" onclick="">Login</a></p>
+            </form>
+        </div>
+    </div>
+    <script>
+       document.getElementById('usertypeSelect').addEventListener('change', function(){
+             if(this.value == 2) {
+                document.getElementById('workspaceTypeDiv').style.display = 'block';
+                document.getElementById('joinGroupDiv').style.display = 'block';   
+                
+             } else if (this.value == 1) {
+                document.getElementById('workspaceTypeDiv').style.display = 'none';
+                document.getElementById('createGroupDiv').style.display = 'none';
+             }
+        }); 
+        document.getElementById('workspaceType').addEventListener('change', function(){
+            if(this.value == 1) {
+               document.getElementById('joinGroupDiv').style.display = 'block';
+               document.getElementById('createGroupDiv').style.display = 'none';
+            } else if (this.value == 2) {
+               document.getElementById('joinGroupDiv').style.display = 'none';
+               document.getElementById('createGroupDiv').style.display = 'block';
+            }
+        }); 
+        async function getUserRoles(){
+            let response = await fetch('getUserRoles');
+            let data = await response.json();
+            let select = document.getElementById('usertypeSelect');
+            data.forEach(role => {
+                let option = document.createElement('option');
+                option.value = role.id;
+                option.innerHTML = role.name;
+                select.appendChild(option);
+            });
+        }
+        async function getUserWorkgroups(){
+            let response = await fetch('getUserWorkgroups');
+            let data = await response.json();
+            let select = document.getElementById('joinGroup');
+            if (data.length == 0){
+                let option = document.createElement('option');
+                option.value = 0;
+                option.innerHTML = 'Ingen grupper';
+                select.appendChild(option);
+            } else {
+                data.forEach(workspace => {
+                let option = document.createElement('option');
+                option.value = workspace.id;
+                option.innerHTML = workspace.name;
+                select.appendChild(option);
+            });
+            }
+        }
+        document.getElementById("signupForm").addEventListener('sumbit',  async function(){
+            event.preventDefault();
+            const form = document.getElementById("signupForm")
+            let name = form.signupNavn.value;
+            console.log(name)
+
+        })
+        getUserRoles()
+        getUserWorkgroups()
+    </script>
+</body>
+</html>

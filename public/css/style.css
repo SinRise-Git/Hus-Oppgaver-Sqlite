@@ -1,0 +1,32 @@
+#loginForm, #signupForm{
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+}
+
+#loginForm input, #signupForm input{
+    margin: 5px 0;
+    padding: 5px;
+    border: 1px solid #ccc;
+    width: 200px;
+}
+
+#loginForm button, #signupForm button{
+    margin: 5px 0;
+    padding: 5px;
+    border: 1px solid #ccc;
+    width: 60px;
+    cursor: pointer;
+
+}
+
+#signupForm select {
+    width: 211.6px;
+    margin: 5px 0;
+    padding: 4.6px;
+    border: 1px solid #ccc;
+}
+
+.workspaceItem{
+    display: grid;
+}
