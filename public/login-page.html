@@ -33,21 +33,21 @@
                 <label for="usertypeSelect">Velg role</label>
                 <select id="usertypeSelect">
                 </select>
-                <div class="workspaceSelection">
-                 <div id="workspaceActionDiv" style="display: none;">
-                    <label for="workspaceAction">Hva vil du gjør?</label>
-                    <select id="workspaceAction">
+                <div class="workgroupSelection">
+                 <div id="workgroupActionDiv" style="display: none;">
+                    <label for="workgroupAction">Hva vil du gjør?</label>
+                    <select id="workgroupAction">
                         <option value="1">Bli med i en gruppen</option>
                         <option value="2">Lage en gruppen</option>
                     </select>
                  </div>
-                 <div id="joinGroupDiv" style="display: block;">
-                    <label for="joinGroup">Skriv gruppe kode</label>
-                    <input id="joinGroup" type="text" placeholder="xxxx-xxxx">
+                 <div id="joinWorkgroupDiv" style="display: block;">
+                    <label for="joinWorkgroup">Skriv gruppe kode</label>
+                    <input id="joinWorkgroup" type="text" placeholder="xxxx-xxxx">
                  </div>               
-                 <div id="createGroupDiv" style="display: none;">
-                    <label for="createGroup">Lage en gruppe</label>
-                    <input id="createGroup" type="text">
+                 <div id="createWorkgroupDiv" style="display: none;">
+                    <label for="createWorkgroup">Lage en gruppe</label>
+                    <input id="createWorkgroup" type="text">
                  </div>
                 </div>
                 <button type="submit">
@@ -60,23 +60,23 @@
     <script>
        document.getElementById('usertypeSelect').addEventListener('change', function(){
              if(this.value == 2) {
-                document.getElementById('workspaceActionDiv').style.display = 'block';
-                document.getElementById('joinGroupDiv').style.display = 'block';   
+                document.getElementById('workgroupActionDiv').style.display = 'block';
+                document.getElementById('joinWorkgroupDiv').style.display = 'block';   
                 
              } else if (this.value == 1) {
-                document.getElementById('workspaceActionDiv').style.display = 'none';
-                document.getElementById('createGroupDiv').style.display = 'none';
-                document.getElementById('joinGroupDiv').style.display = 'block'
-                document.getElementById('workspaceAction').value = 1
+                document.getElementById('workgroupActionDiv').style.display = 'none';
+                document.getElementById('createWorkgroupDiv').style.display = 'none';
+                document.getElementById('joinWorkgroupDiv').style.display = 'block'
+                document.getElementById('workgroupAction').value = 1
              }
         }); 
-        document.getElementById('workspaceAction').addEventListener('change', function(){
+        document.getElementById('workgroupAction').addEventListener('change', function(){
             if(this.value == 1) {
-               document.getElementById('joinGroupDiv').style.display = 'block';
-               document.getElementById('createGroupDiv').style.display = 'none';
+               document.getElementById('joinWorkgroupDiv').style.display = 'block';
+               document.getElementById('createWorkgroupDiv').style.display = 'none';
             } else if (this.value == 2) {
-               document.getElementById('joinGroupDiv').style.display = 'none';
-               document.getElementById('createGroupDiv').style.display = 'block';
+               document.getElementById('joinWorkgroupDiv').style.display = 'none';
+               document.getElementById('createWorkgroupDiv').style.display = 'block';
             }
         }); 
         async function getUserRoles(){
@@ -93,21 +93,21 @@
         document.getElementById("signupForm").addEventListener('submit',  async function(event){
             event.preventDefault()
             const signupForm = document.getElementById("signupForm")
-            let groupInfo
+            let workgroupInfo
             if(signupForm.usertypeSelect.value === "1"){
-                groupInfo = signupForm.joinGroup.value
-            } else if(signupForm.usertypeSelect.value == "2" && signupForm.workspaceAction.value === "2" ){
-                groupInfo = signupForm.createGroup.value
+                workgroupInfo = signupForm.joinWorkgroup.value
+            } else if(signupForm.usertypeSelect.value == "2" && signupForm.workgroupAction.value === "2" ){
+                workgroupInfo = signupForm.createWorkgroup.value
             } else{
-                groupInfo = signupForm.joinGroup.value
+                workgroupInfo = signupForm.joinWorkgroup.value
             }
             const userCredentials = {
                 name: signupForm.signupNavn.value,
                 email: signupForm.signupEmail.value,
                 password: signupForm.signupPassword.value,
-                userype: signupForm.usertypeSelect.value,
-                workspaceAction: signupForm.workspaceAction.value,
-                groupinfo: groupInfo
+                usertype: signupForm.usertypeSelect.value,
+                workgroupAction: signupForm.workgroupAction.value,
+                workgroupInfo: workgroupInfo
             }
 
             const requestBody = {

@@ -41,16 +41,16 @@ async function checkCredentials(request, response){
     const user = request.body
     const isAvailableEmail = await checkAvailability("users", "email", user.userCredentials.email);
     if(isAvailableEmail === true){
-        if(user.userCredentials.workspaceAction === "1"){
-            const isGroupExist = await checkAvailability("workgroup", "groupCode", user.userCredentials.groupinfo)
-            if(isGroupExist === false){
-                createUser(user.userCredentials, "join")
+        if(user.userCredentials.workgroupAction === "1"){
+            const isWorkgroupExist = await checkAvailability("workgroup", "groupCode", user.userCredentials.workgroupInfo)
+            if(isWorkgroupExist === false){
+                fixGroup(user.userCredentials, "join")
             } else{
                 console.log("There is no group with this code!")
                 response.send({ErrorMessage: "There is no group with this code!" })
             }
-        } else if(user.userCredentials.workspaceAction === "2"){
-
+        } else if(user.userCredentials.workgroupAction === "2"){
+            fixGroup(user.userCredentials, "create")
         }
     } else {
         console.log("A user is already created with that email!")
@@ -74,21 +74,32 @@ async function checkAvailability(table, type, info){
     }
 }
 
-async function createUser(user, type){
-    if(type === "join"){
+async function fixGroup(user, workgroupAction){
+    const hashedPassword = await bcrypt.hash(user.password, 10)
+    const UUID = uuid.v4();
+    if(workgroupAction === "join"){
+        console.log(user)
         let sqlGetId = db.prepare("SELECT ID FROM workgroup WHERE groupCode = ?")
-        let groupId = sqlGetId.all(user.groupinfo)
-        console.log(groupId[0].ID)
-        const hashedPassword = await bcrypt.hash(user.password, 10)
-        const UUID = uuid.v4();
-        let sqlCreateUser = db.prepare("INSERT INTO users (uuid, name, email, password, usertype, workgroup, userStatus ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?,)")
-        let createdUser = sqlCreateUser.all(UUID, user.name, user.email, hashedPassword, user.role, groupId[0].ID, false)
+        let getWorkgroupId = sqlGetId.all(user.workgroupInfo)
+        console.log(user.usertype)
+        createUser(UUID, user.name, user.email, hashedPassword, user.usertype, getWorkgroupId[0].ID, "false")
+    } else if(workgroupAction === "create"){
+        let sqlGetId = db.prepare("SELECT MAX(ID) FROM workgroup")
+        let groupId = sqlGetId.all()
+        createUser(UUID, user.name, user.email, hashedPassword, user.usertype, groupId[0]['MAX(ID)'] + 1, "false")
+        createWorkgroup(UUID, groupId[0]['MAX(ID)'] + 1, user.workgroupInfo)
+
     }
 }
 
 
-async function createGroup(){
+async function createWorkgroup(uuid, groupId, name){
+    console.log(uuid, groupId, name)
+}
 
+async function createUser(uuid, name, email, password, usertype, workgroup, userStatus) {
+    const sqlCreateUser = db.prepare("INSERT INTO users (uuid, name, email, password, usertype, workgroup, userStatus) values (?, ?, ?, ?, ?, ?, ?)")
+    const createUser = sqlCreateUser.run(uuid, name, email, password, usertype, workgroup, userStatus)
 }
 
 app.listen(3012, () => {
