@@ -96,7 +96,7 @@
             event.preventDefault()
             const loginForm = document.getElementById("loginForm")
             const userCredentials = {
-                email: loginForm.loginEmail.value,
+                email: loginForm.loginEmail.value, 
                 password: loginForm.loginPassword.value
             }
             const requestBody = {
@@ -106,8 +106,10 @@
             }
             const response = await fetch('/checkLogin', requestBody);
             const data = await response.json();
-            if(data.ErrorMessage){
-                document.getElementById('errorMessageLogin').innerHTML = data.ErrorMessage
+            if(data.errorMessage){
+                document.getElementById('errorMessageLogin').innerHTML = data.errorMessage
+            } else if(data.redirectUrl){
+                window.location.href = data.redirectUrl
             }
         })
 
@@ -138,9 +140,9 @@
             }
             const response = await fetch('/checkCredentials', requestBody);
             const data = await response.json();
-            if(data.ErrorMessage){
-                document.getElementById('errorMessageSignup').innerHTML = data.ErrorMessage
-            }
+            if(data.errorMessage){
+                document.getElementById('errorMessageSignup').innerHTML = data.errorMessage
+            }  
         }) 
         getUserRoles()
     </script>
