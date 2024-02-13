@@ -19,7 +19,8 @@
                     Login
                 </button>
             </form>
-            <p>Har du ikke bruker? <a href="" onclick="">Signup</a></p>
+            <p id="redirect">Har du ikke bruker? <a href="" onclick="">Signup</a></p>
+            <p id="errorMessageLogin"></p>
         </div>
         <div class="signupDiv">
             <h1>Signup</h1>
@@ -53,8 +54,9 @@
                 <button type="submit">
                     Signup
                 </button>
-                <p>Har du allerede bruker? <a href="" onclick="">Login</a></p>
             </form>
+            <p id="redirect">Har du allerede bruker? <a href="" onclick="">Login</a></p>
+            <p id="errorMessageSignup"></p>
         </div>
     </div>
     <script>
@@ -90,6 +92,25 @@
                 select.appendChild(option);
             });
         }
+        document.getElementById('loginForm').addEventListener('submit', async function(event){
+            event.preventDefault()
+            const loginForm = document.getElementById("loginForm")
+            const userCredentials = {
+                email: loginForm.loginEmail.value,
+                password: loginForm.loginPassword.value
+            }
+            const requestBody = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({userCredentials})
+            }
+            const response = await fetch('/checkLogin', requestBody);
+            const data = await response.json();
+            if(data.ErrorMessage){
+                document.getElementById('errorMessageLogin').innerHTML = data.ErrorMessage
+            }
+        })
+
         document.getElementById("signupForm").addEventListener('submit',  async function(event){
             event.preventDefault()
             const signupForm = document.getElementById("signupForm")
@@ -116,7 +137,10 @@
                 body: JSON.stringify({userCredentials})
             }
             const response = await fetch('/checkCredentials', requestBody);
-
+            const data = await response.json();
+            if(data.ErrorMessage){
+                document.getElementById('errorMessageSignup').innerHTML = data.ErrorMessage
+            }
         }) 
         getUserRoles()
     </script>
