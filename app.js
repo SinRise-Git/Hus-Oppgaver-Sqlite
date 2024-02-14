@@ -120,7 +120,6 @@ async function checkAvailability(table, type, info){
     return isAvailable
 }
 
-
 async function fixGroup(user, workgroupAction){
     const hashedPassword = await bcrypt.hash(user.password, 10)
     const UUID = await generatedUuid()
