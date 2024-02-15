@@ -9,22 +9,30 @@
 <body>
     <div class="main">
         <div class="form" id="loginDiv">
-            <h1>Login</h1>
+           <div class="rigthDiv">
             <form id="loginForm">
-                <label for="loginEmail">Email</label>
-                <input type="text" id="loginEmail" placeholder="Email">
-                <label for="loginPassword">Password</label>
-                <input type="password" id="loginPassword" placeholder="Password">
-                <button type="submit">
-                    Login
-                </button>
+                <h1>Login to your account</h1>
+                <div class="bottomHalf">
+                    <input type="text" id="loginEmail" placeholder="Email">
+                    <input type="password" id="loginPassword" placeholder="Password">
+                    <button type="submit">
+                        Login
+                    </button>
+                </div>
             </form>
-            <p id="redirect">Har du ikke bruker? <button onclick="showHide('signupDiv', 'loginDiv')">Signup</button> </p>
             <p id="errorMessageLogin"></p>
+          </div>  
+          <div class="leftDiv">
+            <div class="textContent"> 
+                <h1>Ingen bruker?</h1>
+                <p>Hvis du vil lage en ny gruppe, må du lage en nye bruker: </p>
+                <button onclick="showHide('signupDiv', 'loginDiv')">Signup</button>
+            </div>
+          </div>
         </div>
         <div class="form" id="signupDiv" style="display: none;">
-            <h1>Signup</h1>
             <form id="signupForm">
+                <h1>Signup</h1>
                 <label for="signupNavn">Navn</label>
                 <input type="text" id="signupNavn" placeholder="Navn">
                 <label for="signupEmail">Email</label>

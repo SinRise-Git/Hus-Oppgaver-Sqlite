@@ -1,43 +1,92 @@
-#loginForm, #signupForm{
+:root {
+  --text: #070809;
+  --background: #f5f6f9;
+  --primary: #6380b4;
+  --secondary: #98aed7;
+  --accent: #6b8fd2; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Poppins';
+  font-weight: 900; }
+
+.main .form {
+  display: flex;
+  flex-direction: row;
+  margin: 0px;
+  padding: 0px;
+  height: 100vh; }
+  .main .form .rigthDiv {
+    width: 65vw;
+    background-color: var(--background);
     display: flex;
     flex-direction: column;
-    width: 300px;
-}
-
-#loginForm input, #signupForm input{
-    margin: 5px 0;
-    padding: 5px;
-    border: 1px solid #ccc;
-    width: 200px;
-}
-
-#loginForm button, #signupForm button{
-    margin: 5px 0;
-    padding: 5px;
-    border: 1px solid #ccc;
-    width: 60px;
-    cursor: pointer;
-
-}
-
-#signupForm select {
-    width: 211.6px;
-    margin: 5px 0;
-    padding: 4.6px;
-    border: 1px solid #ccc;
-}
-
-.workspaceItem{
-    display: grid;
-}
-
-#errorMessageSignup, #errorMessageLogin{
-    color: red;
-    margin: 10px 0px 0px 0px;
-    font-size: 12px;
-}
-
-#redirect{
-    margin: 0px;
-    font-size: 16px;
-}
+    justify-content: center;
+    align-items: center; }
+  .main .form .leftDiv {
+    width: 35vw;
+    background-color: var(--accent);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; }
+    .main .form .leftDiv h1 {
+      color: var(--background);
+      font-size: 4vw;
+      margin-bottom: 20px; }
+    .main .form .leftDiv .textContent {
+      color: var(--background);
+      text-align: center;
+      margin-bottom: 20px; }
+      .main .form .leftDiv .textContent p {
+        font-size: 1.5vw; }
+      .main .form .leftDiv .textContent h1 {
+        color: var(--background);
+        font-size: 40px;
+        margin-bottom: 20px; }
+    .main .form .leftDiv button {
+      padding: 10px;
+      border-radius: 5px;
+      border: none;
+      color: var(--background);
+      font-size: 1.5vw;
+      width: 20vw;
+      background-color: var(--primary);
+      border-radius: 20px;
+      cursor: pointer; }
+  .main .form form {
+    display: flex;
+    flex-direction: column;
+    padding: 20px;
+    border-radius: 5px; }
+    .main .form form h1 {
+      color: var(--text);
+      margin-bottom: 20px;
+      font-size: 4vw;
+      text-align: center; }
+    .main .form form .bottomHalf {
+      display: flex;
+      flex-direction: column;
+      align-items: center; }
+      .main .form form .bottomHalf p {
+        text-align: center;
+        color: var(--text); }
+      .main .form form .bottomHalf input {
+        margin-bottom: 20px;
+        padding: 10px;
+        border-radius: 20px;
+        border: none;
+        font-size: 1.5vw;
+        width: 20vw;
+        background-color: var(--secondary); }
+      .main .form form .bottomHalf button {
+        padding: 10px;
+        border-radius: 5px;
+        border: none;
+        color: var(--background);
+        font-size: 1.5vw;
+        width: 20vw;
+        background-color: var(--primary);
+        border-radius: 20px;
+        cursor: pointer; }
