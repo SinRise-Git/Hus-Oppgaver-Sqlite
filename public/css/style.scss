@@ -1,5 +1,7 @@
 :root{
     --text: #070809;
+    --text-secondary: #FFFFFF;
+    --text-background-color: #F0EFF4;
     --background: #f5f6f9;
     --primary: #6380b4;
     --secondary: #98aed7;
@@ -10,71 +12,31 @@ html, body {
     margin: 0;
     padding: 0;
     font-family: 'Poppins';
-    font-weight: 900;
 }
 
 .main{
     .form{
+        overflow: hidden;
         display: flex;
         flex-direction: row;
         margin: 0px;
         padding: 0px;
         height: 100vh;
         .rigthDiv{
-            width: 65vw;
+            width: 100vw;
             background-color: var(--background);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-        }
-        .leftDiv{
-            width: 35vw;
-            background-color: var(--accent);
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            h1{
-                color: var(--background);
-                font-size: 4vw;
-                margin-bottom: 20px;
-            }
-            .textContent{
-                color: var(--background);
-                text-align: center;
-                margin-bottom: 20px;
-                p{
-                    font-size: 1.5vw;
-                }
-                h1{
-                    color: var(--background);
-                    font-size: 40px;
-                    margin-bottom: 20px;
-                }
-            }
-            button{
-                padding: 10px;
-                border-radius: 5px;
-                border: none;
-                color: var(--background);
-                font-size: 1.5vw;
-                width: 20vw;
-                background-color: var(--primary);
-                border-radius: 20px;
-                cursor: pointer;
-            }
-            
-        }
-        form{
-            display: flex;
-            flex-direction: column;
-            padding: 20px;
-            border-radius: 5px;
+            transition: all 1 ease;
+            animation-duration: 3s;
+            animation-name: fadeInLeftDiv;
+            animation-delay: 0s;
             h1{
                 color: var(--text);
                 margin-bottom: 20px;
-                font-size: 4vw;
+                font-size: 2.5vw;
                 text-align: center;
             }
             .bottomHalf{
@@ -90,24 +52,177 @@ html, body {
                     padding: 10px;
                     border-radius: 20px;
                     border: none;
-                    font-size: 1.5vw;
-                    width: 20vw;
-                    background-color: var(--secondary);
+                    width: 15vw;
+                    background-color: var(--text-background-color);
                 }
                 button{
-                    padding: 10px;
+                    padding: 5px;
                     border-radius: 5px;
+                    font-size: 2vh;
                     border: none;
-                    color: var(--background);
-                    font-size: 1.5vw;
-                    width: 20vw;
-                    background-color: var(--primary);
+                    color: var(--text-secondary);
+                    width: 10vw;
+                    height: 6vh;
+                    background-color: var(--secondary);
+                    transition: color 0.5s ease-in-out; 
                     border-radius: 20px;
                     cursor: pointer;
                 }
+                button:hover{
+                    color: var(--primary);
+                }
+            } 
+            #signupButton{
+                margin: 0px;
+                display: none;
+                button{
+                    background: transparent;
+                    border: none;
+                    text-decoration: underline;
+                    padding: 0px;
+                    margin: 0px;
+                    font-size: 16px;
+                    color: #6b8fd2;
+                    cursor: pointer;
+                }
+                p{
+                    font-size: 16px;
+                }
             }
-
+            #errorMessageLogin{
+                color: red;
+                font-size: 16px;
+                margin: 0px;
+            }
+        }
+        .leftDiv{
+            width: 35vw;
+            transition: all 1 ease;
+            animation-duration: 3s;
+            animation-name: fadeInRigthDiv;
+            background-color: var(--accent);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            .textContent{
+                color: var(--background);
+                text-align: center;
+                margin-bottom: 20px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-direction: column;
+                p{
+                    font-size: 1vw;
+                    width: 18vw;
+                    text-align: center;
+                    font-weight: normal;
+                    line-height: 1.5;
+                }
+                h1{
+                    color: var(--background);
+                    font-size: 2.5vw;
+                    margin: 0px;
+                }
+            }
+            button{
+                padding: 5px;
+                font-size: 2vh;
+                border-radius: 5px;
+                border: none;
+                color: var(--text);
+                width: 10vw;
+                height: 6vh;
+                background-color: var(--text-secondary);
+                transition: color 0.5s ease-in-out; 
+                border-radius: 20px;
+                cursor: pointer;
+            } 
+            button:hover{
+                color: var(--primary);
+            }
+            
+        }
+        form{
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+            border-radius: 5px;
         }
         
+    }
+}
+
+@media screen and (max-width: 1100px){
+    .main{
+        .form{
+            .rigthDiv{
+                width: 100vw;
+                h1{
+                    font-size: 3vw;
+                }
+                .bottomHalf{
+                    input{
+                        width: 25vw;
+                    }
+                    button{
+                        width: 16vw;
+                    }
+                }
+                #signupButton{
+                    display:  block;
+                }
+                #errorMessageLogin{
+                    margin: 16px;
+                }
+            }
+            .leftDiv{
+                display: none;
+            }
+        }
+    }
+}
+
+@media screen and (max-width: 430px){
+    .main{
+        .form{
+            .rigthDiv{
+                h1{
+                    font-size: 5vw;
+                }
+                .bottomHalf{
+                    input{
+                        width: 50vw;
+                    }
+                    button{
+                        width: 30vw;
+                    }
+                }
+            }
+        }
+    } 
+}
+
+@keyframes fadeInRigthDiv {
+    0% {
+        width: 0vw;
+        opacity: 0;
+    }
+    50% {
+        width: 35vw;
+    }
+    100% {
+        opacity: 1;
+        width: 35vw;
+    }
+}
+
+@keyframes fadeInLeftDiv {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
     }
 }

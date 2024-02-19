@@ -11,7 +11,7 @@
         <div class="form" id="loginDiv">
            <div class="rigthDiv">
             <form id="loginForm">
-                <h1>Login to your account</h1>
+                <h1>Logg inn på kontoen din</h1>
                 <div class="bottomHalf">
                     <input type="text" id="loginEmail" placeholder="Email">
                     <input type="password" id="loginPassword" placeholder="Password">
@@ -20,12 +20,13 @@
                     </button>
                 </div>
             </form>
+            <p id="signupButton">Ingen bruker? <button onclick="showHide('signupDiv', 'loginDiv')">Signup</button></p>
             <p id="errorMessageLogin"></p>
           </div>  
           <div class="leftDiv">
             <div class="textContent"> 
                 <h1>Ingen bruker?</h1>
-                <p>Hvis du vil lage en ny gruppe, må du lage en nye bruker: </p>
+                <p>Hvis du ikke har en bruker, så bare ta å lag en. Hvis du vil lage en ny gruppe, må du lage en nye bruker.</p>
                 <button onclick="showHide('signupDiv', 'loginDiv')">Signup</button>
             </div>
           </div>
@@ -69,7 +70,7 @@
     </div>
     <script>
         function showHide(show, hide){
-            document.getElementById(show).style.display = 'block';
+            document.getElementById(show).style.display = 'flex';
             document.getElementById(hide).style.display = 'none';
         }
        document.getElementById('usertypeSelect').addEventListener('change', function(){
