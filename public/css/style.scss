@@ -68,11 +68,25 @@ html, body {
                     border-radius: 20px;
                     cursor: pointer;
                 }
+                select{
+                    margin-bottom: 20px;
+                    padding: 10px 20px 10px 10px;
+                    border-radius: 20px;
+                    border: none;
+                    width: 16.5vw;
+                    background-color: var(--text-background-color);
+                    color: gray;
+                }
                 button:hover{
                     color: var(--primary);
                 }
+                .workgroupSelection{
+                    p{
+                        margin: 0px;
+                    }
+                }
             } 
-            #signupButton{
+            #signupButton, #loginButton{
                 margin: 0px;
                 display: none;
                 button{
@@ -89,10 +103,17 @@ html, body {
                     font-size: 16px;
                 }
             }
-            #errorMessageLogin{
+            #errorMessageLogin, #errorMessageSignup{
                 color: red;
-                font-size: 16px;
+                font-size: 14px;
                 margin: 0px;
+                animation-duration: 1s;
+                transition: all 1s ease;
+            }
+            .animationErrorMessage{
+                animation-name: displayErrorMessage;
+                animation-duration: 1s;
+                transition: all 1s ease;
             }
         }
         .leftDiv{
@@ -170,10 +191,10 @@ html, body {
                         width: 16vw;
                     }
                 }
-                #signupButton{
+                #signupButton, #loginButton{
                     display:  block;
                 }
-                #errorMessageLogin{
+                #errorMessageLogin, #errorMessageSignup{
                     margin: 16px;
                 }
             }
@@ -224,5 +245,16 @@ html, body {
     }
     100% {
         opacity: 1;
+    }
+}
+
+@keyframes displayErrorMessage {
+    0% {
+        opacity: 0;
+        height: 0px;
+    }
+    100% {
+        opacity: 1;
+        height: 16.8px;
     }
 }

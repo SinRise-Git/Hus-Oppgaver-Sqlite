@@ -14,7 +14,7 @@
                 <h1>Logg inn på kontoen din</h1>
                 <div class="bottomHalf">
                     <input type="text" id="loginEmail" placeholder="Email">
-                    <input type="password" id="loginPassword" placeholder="Password">
+                    <input type="password" id="loginPassword" placeholder="Password"> 
                     <button type="submit">
                         Login
                     </button>
@@ -32,40 +32,44 @@
           </div>
         </div>
         <div class="form" id="signupDiv" style="display: none;">
+          <div class="rigthDiv">  
             <form id="signupForm">
+               <div class="bottomHalf">
                 <h1>Signup</h1>
-                <label for="signupNavn">Navn</label>
                 <input type="text" id="signupNavn" placeholder="Navn">
-                <label for="signupEmail">Email</label>
                 <input type="text" id="signupEmail" placeholder="Email">
-                <label for="signupPassword">Password</label>
                 <input type="password" id="signupPassword" placeholder="Password">
-                <label for="usertypeSelect">Velg role</label>
                 <select id="usertypeSelect">
                 </select>
                 <div class="workgroupSelection">
                  <div id="workgroupActionDiv" style="display: none;">
-                    <label for="workgroupAction">Hva vil du gjør?</label>
                     <select id="workgroupAction">
                         <option value="1">Bli med i en gruppen</option>
                         <option value="2">Lage en gruppen</option>
                     </select>
                  </div>
                  <div id="joinWorkgroupDiv" style="display: block;">
-                    <label for="joinWorkgroup">Skriv gruppe kode</label>
-                    <input id="joinWorkgroup" type="text" placeholder="xxxx-xxxx">
+                    <input id="joinWorkgroup" type="text" placeholder="Gruppe kode">
                  </div>               
                  <div id="createWorkgroupDiv" style="display: none;">
-                    <label for="createWorkgroup">Lage en gruppe</label>
-                    <input id="createWorkgroup" type="text">
+                    <input id="createWorkgroup" type="text" placeholder="Gruppe navn">
                  </div>
                 </div>
                 <button type="submit">
                     Signup
                 </button>
-            </form>
-            <p id="redirect">Har du allerede bruker? <button onclick="showHide('loginDiv', 'signupDiv')">Login</button></p>
-            <p id="errorMessageSignup"></p>
+               </div> 
+              </form>
+              <p id="loginButton">Har bruker? <button onclick="showHide('loginDiv', 'signupDiv')">Login</button></p>
+              <p id="errorMessageSignup"></p>
+            </div>
+            <div class="leftDiv">
+             <div class="textContent">    
+              <h1>Har Bruker?</h1>
+              <p>Hvis du allerede har en brukere, kan du logge din på gruppen din igjen. Og jobbe videre med oppgaver.</p>
+              <button onclick="showHide('loginDiv', 'signupDiv')">Login</button></p> 
+             </div>
+            </div>  
         </div>
     </div>
     <script>
@@ -121,6 +125,7 @@
             const data = await response.json();
             if(data.errorMessage){
                 document.getElementById('errorMessageLogin').innerHTML = data.errorMessage
+                document.getElementById('errorMessageLogin').style.animationName = 'displayErrorMessage';
             } else if(data.redirectUrl){
                 window.location.href = data.redirectUrl
             }
@@ -155,6 +160,7 @@
             const data = await response.json();
             if(data.errorMessage){
                 document.getElementById('errorMessageSignup').innerHTML = data.errorMessage
+                document.getElementById('errorMessageSignup').style.animationName = 'displayErrorMessage';
             }  
         }) 
         getUserRoles()

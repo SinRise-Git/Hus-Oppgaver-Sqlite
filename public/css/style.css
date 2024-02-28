@@ -61,12 +61,22 @@ html, body {
         transition: color 0.5s ease-in-out;
         border-radius: 20px;
         cursor: pointer; }
+      .main .form .rigthDiv .bottomHalf select {
+        margin-bottom: 20px;
+        padding: 10px 20px 10px 10px;
+        border-radius: 20px;
+        border: none;
+        width: 16.5vw;
+        background-color: var(--text-background-color);
+        color: gray; }
       .main .form .rigthDiv .bottomHalf button:hover {
         color: var(--primary); }
-    .main .form .rigthDiv #signupButton {
+      .main .form .rigthDiv .bottomHalf .workgroupSelection p {
+        margin: 0px; }
+    .main .form .rigthDiv #signupButton, .main .form .rigthDiv #loginButton {
       margin: 0px;
       display: none; }
-      .main .form .rigthDiv #signupButton button {
+      .main .form .rigthDiv #signupButton button, .main .form .rigthDiv #loginButton button {
         background: transparent;
         border: none;
         text-decoration: underline;
@@ -75,12 +85,18 @@ html, body {
         font-size: 16px;
         color: #6b8fd2;
         cursor: pointer; }
-      .main .form .rigthDiv #signupButton p {
+      .main .form .rigthDiv #signupButton p, .main .form .rigthDiv #loginButton p {
         font-size: 16px; }
-    .main .form .rigthDiv #errorMessageLogin {
+    .main .form .rigthDiv #errorMessageLogin, .main .form .rigthDiv #errorMessageSignup {
       color: red;
-      font-size: 16px;
-      margin: 0px; }
+      font-size: 14px;
+      margin: 0px;
+      animation-duration: 1s;
+      transition: all 1s ease; }
+    .main .form .rigthDiv .animationErrorMessage {
+      animation-name: displayErrorMessage;
+      animation-duration: 1s;
+      transition: all 1s ease; }
   .main .form .leftDiv {
     width: 35vw;
     transition: all 1 ease;
@@ -138,9 +154,9 @@ html, body {
       width: 25vw; }
     .main .form .rigthDiv .bottomHalf button {
       width: 16vw; }
-    .main .form .rigthDiv #signupButton {
+    .main .form .rigthDiv #signupButton, .main .form .rigthDiv #loginButton {
       display: block; }
-    .main .form .rigthDiv #errorMessageLogin {
+    .main .form .rigthDiv #errorMessageLogin, .main .form .rigthDiv #errorMessageSignup {
       margin: 16px; }
   .main .form .leftDiv {
     display: none; } }
@@ -168,3 +184,11 @@ html, body {
     opacity: 0; }
   100% {
     opacity: 1; } }
+
+@keyframes displayErrorMessage {
+  0% {
+    opacity: 0;
+    height: 0px; }
+  100% {
+    opacity: 1;
+    height: 16.8px; } }
