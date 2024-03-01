@@ -52,11 +52,11 @@ html, body {
       .main .form .rigthDiv .bottomHalf button {
         padding: 5px;
         border-radius: 5px;
-        font-size: 2vh;
+        height: 40px;
+        font-size: 16px;
         border: none;
         color: var(--text-secondary);
         width: 10vw;
-        height: 6vh;
         background-color: var(--secondary);
         transition: color 0.5s ease-in-out;
         border-radius: 20px;
@@ -89,7 +89,7 @@ html, body {
         font-size: 16px; }
     .main .form .rigthDiv #errorMessageLogin, .main .form .rigthDiv #errorMessageSignup {
       color: red;
-      font-size: 14px;
+      font-size: 18px;
       margin: 0px;
       animation-duration: 1s;
       transition: all 1s ease; }
@@ -127,12 +127,12 @@ html, body {
         margin: 0px; }
     .main .form .leftDiv button {
       padding: 5px;
-      font-size: 2vh;
+      font-size: 16px;
       border-radius: 5px;
       border: none;
       color: var(--text);
       width: 10vw;
-      height: 6vh;
+      height: 40px;
       background-color: var(--text-secondary);
       transition: color 0.5s ease-in-out;
       border-radius: 20px;
@@ -153,7 +153,9 @@ html, body {
     .main .form .rigthDiv .bottomHalf input {
       width: 25vw; }
     .main .form .rigthDiv .bottomHalf button {
-      width: 16vw; }
+      width: 15vw; }
+    .main .form .rigthDiv .bottomHalf select {
+      width: 27vw; }
     .main .form .rigthDiv #signupButton, .main .form .rigthDiv #loginButton {
       display: block; }
     .main .form .rigthDiv #errorMessageLogin, .main .form .rigthDiv #errorMessageSignup {

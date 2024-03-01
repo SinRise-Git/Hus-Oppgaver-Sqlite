@@ -58,11 +58,11 @@ html, body {
                 button{
                     padding: 5px;
                     border-radius: 5px;
-                    font-size: 2vh;
+                    height: 40px;
+                    font-size: 16px;
                     border: none;
                     color: var(--text-secondary);
                     width: 10vw;
-                    height: 6vh;
                     background-color: var(--secondary);
                     transition: color 0.5s ease-in-out; 
                     border-radius: 20px;
@@ -149,12 +149,12 @@ html, body {
             }
             button{
                 padding: 5px;
-                font-size: 2vh;
+                font-size: 16px;
                 border-radius: 5px;
                 border: none;
                 color: var(--text);
                 width: 10vw;
-                height: 6vh;
+                height: 40px;
                 background-color: var(--text-secondary);
                 transition: color 0.5s ease-in-out; 
                 border-radius: 20px;
@@ -188,7 +188,10 @@ html, body {
                         width: 25vw;
                     }
                     button{
-                        width: 16vw;
+                        width: 15vw;
+                    }
+                    select{
+                        width: 27vw;
                     }
                 }
                 #signupButton, #loginButton{
