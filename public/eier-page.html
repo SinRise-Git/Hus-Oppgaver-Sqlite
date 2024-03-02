@@ -9,6 +9,31 @@
 <body>
     <div class="main">
         <div class="content">
+             <div class="settingDiv">
+                <div class="changeSettings">
+                  <div class="settingInput">
+                    <p id="userUuid"></p>
+                    <div class="name"> 
+                      <label for="settingName">Name:</label>
+                      <input type="text" id="settingName">
+                    </div>
+                    <div class="email"> 
+                      <label for="settingEmail">Email:</label>
+                      <input type="text" id="settingEmail">
+                    </div>
+                    <div class="group">
+                      <label for="settingGroup">Group:</label>
+                      <input type="text" id="settingGroup" disabled>
+                    </div>
+                    <p>Eier cant change there group!</p>
+                  </div>
+                  <div class="buttons">
+                    <button id="settingConfirm">Confirm</button>
+                    <button id="settingCancel">Cancel</button>
+                  </div>
+                  <p id="responseMessage"></p>
+                </div>
+              </div>
             <nav class="navbar">
                 <div class="brand-title">Home</div>
                 <div class="toggle-button"> 
@@ -18,34 +43,48 @@
                 </div>
                 <div class="navbar-links">
                   <ul>
-                    <li><button class="optionPage">Home</button></li>
-                    <li><button class="optionPage">Tasks</button></li>
-                    <li><button class="optionPage">Users</button></li>
-                    <li><button class="optionPage">Shop</button></li>
-                    <li><button class="optionPage">Leaderboard</button></li>
+                    <li><button onclick="changePage('home')" class="optionPage">Home</button></li>
+                    <li><button onclick="changePage('tasks')" class="optionPage">Tasks</button></li>
+                    <li><button onclick="changePage('users')" class="optionPage">Users</button></li>
+                    <li><button onclick="changePage('shop')" class="optionPage">Shop</button></li>
+                    <li><button onclick="changePage('leaderboard')" class="optionPage">Leaderboard</button></li>
                     <li><button class="optionButton">Setting</button></li>
                     <li><button class="optionButton">Logout</button></li>
                   </ul>
                 </div>
               </nav>
               <div class="pages">
-                <div class="home">
+                <div id="home">
                   <h1>Home</h1>
-
                 </div>
-                <div class="tasks">
+                <div id="tasks">
                   <h1>Tasks</h1>
-
                 </div>
-                <div class="users">
-                  <h1>Users</h1>
+                <div id="users">
+                  <h1>Group Code: <span id="groupCode"></span></h1>
+                  <div class="buttons">
+                    <button onclick="changeUserPage('activeDiv')">Active Users</button>
+                    <button onclick="changeUserPage('awatingDiv')">Awating Users</button>
+                  </div>
+                  <div class="userDiv">
+                    <div id="activeDiv">
+                      <h1>Active users: <span id="activeUsersCount"></span></h1>
+                      <div class="users">
 
+                      </div>
+                    </div>
+                    <div id="awatingDiv">
+                      <h1>Awating users <span id="awatingUsersCount"></span></h1>
+                      <div class="users">
+
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div class="shop">
+                <div id="shop">
                   <h1>Shop</h1>
-
                 </div>
-                <div class="leaderboard">
+                <div id="leaderboard">
                   <h1>Leaderboard</h1>
 
                 </div>

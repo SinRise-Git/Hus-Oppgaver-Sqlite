@@ -94,6 +94,9 @@ document.getElementById("signupForm").addEventListener('submit', async function(
     if (data.errorMessage) {
         document.getElementById('errorMessageSignup').innerHTML = data.errorMessage
         document.getElementById('errorMessageSignup').style.animationName = 'displayErrorMessage';
+    } else if (data.responseMessage) {
+        document.getElementById("loginDiv").style.display = "flex"
+        document.getElementById("signupDiv").style.display = "none"
     }
 })
 getUserRoles()

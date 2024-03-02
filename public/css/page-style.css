@@ -6,16 +6,72 @@
   --primary: #6380b4;
   --secondary: #98aed7;
   --secondary-rgba: 152, 174, 215;
-  --accent: #6b8fd2; }
-
-* {
-  box-sizing: border-box; }
+  --accent: #6b8fd2;
+  --input-color: #808080; }
 
 body {
   margin: 0;
   padding: 0;
   animation-name: websiteFadeIn;
   animation-duration: 1.5s; }
+
+.settingDiv {
+  position: absolute;
+  display: none;
+  width: 100%;
+  height: 100%;
+  background-color: var(--primary);
+  z-index: 999;
+  opacity: 0.75; }
+  .settingDiv .changeSettings {
+    z-index: 1000;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: var(--text-secondary);
+    border-radius: 10px;
+    color: var(--primary);
+    padding: 10px 20px 10px 20px; }
+    .settingDiv .changeSettings p {
+      text-align: center;
+      font-size: 13px;
+      margin: 5px 0px 5px 0px;
+      display: none; }
+    .settingDiv .changeSettings .settingInput {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column; }
+      .settingDiv .changeSettings .settingInput input {
+        color: var(--input-color);
+        margin-bottom: 5px;
+        padding: 5px;
+        border-radius: 10px;
+        border: none;
+        background-color: var(--text-background-color); }
+      .settingDiv .changeSettings .settingInput p {
+        color: var(--primary);
+        font-size: 13px;
+        margin: 10px 0px 10px 0px;
+        text-align: center;
+        display: block; }
+    .settingDiv .changeSettings .buttons {
+      display: flex;
+      align-items: center;
+      justify-content: center; }
+      .settingDiv .changeSettings .buttons button {
+        font-size: 15px;
+        background-color: var(--secondary);
+        color: var(--text-secondary);
+        border: none;
+        padding: 5px 10px 5px 10px;
+        margin: 5px;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: color 0.5s ease-in-out; }
+        .settingDiv .changeSettings .buttons button:hover {
+          color: var(--accent); }
 
 .navbar {
   display: flex;
@@ -77,22 +133,73 @@ body {
           align-items: center;
           justify-content: center;
           flex-direction: column;
-          z-index: 999; }
+          z-index: 99; }
           .navbar .navbar-links ul li {
             text-align: center; }
       .navbar .navbar-links.active {
         padding: 15px;
         display: flex;
         position: absolute;
-        z-index: 9999;
+        z-index: 9;
         background-color: rgba(var(--secondary-rgba), 0.75);
         top: 43px;
         right: 0px;
         animation-duration: 1s;
         border-radius: 0px 0px 10px 10px; } }
 
-.pages div:not(.home) {
+.pages #tasks, .pages #users, .pages #shop, .pages #leaderboard {
   display: none; }
+
+.pages #users h1 {
+  text-align: center;
+  padding: 5px;
+  margin: 0px; }
+
+.pages #users #activeDiv, .pages #users #awatingDiv {
+  background-color: var(--text-background-color);
+  height: 100%; }
+  .pages #users #activeDiv .users, .pages #users #awatingDiv .users {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px; }
+    .pages #users #activeDiv .users div, .pages #users #awatingDiv .users div {
+      padding: 10px;
+      border-radius: 10px;
+      background-color: var(--secondary);
+      color: white; }
+      .pages #users #activeDiv .users div button, .pages #users #awatingDiv .users div button {
+        font-size: 14px;
+        padding: 5px 10px 5px 10px;
+        border: none;
+        border-radius: 10px;
+        background-color: var(--text-secondary);
+        color: var(--accent);
+        cursor: pointer;
+        transition: color 0.5s ease-in-out; }
+        .pages #users #activeDiv .users div button:hover, .pages #users #awatingDiv .users div button:hover {
+          color: var(--secondary); }
+      .pages #users #activeDiv .users div p, .pages #users #activeDiv .users div h3, .pages #users #awatingDiv .users div p, .pages #users #awatingDiv .users div h3 {
+        margin: 5px; }
+
+.pages #users #awatingDiv {
+  display: none; }
+
+.pages #users .buttons {
+  display: flex;
+  justify-content: center; }
+  .pages #users .buttons button {
+    font-size: 20px;
+    margin: 5px;
+    padding: 5px 10px 5px 10px;
+    border: none;
+    border-radius: 10px;
+    background-color: var(--secondary);
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: color 0.5s ease-in-out; }
+    .pages #users .buttons button:hover {
+      color: var(--accent); }
 
 @keyframes pageIn {
   0% {

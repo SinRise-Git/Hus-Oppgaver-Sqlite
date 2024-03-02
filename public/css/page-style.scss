@@ -7,17 +7,81 @@
     --secondary: #98aed7;
     --secondary-rgba: 152, 174, 215;
     --accent: #6b8fd2; 
+    --input-color: #808080;
 }
-
-* {
-    box-sizing: border-box;
-}
-
 body {
     margin: 0;
     padding: 0;
     animation-name: websiteFadeIn;
     animation-duration: 1.5s;
+}
+
+
+.settingDiv{
+    position: absolute;
+    display: none;
+    width: 100%;
+    height: 100%;
+    background-color: var(--primary);
+    z-index: 999;
+    opacity: 0.75;
+    .changeSettings{
+        z-index: 1000;
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background-color: var(--text-secondary);
+        border-radius: 10px;        
+        color: var(--primary);
+        padding: 10px 20px 10px 20px;
+        p:not(.settingInput p){
+            text-align: center;
+            font-size: 13px;
+            margin: 5px 0px 5px 0px;
+            display: none;
+        }
+        .settingInput{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            input{
+                color: var(--input-color);
+                margin-bottom: 5px;
+                padding: 5px;
+                border-radius: 10px;
+                border: none;
+                background-color: var(--text-background-color);
+            }
+            p{
+                color: var(--primary);
+                font-size: 13px;
+                margin: 10px 0px 10px 0px;
+                text-align: center;
+                display: block;
+            }
+        }
+        .buttons{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            button{
+                font-size: 15px;
+                background-color: var(--secondary);
+                color: var(--text-secondary);
+                border: none;
+                padding: 5px 10px 5px 10px;
+                margin: 5px;
+                border-radius: 10px;
+                cursor: pointer;
+                transition: color 0.5s ease-in-out;
+                &:hover{
+                    color: var(--accent);
+                }
+            }
+        }
+    }
 }
 
 .navbar {
@@ -97,7 +161,7 @@ body {
                 align-items: center;
                 justify-content: center;
                 flex-direction: column;
-                z-index: 999;
+                z-index: 99;
 
                 li {
                     text-align: center;
@@ -108,7 +172,7 @@ body {
             padding: 15px;
             display: flex;
             position: absolute;
-            z-index: 9999; 
+            z-index: 9; 
             background-color: rgba(var(--secondary-rgba), 0.75);
             top: 43px;
             right: 0px;
@@ -118,12 +182,72 @@ body {
     }
 }
 
-.pages{
-    div:not(.home){
+.pages {
+    #tasks, #users, #shop, #leaderboard{
         display: none;
     }
-}
+    #users{
+        h1{
+            text-align: center;
+            padding: 5px;
+            margin: 0px;
+        }
+        #activeDiv, #awatingDiv {
+            background-color: var(--text-background-color);
+            height: 100%;
+            .users{
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 20px;
+                div{
+                    padding: 10px;
+                    border-radius: 10px;
+                    background-color: var(--secondary);
+                    color: white;
+                    button{
+                        font-size: 14px;
+                        padding: 5px 10px 5px 10px;
+                        border: none;
+                        border-radius: 10px;
+                        background-color: var(--text-secondary);
+                        color: var(--accent);
+                        cursor: pointer;
+                        transition: color 0.5s ease-in-out;
+                        &:hover{
+                            color: var(--secondary);
+                        }
+                    }
+                    p, h3{
+                        margin: 5px;
+                    }
+                }
+            }
+        }
 
+        #awatingDiv{
+            display: none;
+        }
+        .buttons{
+            display: flex;
+            justify-content: center;
+            button{
+                font-size: 20px;
+                margin: 5px;
+                padding: 5px 10px 5px 10px;
+                border: none;
+                border-radius: 10px;
+                background-color: var(--secondary);
+                color: var(--text-secondary);
+                cursor: pointer;
+                transition: color 0.5s ease-in-out;
+                &:hover{
+                    color: var(--accent);
+                }
+            }
+        }
+    }
+}
 @keyframes pageIn {
     0% {
         width: 0;

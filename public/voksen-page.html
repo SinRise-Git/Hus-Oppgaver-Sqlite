@@ -9,6 +9,31 @@
 <body>
     <div class="main">
         <div class="content">
+             <div class="settingDiv">
+                <div class="changeSettings">
+                  <div class="settingInput">
+                    <p id="userUuid"></p>
+                    <div class="name"> 
+                      <label for="settingName">Name:</label>
+                      <input type="text" id="settingName">
+                    </div>
+                    <div class="email"> 
+                      <label for="settingEmail">Email:</label>
+                      <input type="text" id="settingEmail">
+                    </div>
+                    <div class="group">
+                      <label for="settingGroup">Group:</label>
+                      <input type="text" id="settingGroup">
+                    </div>
+                    <p>If you change group you will be logged out.</p>
+                  </div>
+                  <div class="buttons">
+                    <button id="settingConfirm">Confirm</button>
+                    <button id="settingCancel">Cancel</button>
+                  </div>
+                  <p id="responseMessage">ww</p>
+                </div>
+              </div>
             <nav class="navbar">
                 <div class="brand-title">Home</div>
                 <div class="toggle-button"> 
@@ -38,8 +63,7 @@
 
                 </div>
                 <div class="users">
-                  <h1>Users</h1>
-
+    
                 </div>
                 <div class="shop">
                   <h1>Shop</h1>
