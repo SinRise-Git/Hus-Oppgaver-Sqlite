@@ -54,6 +54,12 @@ app.get("/getUserInfo", getUserInfo)
 
 app.get("/getGroupInfo", getGroupInfo)
 
+app.post("/userEdit", userEdit)
+
+app.post("/userDelete", userDelete)
+
+app.put("/userConfirm", userConfirm)
+
 app.post("/checkCredentials", checkCredentials)
 
 app.post("/checkLogin", checkLogin)
@@ -73,7 +79,6 @@ async function getUserRoles(request, response) {
 async function logout(request, response){
     request.session.destroy()
     response.send({redirectUrl: 'login-page.html'})
-
 }
 
 async function getUserInfo(request, response){
@@ -103,6 +108,7 @@ async function getGroupInfo(request, response){
     `)
     let rows = sql.all(request.session.userWorkgroup)
     let getGroupInfo = rows.map(user => ({
+        auth:  request.session.isLoggedIn,
         uuid: user.uuid,
         name: user.name,
         email: user.email,
@@ -115,6 +121,21 @@ async function getGroupInfo(request, response){
     }));
     response.send(getGroupInfo)
 }
+
+async function userEdit(request, response){
+
+}
+async function userDelete(request, response){
+    let sql = db.prepare("DELETE FROM users WHERE uuid = ?")
+    let deleteUser = sql.run(request.body.uuid)
+    response.send({responseMessage: "The user is deleted!"})
+}
+async function userConfirm(request, response){
+    let sql = db.prepare("UPDATE users SET userStatus = 'true' WHERE uuid = ?")
+    let editUser = sql.run(request.body.uuid)
+    response.send({responseMessage: "The user is comfirmed!"})
+}
+
 
 
 async function checkLogin(request, response){
@@ -186,12 +207,12 @@ async function fixGroup(user, workgroupAction){
         if (workgroupAction === "join") {
             let sqlGetId = db.prepare("SELECT ID FROM workgroup WHERE groupCode = ?")
             let getWorkgroupId = sqlGetId.all(user.workgroupInfo)
-            createUser(UUID, user.name, user.email, hashedPassword, user.usertype, getWorkgroupId[0].ID, "false")
+            createUser(UUID, user.name, user.email, hashedPassword, user.usertype, getWorkgroupId[0].ID, "false", "0", "0")
         } else if (workgroupAction === "create") {
             await createWorkgroup(user.workgroupInfo, UUID)
             let sqlGetId = db.prepare("SELECT ID FROM workgroup WHERE createdBy = ?")
             let getWorkgroupId = sqlGetId.all(UUID)
-            createUser(UUID, user.name, user.email, hashedPassword, 3, getWorkgroupId[0].ID, "true")
+            createUser(UUID, user.name, user.email, hashedPassword, 3, getWorkgroupId[0].ID, "true", "0", "0")
         }
     } 
 }
@@ -201,9 +222,9 @@ async function createWorkgroup(name, createdBy){
     const createWorkgroup = sqlCreateWorkgroup.run(name, createdBy, groupCode)
 }
 
-async function createUser(uuid, name, email, password, usertype, workgroup, userStatus) {
-    const sqlCreateUser = db.prepare("INSERT INTO users  (uuid, name, email, password, usertype, workgroup, userStatus, points, taskCompleted) values (?, ?, ?, ?, ?, ?, ?)")
-    const createUser = sqlCreateUser.run(uuid, name, email, password, usertype, workgroup, userStatus, 0, 0)
+async function createUser(uuid, name, email, password, usertype, workgroup, userStatus, points, taskCompleted) {
+    const sqlCreateUser = db.prepare("INSERT INTO users  (uuid, name, email, password, usertype, workgroup, userStatus, points, taskCompleted) values (?, ?, ?, ?, ?, ?, ?, ?, ?)")
+    const createUser = sqlCreateUser.run(uuid, name, email, password, usertype, workgroup, userStatus, points, taskCompleted)
 }
 
 async function generatedUuid(){

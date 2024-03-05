@@ -67,19 +67,19 @@ async function getGroupInfo() {
     let data = await response.json();
     document.querySelector("#activeDiv .users").innerHTML = '';
     document.querySelector("#awatingDiv .users").innerHTML = '';
-    data.forEach(user => {
+    data.forEach(user => {  
         if (user.userStatus === "true"){
             countActiveUsers++;
             let userDiv = `
             <div>
                 <h3>Navn: ${user.name}</h3>
                 <p>Email: ${user.email}</p>
+                <p>Usertype: ${user.userRole}</p>
                 <p>Tasks completed: ${user.taskCompleted}</p>
                 <p>Points: ${user.points}</p>
-                <button onclick="userEdit('${user.uuid}')">Edit</button>
-                <button onclick="userDelete('${user.uuid}')">Remove User</button>
+                <button onclick="userAction('Edit','${user.uuid}')">Edit</button>
+                <button onclick="userAction('Delete','${user.uuid}')">Remove User</button>
             </div>`
-            console.log(userDiv)
             document.querySelector("#activeDiv .users").innerHTML += userDiv;
         } else if (user.userStatus === "false"){
             countAwatingUsers++;
@@ -87,17 +87,41 @@ async function getGroupInfo() {
             <div>
                 <h3>Navn: ${user.name}</h3>
                 <p>Email: ${user.email}</p>
+                <p>Usertype: ${user.userRole}</p>
                 <p>Tasks completed: ${user.taskCompleted}</p>
                 <p>Points: ${user.points}</p>
-                <button onclick="userEdit('${user.uuid}')">Confirm</button>
-                <button onclick="userDelete('${user.uuid}')">Remove User</button>
+                <button onclick="userAction('Confirm','${user.uuid}')">Confirm</button>
+                <button onclick="userAction('Delete','${user.uuid}')">Remove User</button>
             </div>`
-            console.log(userDiv)
             document.querySelector("#awatingDiv .users").innerHTML += userDiv;
         }
     })
     document.getElementById('activeUsersCount').innerText = countActiveUsers;
     document.getElementById('awatingUsersCount').innerText = countAwatingUsers;
+}
+
+async function userAction(type, uuid){
+    if(type === "Edit"){
+        
+    } else {
+        let methodType
+        if (type === "Delete"){
+            methodType = "POST"
+        } else{
+            methodType = "PUT"
+        }
+        const requestOptions = {
+            method: methodType,
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({uuid: uuid})
+        };
+        let response = await fetch(`/user${type}`, requestOptions);
+        let data = await response.json();
+        if(data.responseMessage){
+            getGroupInfo();
+        }
+    }
+    
 }
 
 document.getElementById('settingConfirm').addEventListener('click', async function() {
@@ -146,6 +170,7 @@ document.getElementsByClassName('optionButton')[1].addEventListener('click', asy
     let data = await response.json();
     if (data.redirectUrl) {
         window.location.href = data.redirectUrl;
+        getGroupInfo();
     }
 });
 
