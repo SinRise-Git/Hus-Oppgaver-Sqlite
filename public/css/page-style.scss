@@ -17,7 +17,7 @@ body {
 }
 
 
-.settingDiv{
+.settingDiv, .editDiv{
     position: absolute;
     display: none;
     width: 100%;
@@ -25,7 +25,7 @@ body {
     background-color: var(--primary);
     z-index: 999;
     opacity: 0.75;
-    .changeSettings{
+    .changeSettings, .changeEdit{
         z-index: 1000;
         position: absolute;
         top: 50%;
@@ -41,7 +41,7 @@ body {
             margin: 5px 0px 5px 0px;
             display: none;
         }
-        .settingInput{
+        .settingInput, .editInput{
             display: flex;
             align-items: center;
             justify-content: center;

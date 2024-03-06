@@ -48,13 +48,26 @@ document.getElementById('settingCancel').addEventListener('click', function() {
     document.getElementById("settingName").value = "";
     document.getElementById("settingEmail").value = "";
     document.getElementById("settingGroup").value = "";
-    document.getElementById("responseMessage").style.display = "none";
+    document.getElementById("settingResponseMessage").innerText = "";
 });
 
+document.getElementById('editCancel').addEventListener('click', function() {
+    document.getElementsByClassName('editDiv')[0].style.display = 'none';
+    document.getElementById("editName").value = "";
+    document.getElementById("editEmail").value = "";
+    document.getElementById("editPoints").value = "";
+    document.getElementById("editTaskCompleted").value = "";
+})
+
 async function getUserInfo() {
-    let response = await fetch('getUserInfo');
+    const requestOptions = {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify()
+    };
+    let response = await fetch('getUserInfo', requestOptions);
     let data = await response.json();
-    document.getElementById('userUuid').innerText = data[0].uuid;
+    document.getElementById('settingUserUuid').innerText = data[0].uuid;
     document.getElementById('settingName').placeholder = data[0].name;
     document.getElementById('settingEmail').placeholder = data[0].email;
     document.getElementById('settingGroup').placeholder = data[0].workgroup;
@@ -102,6 +115,19 @@ async function getGroupInfo() {
 
 async function userAction(type, uuid){
     if(type === "Edit"){
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({uuid: uuid})
+        };
+        let response = await fetch(`/getUserInfo`, requestOptions);
+        let data = await response.json();
+        document.getElementById('editUserUuid').innerText = data[0].uuid;
+        document.getElementById('editName').placeholder = data[0].name;
+        document.getElementById('editEmail').placeholder = data[0].email;
+        document.getElementById('editPoints').placeholder = data[0].points;
+        document.getElementById('editTaskCompleted').placeholder = data[0].taskCompleted;
+        document.getElementsByClassName('editDiv')[0].style.display = "flex";
         
     } else {
         let methodType
@@ -124,17 +150,18 @@ async function userAction(type, uuid){
     
 }
 
-document.getElementById('settingConfirm').addEventListener('click', async function() {
+document.getElementById('settingConfirm').addEventListener('click', async function () {
     let settingName = document.getElementById("settingName");
     let settingEmail = document.getElementById("settingEmail");
     let settingGroup = document.getElementById("settingGroup");
-    let responseMessageDisplay = document.getElementById("responseMessage");
+    let responseMessageDisplay = document.getElementById("settingResponseMessage");
 
     let newName = settingName.value !== "" ? settingName.value : settingName.placeholder;
     let newEmail = settingEmail.value !== "" ? settingEmail.value : settingEmail.placeholder;
-    let newGroupCode = settingGroup.value !== "" || settingGroup.value === undefined ? settingGroup.value : settingGroup.placeholder;
+    let newGroupCode = settingGroup.value !== "" ? settingGroup.value : settingGroup.placeholder;
 
     const updateUser = {
+        type: "setting",
         name: newName,
         email: newEmail,
         groupCode: newGroupCode,
@@ -145,7 +172,7 @@ document.getElementById('settingConfirm').addEventListener('click', async functi
         body: JSON.stringify(updateUser)
     };
 
-    let response = await fetch('updateUserInfo', requestOptions)
+    let response = await fetch('/updateUserInfo', requestOptions)
     let data = await response.json();
   
     if (data.responseMessage) {
@@ -157,13 +184,60 @@ document.getElementById('settingConfirm').addEventListener('click', async functi
             settingName.value = "";
             settingEmail.value = "";
             settingGroup.value = "";
-        } else if (data.redirectUrl) {
-            window.location.href = data.redirectUrl;
         } else {
             responseMessageDisplay.style.color = "red"
         }
     }
 });
+
+document.getElementById('editConfirm').addEventListener('click', async function() {
+    let editName = document.getElementById("editName");
+    let editEmail = document.getElementById("editEmail");
+    let editTaskCompleted = document.getElementById("editTaskCompleted");
+    let editPoints = document.getElementById("editPoints");
+    let responseMessageDisplay = document.getElementById("editResponseMessage");
+
+    let newName = editName.value !== "" ? editName.value : editName.placeholder;
+    let newEmail = editEmail.value !== "" ? editEmail.value : editEmail.placeholder;
+    let newTaskCompleted = editTaskCompleted.value !== "" ? editTaskCompleted.value : editTaskCompleted.placeholder;
+    let newPoints = editPoints.value !== "" ? editPoints.value : editPoints.placeholder;
+
+
+    const updateUser = {
+        type: "edit",
+        uuid: document.getElementById('editUserUuid').innerText,
+        name: newName,
+        email: newEmail,
+        taskCompleted: newTaskCompleted,
+        points: newPoints,
+    };
+    const requestOptions = {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(updateUser)
+    };
+    let response = await fetch('/updateUserInfo', requestOptions)
+    let data = await response.json();
+
+    if (data.responseMessage) {
+        responseMessageDisplay.style.display = "block"
+        responseMessageDisplay.innerText = data.responseMessage;
+        await getGroupInfo();
+        if (data.responseMessage === "The user info is updated!") {
+            responseMessageDisplay.style.color = "green"
+            editName.placeholder = newName;  
+            editName.value = "";
+            editEmail.placeholder = newEmail;  
+            editEmail.value = "";
+            editTaskCompleted.placeholder = newTaskCompleted;  
+            editTaskCompleted.value = "";
+            editPoints.placeholder = newPoints;  
+            editPoints.value = "";
+        } else {
+            responseMessageDisplay.style.color = "red"
+        }
+    }
+})
 
 document.getElementsByClassName('optionButton')[1].addEventListener('click', async function() {
     let response = await fetch('logout');

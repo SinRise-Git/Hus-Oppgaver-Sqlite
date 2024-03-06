@@ -15,7 +15,7 @@ body {
   animation-name: websiteFadeIn;
   animation-duration: 1.5s; }
 
-.settingDiv {
+.settingDiv, .editDiv {
   position: absolute;
   display: none;
   width: 100%;
@@ -23,7 +23,7 @@ body {
   background-color: var(--primary);
   z-index: 999;
   opacity: 0.75; }
-  .settingDiv .changeSettings {
+  .settingDiv .changeSettings, .settingDiv .changeEdit, .editDiv .changeSettings, .editDiv .changeEdit {
     z-index: 1000;
     position: absolute;
     top: 50%;
@@ -33,34 +33,34 @@ body {
     border-radius: 10px;
     color: var(--primary);
     padding: 10px 20px 10px 20px; }
-    .settingDiv .changeSettings p {
+    .settingDiv .changeSettings p, .settingDiv .changeEdit p, .editDiv .changeSettings p, .editDiv .changeEdit p {
       text-align: center;
       font-size: 13px;
       margin: 5px 0px 5px 0px;
       display: none; }
-    .settingDiv .changeSettings .settingInput {
+    .settingDiv .changeSettings .settingInput, .settingDiv .changeSettings .editInput, .settingDiv .changeEdit .settingInput, .settingDiv .changeEdit .editInput, .editDiv .changeSettings .settingInput, .editDiv .changeSettings .editInput, .editDiv .changeEdit .settingInput, .editDiv .changeEdit .editInput {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column; }
-      .settingDiv .changeSettings .settingInput input {
+      .settingDiv .changeSettings .settingInput input, .settingDiv .changeSettings .editInput input, .settingDiv .changeEdit .settingInput input, .settingDiv .changeEdit .editInput input, .editDiv .changeSettings .settingInput input, .editDiv .changeSettings .editInput input, .editDiv .changeEdit .settingInput input, .editDiv .changeEdit .editInput input {
         color: var(--input-color);
         margin-bottom: 5px;
         padding: 5px;
         border-radius: 10px;
         border: none;
         background-color: var(--text-background-color); }
-      .settingDiv .changeSettings .settingInput p {
+      .settingDiv .changeSettings .settingInput p, .settingDiv .changeSettings .editInput p, .settingDiv .changeEdit .settingInput p, .settingDiv .changeEdit .editInput p, .editDiv .changeSettings .settingInput p, .editDiv .changeSettings .editInput p, .editDiv .changeEdit .settingInput p, .editDiv .changeEdit .editInput p {
         color: var(--primary);
         font-size: 13px;
         margin: 10px 0px 10px 0px;
         text-align: center;
         display: block; }
-    .settingDiv .changeSettings .buttons {
+    .settingDiv .changeSettings .buttons, .settingDiv .changeEdit .buttons, .editDiv .changeSettings .buttons, .editDiv .changeEdit .buttons {
       display: flex;
       align-items: center;
       justify-content: center; }
-      .settingDiv .changeSettings .buttons button {
+      .settingDiv .changeSettings .buttons button, .settingDiv .changeEdit .buttons button, .editDiv .changeSettings .buttons button, .editDiv .changeEdit .buttons button {
         font-size: 15px;
         background-color: var(--secondary);
         color: var(--text-secondary);
@@ -70,7 +70,7 @@ body {
         border-radius: 10px;
         cursor: pointer;
         transition: color 0.5s ease-in-out; }
-        .settingDiv .changeSettings .buttons button:hover {
+        .settingDiv .changeSettings .buttons button:hover, .settingDiv .changeEdit .buttons button:hover, .editDiv .changeSettings .buttons button:hover, .editDiv .changeEdit .buttons button:hover {
           color: var(--accent); }
 
 .navbar {

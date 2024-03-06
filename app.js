@@ -50,7 +50,9 @@ app.get("/getUserRoles", getUserRoles)
 
 app.get("/logout",  logout)
 
-app.get("/getUserInfo", getUserInfo)
+app.post("/getUserInfo", getUserInfo)
+
+app.get("/userEdit", userEdit)
 
 app.get("/getGroupInfo", getGroupInfo)
 
@@ -82,20 +84,50 @@ async function logout(request, response){
 }
 
 async function getUserInfo(request, response){
+    let rows
+    let getUserInfo
     let sql = db.prepare(
-    `SELECT uuid, users.name, email, workgroup.groupCode
+    `SELECT uuid, users.name, email, workgroup.groupCode, points, taskCompleted
     FROM users 
     INNER JOIN workgroup ON users.workgroup = workgroup.ID
     WHERE uuid = ?
     `)
-    let rows = sql.all(request.session.userUuid)
-    let getUserInfo = rows.map(user => ({
+    if(request.body.uuid){
+        rows = sql.all(request.body.uuid)
+        getUserInfo = rows.map(user => ({
+            uuid: user.uuid,
+            name: user.name,
+            email: user.email,
+            points: user.points,
+            taskCompleted: user.taskCompleted,
+        }));
+        
+    } else {
+        rows = sql.all(request.session.userUuid)
+        getUserInfo = rows.map(user => ({
+            uuid: user.uuid,
+            name: user.name,
+            email: user.email,
+            workgroup: user.groupCode,
+        }));
+    }
+    response.send(getUserInfo)
+}
+
+async function userEdit(request, response){
+    let sql = db.prepare(
+    `SELECT uuid, users.name, email, points, taskCompleted,
+    FROM users 
+    WHERE uuid = ?
+    `)
+    let rows = sql.all(response.body.uuid)
+    let getUserEditInfo = rows.map(user => ({
         uuid: user.uuid,
         name: user.name,
-        email: user.email,
-        workgroup: user.groupCode,
+        points: user.points,
+        taskCompleted: user.taskCompleted,
     }));
-    response.send(getUserInfo)
+    response.send(getUserEditInfo)
 }
 
 async function getGroupInfo(request, response){
@@ -108,7 +140,6 @@ async function getGroupInfo(request, response){
     `)
     let rows = sql.all(request.session.userWorkgroup)
     let getGroupInfo = rows.map(user => ({
-        auth:  request.session.isLoggedIn,
         uuid: user.uuid,
         name: user.name,
         email: user.email,
@@ -122,9 +153,6 @@ async function getGroupInfo(request, response){
     response.send(getGroupInfo)
 }
 
-async function userEdit(request, response){
-
-}
 async function userDelete(request, response){
     let sql = db.prepare("DELETE FROM users WHERE uuid = ?")
     let deleteUser = sql.run(request.body.uuid)
@@ -260,31 +288,30 @@ async function genrateString(){
 
 async function updateUserInfo(request, response){
     const user = request.body
+    let currentWorkgroup
+    let checkEmail
     const sqlCheckEmail = db.prepare("SELECT name, email FROM users WHERE email = ? and uuid != ?")
-    const sqlCurrentWorkgroup = db.prepare("SELECT workgroup FROM users WHERE uuid = ?")
-    let currentWorkgroup = sqlCurrentWorkgroup.all(request.session.userUuid)
-    let checkEmail = sqlCheckEmail.all(user.email, request.session.userUuid)
-    if(checkEmail.length !== 0){
-        response.send({responseMessage: "Email already in use!"})
-    } else {
-       const isWorkgroupExist = await checkAvailability("workgroup", "groupCode", user.groupCode)
-       if(isWorkgroupExist === true){
-          response.send({responseMessage: "Group code don't exist!" })
-       } else {
-         let sqlUpdate = db.prepare("UPDATE users SET name = ?, email = ?, workgroup = ? WHERE uuid = ?")
-         let sqlGroup = db.prepare("SELECT ID FROM workgroup WHERE groupCode = ?")
-         let getWorkgroupId = sqlGroup.all(user.groupCode)
-         const workgroupId = getWorkgroupId[0].ID
-         let updateUserInfo = sqlUpdate.run(user.name, user.email, workgroupId, request.session.userUuid) 
-         if(currentWorkgroup[0].workgroup !== workgroupId){
-            response.send({redirectUrl: '/login-page.html'})
-            request.session.destroy()
-         } else{
+    
+    if(user.type === "setting"){
+        getEmail = sqlCheckEmail.all(user.email, request.session.userUuid)
+        if (getEmail.length !== 0){
+            response.send({responseMessage: "Email already in use!"})
+        } else {
+            let sqlUpdate = db.prepare("UPDATE users SET name = ?, email = ? WHERE uuid = ?")
+            let updateUserInfo = sqlUpdate.run(user.name, user.email, request.session.userUuid) 
             response.send({responseMessage: "The user info is updated!"})
-         }
-       }
-    }    
-
+        }
+    }else if(user.type === "edit"){
+        getEmail = sqlCheckEmail.all(user.email, user.uuid)
+        if (getEmail.length !== 0){
+            response.send({responseMessage: "Email already in use!"})
+        } else {
+            let sqlUpdate = db.prepare("UPDATE users SET name = ?, email = ?, points = ?, taskCompleted = ? WHERE uuid = ?")
+            let updateUserInfo = sqlUpdate.run(user.name, user.email, user.points, user.taskCompleted, user.uuid) 
+            response.send({responseMessage: "The user info is updated!"})
+        }
+        
+    }
 }
 
 app.listen(3000, () => {
