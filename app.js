@@ -210,7 +210,7 @@ async function checkCredentials(request, response){
                 await fixGroup(user, "join")
                 response.send({responseMessage: "The user is created!"})
             } else{
-                response.send({responseMessage: "There is no group with this code!" })
+                response.send({errorMessage: "There is no group with this code!" })
             }
         } else if(user.workgroupAction === "2"){
             await fixGroup(user, "create")
