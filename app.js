@@ -131,15 +131,16 @@ async function userEdit(request, response){
 }
 
 async function getGroupInfo(request, response){
+    let getGroupInfo
     let sql = db.prepare(
     `SELECT uuid, users.name, email, userStatus, usertype.role, usertype, points, taskCompleted 
     from users 
     INNER JOIN usertype ON users.usertype = usertype.ID
-    WHERE workgroup = ?
+    WHERE workgroup = ? and uuid != ?
     
     `)
-    let rows = sql.all(request.session.userWorkgroup)
-    let getGroupInfo = rows.map(user => ({
+    let rows = sql.all(request.session.userWorkgroup, request.session.userUuid)
+    getGroupInfo = rows.map(user => ({
         uuid: user.uuid,
         name: user.name,
         email: user.email,
@@ -150,8 +151,12 @@ async function getGroupInfo(request, response){
         taskCompleted: user.taskCompleted,
 
     }));
-    response.send(getGroupInfo)
-}
+    response.send({
+        requestType: request.session.isLoggedIn,
+        userInfo: getGroupInfo,
+    })
+};
+
 
 async function userDelete(request, response){
     let sql = db.prepare("DELETE FROM users WHERE uuid = ?")
@@ -288,10 +293,7 @@ async function genrateString(){
 
 async function updateUserInfo(request, response){
     const user = request.body
-    let currentWorkgroup
-    let checkEmail
     const sqlCheckEmail = db.prepare("SELECT name, email FROM users WHERE email = ? and uuid != ?")
-    
     if(user.type === "setting"){
         getEmail = sqlCheckEmail.all(user.email, request.session.userUuid)
         if (getEmail.length !== 0){

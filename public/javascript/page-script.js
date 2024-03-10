@@ -80,35 +80,38 @@ async function getGroupInfo() {
     let data = await response.json();
     document.querySelector("#activeDiv .users").innerHTML = '';
     document.querySelector("#awatingDiv .users").innerHTML = '';
-    data.forEach(user => {  
-        if (user.userStatus === "true"){
-            countActiveUsers++;
-            let userDiv = `
-            <div>
-                <h3>Navn: ${user.name}</h3>
-                <p>Email: ${user.email}</p>
-                <p>Usertype: ${user.userRole}</p>
-                <p>Tasks completed: ${user.taskCompleted}</p>
-                <p>Points: ${user.points}</p>
-                <button onclick="userAction('Edit','${user.uuid}')">Edit</button>
-                <button onclick="userAction('Delete','${user.uuid}')">Remove User</button>
-            </div>`
-            document.querySelector("#activeDiv .users").innerHTML += userDiv;
-        } else if (user.userStatus === "false"){
-            countAwatingUsers++;
-            let userDiv = `
-            <div>
-                <h3>Navn: ${user.name}</h3>
-                <p>Email: ${user.email}</p>
-                <p>Usertype: ${user.userRole}</p>
-                <p>Tasks completed: ${user.taskCompleted}</p>
-                <p>Points: ${user.points}</p>
-                <button onclick="userAction('Confirm','${user.uuid}')">Confirm</button>
-                <button onclick="userAction('Delete','${user.uuid}')">Remove User</button>
-            </div>`
-            document.querySelector("#awatingDiv .users").innerHTML += userDiv;
-        }
-    })
+    console.log(data.requestType);
+    if(data.requestType === "eier" || data.requestType === "voksen"){
+        data.userInfo.forEach(user => {  
+            if (user.userStatus === "true"){
+                countActiveUsers++;
+                let userDiv = `
+                <div>
+                    <h3>Navn: ${user.name}</h3>
+                    <p>Email: ${user.email}</p>
+                    <p>Usertype: ${user.userRole}</p>
+                    <p>Tasks completed: ${user.taskCompleted}</p>
+                    <p>Points: ${user.points}</p>
+                    <button onclick="userAction('Edit','${user.uuid}')">Edit</button>
+                    <button onclick="userAction('Delete','${user.uuid}')">Remove User</button>
+                </div>`
+                document.querySelector("#activeDiv .users").innerHTML += userDiv;
+            } else if (user.userStatus === "false"){
+                countAwatingUsers++;
+                let userDiv = `
+                <div>
+                    <h3>Navn: ${user.name}</h3>
+                    <p>Email: ${user.email}</p>
+                    <p>Usertype: ${user.userRole}</p>
+                    <p>Tasks completed: ${user.taskCompleted}</p>
+                    <p>Points: ${user.points}</p>
+                    <button onclick="userAction('Confirm','${user.uuid}')">Confirm</button>
+                    <button onclick="userAction('Delete','${user.uuid}')">Remove User</button>
+                </div>`
+                document.querySelector("#awatingDiv .users").innerHTML += userDiv;
+            }
+        })
+    }
     document.getElementById('activeUsersCount').innerText = countActiveUsers;
     document.getElementById('awatingUsersCount').innerText = countAwatingUsers;
 }
