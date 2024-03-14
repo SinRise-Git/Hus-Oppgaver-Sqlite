@@ -236,7 +236,7 @@ document.getElementById('editConfirm').addEventListener('click', async function(
     if (data.responseMessage) {
         responseMessageDisplay.style.display = "block"
         responseMessageDisplay.innerText = data.responseMessage;
-        await getGroupInfo();
+        await getGroupUsers();
         if (data.responseMessage === "The user info is updated!") {
             responseMessageDisplay.style.color = "green"
             editName.placeholder = newName;  
@@ -258,9 +258,10 @@ document.getElementsByClassName('optionButton')[1].addEventListener('click', asy
     let data = await response.json();
     if (data.redirectUrl) {
         window.location.href = data.redirectUrl;
-        getGroupInfo();
+        getGroupUsers();
     }
 });
+
 
 getUserInfo();
 getGroupUsers();

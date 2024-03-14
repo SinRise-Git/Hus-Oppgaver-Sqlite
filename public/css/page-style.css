@@ -155,6 +155,21 @@ body {
   padding: 5px;
   margin: 0px; }
 
+.pages #users .group {
+  display: flex;
+  justify-content: center; }
+  .pages #users .group .groupInfo {
+    margin: 20px;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    background-color: var(--secondary);
+    color: var(--text-secondary); }
+    .pages #users .group .groupInfo p {
+      margin: 5px; }
+
 .pages #users #activeDiv, .pages #users #awatingDiv {
   background-color: var(--text-background-color);
   height: 100%; }

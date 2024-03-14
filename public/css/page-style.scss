@@ -193,6 +193,23 @@ body {
             padding: 5px;
             margin: 0px;
         }
+        .group{   
+            display: flex;
+            justify-content: center;
+            .groupInfo{
+                margin: 20px;
+                padding: 10px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-direction: column;
+                background-color: var(--secondary);
+                color: var(--text-secondary);
+                p{
+                    margin: 5px;
+                }
+            }
+        }
         #activeDiv, #awatingDiv {
             background-color: var(--text-background-color);
             height: 100%;
@@ -251,6 +268,7 @@ body {
                 }
             }
         }
+
     }
 }
 @keyframes pageIn {

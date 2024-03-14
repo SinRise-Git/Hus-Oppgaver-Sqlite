@@ -102,7 +102,7 @@ async function getUserInfo(request, response){
             taskCompleted: user.taskCompleted,
         }));
         
-    } else {
+    } else if(!request.body.uuid) {
         rows = sql.all(request.session.userUuid)
         getUserInfo = rows.map(user => ({
             uuid: user.uuid,
@@ -132,6 +132,8 @@ async function userEdit(request, response){
 
 async function getGroupUsers(request, response){
     let getGroupUsers
+    let totalPoints = 0
+    let totalTaskCompleted = 0
     let sqlUsers = db.prepare(
     `SELECT users.uuid, users.name, users.email, users.userStatus, usertype.role, users.usertype, users.points, users.taskCompleted   
     from users
@@ -157,15 +159,21 @@ async function getGroupUsers(request, response){
         points: user.points,
         taskCompleted: user.taskCompleted,
     }));
+    getGroupUsers.forEach(user => {
+        totalPoints += user.points
+        totalTaskCompleted += user.taskCompleted
+    })
     getGroupInfo = rowsGroup.map(group => ({
         name: group.groupName,
         groupCode: group.groupCode,
         createdBy: group.name,
+        toalPoints: totalPoints,
+        totalTaskCompleted: totalTaskCompleted
     }));
     response.send({
         requestType: request.session.isLoggedIn,
         userInfo: getGroupUsers,
-        groupInfo: getGroupInfo
+        groupInfo: getGroupInfo,
     })
 };
 
