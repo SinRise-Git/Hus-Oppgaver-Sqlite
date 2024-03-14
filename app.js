@@ -54,7 +54,7 @@ app.post("/getUserInfo", getUserInfo)
 
 app.get("/userEdit", userEdit)
 
-app.get("/getGroupInfo", getGroupInfo)
+app.get("/getGroupUsers", getGroupUsers)
 
 app.post("/userEdit", userEdit)
 
@@ -130,17 +130,24 @@ async function userEdit(request, response){
     response.send(getUserEditInfo)
 }
 
-async function getGroupInfo(request, response){
-    let getGroupInfo
-    let sql = db.prepare(
-    `SELECT uuid, users.name, email, userStatus, usertype.role, usertype, points, taskCompleted 
-    from users 
+async function getGroupUsers(request, response){
+    let getGroupUsers
+    let sqlUsers = db.prepare(
+    `SELECT users.uuid, users.name, users.email, users.userStatus, usertype.role, users.usertype, users.points, users.taskCompleted   
+    from users
     INNER JOIN usertype ON users.usertype = usertype.ID
     WHERE workgroup = ? and uuid != ?
+    `)
+    let sqlGroup = db.prepare(`
+    SELECT workgroup.name AS groupName, users.name, workgroup.groupCode
+    from workgroup 
+    INNER JOIN users ON workgroup.createdBy = users.uuid
+    WHERE createdBy = ?
     
     `)
-    let rows = sql.all(request.session.userWorkgroup, request.session.userUuid)
-    getGroupInfo = rows.map(user => ({
+    let rowsUsers = sqlUsers.all(request.session.userWorkgroup, request.session.userUuid)
+    let rowsGroup = sqlGroup.all(request.session.userUuid)
+    getGroupUsers = rowsUsers.map(user => ({
         uuid: user.uuid,
         name: user.name,
         email: user.email,
@@ -149,11 +156,16 @@ async function getGroupInfo(request, response){
         roleId: user.usertype,
         points: user.points,
         taskCompleted: user.taskCompleted,
-
+    }));
+    getGroupInfo = rowsGroup.map(group => ({
+        name: group.groupName,
+        groupCode: group.groupCode,
+        createdBy: group.name,
     }));
     response.send({
         requestType: request.session.isLoggedIn,
-        userInfo: getGroupInfo,
+        userInfo: getGroupUsers,
+        groupInfo: getGroupInfo
     })
 };
 

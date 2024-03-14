@@ -4,6 +4,7 @@
     --text-background-color: #F0EFF4;
     --background: #f5f6f9;
     --primary: #6380b4;
+    --primary-rgba: 99, 128, 180;
     --secondary: #98aed7;
     --secondary-rgba: 152, 174, 215;
     --accent: #6b8fd2; 
@@ -22,9 +23,9 @@ body {
     display: none;
     width: 100%;
     height: 100%;
-    background-color: var(--primary);
+    background: rgba(var(--primary-rgba), 0.75);
     z-index: 999;
-    opacity: 0.75;
+    
     .changeSettings, .changeEdit{
         z-index: 1000;
         position: absolute;
@@ -206,8 +207,8 @@ body {
                     background-color: var(--secondary);
                     color: white;
                     button{
-                        font-size: 14px;
-                        padding: 5px 10px 5px 10px;
+                        font-size: 13px;
+                        padding: 4px 7px 4px 7px;
                         border: none;
                         border-radius: 10px;
                         background-color: var(--text-secondary);
@@ -220,6 +221,10 @@ body {
                     }
                     p, h3{
                         margin: 5px;
+                    }
+                    #userUuid{
+                        font-size: 10px;
+                       
                     }
                 }
             }

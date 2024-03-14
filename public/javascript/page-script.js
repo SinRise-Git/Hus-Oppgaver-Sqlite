@@ -73,26 +73,27 @@ async function getUserInfo() {
     document.getElementById('settingGroup').placeholder = data[0].workgroup;
 }
 
-async function getGroupInfo() {
+async function getGroupUsers() {
     let countActiveUsers = 0;
     let countAwatingUsers = 0; 
-    let response = await fetch('getGroupInfo');
+    let response = await fetch('/getGroupUsers');
     let data = await response.json();
     document.querySelector("#activeDiv .users").innerHTML = '';
-    document.querySelector("#awatingDiv .users").innerHTML = '';
-    console.log(data.requestType);
+    console.log(data);
     if(data.requestType === "eier" || data.requestType === "voksen"){
+        document.querySelector("#awatingDiv .users").innerHTML = '';
         data.userInfo.forEach(user => {  
             if (user.userStatus === "true"){
                 countActiveUsers++;
                 let userDiv = `
                 <div>
+                    <p id="userUuid">${user.uuid}</p>
                     <h3>Navn: ${user.name}</h3>
                     <p>Email: ${user.email}</p>
-                    <p>Usertype: ${user.userRole}</p>
+                    <p>Role: ${user.userRole}</p>
                     <p>Tasks completed: ${user.taskCompleted}</p>
                     <p>Points: ${user.points}</p>
-                    <button onclick="userAction('Edit','${user.uuid}')">Edit</button>
+                    <button onclick="userAction('Edit','${user.uuid}')">Edit User</button>
                     <button onclick="userAction('Delete','${user.uuid}')">Remove User</button>
                 </div>`
                 document.querySelector("#activeDiv .users").innerHTML += userDiv;
@@ -100,15 +101,31 @@ async function getGroupInfo() {
                 countAwatingUsers++;
                 let userDiv = `
                 <div>
+                    <p id="userUuid">${user.uuid}</p>
                     <h3>Navn: ${user.name}</h3>
                     <p>Email: ${user.email}</p>
-                    <p>Usertype: ${user.userRole}</p>
+                    <p>Role: ${user.userRole}</p>
                     <p>Tasks completed: ${user.taskCompleted}</p>
                     <p>Points: ${user.points}</p>
-                    <button onclick="userAction('Confirm','${user.uuid}')">Confirm</button>
+                    <button onclick="userAction('Confirm','${user.uuid}')">Confirm User</button>
                     <button onclick="userAction('Delete','${user.uuid}')">Remove User</button>
                 </div>`
                 document.querySelector("#awatingDiv .users").innerHTML += userDiv;
+            }
+        })
+    } else if (data.requestType === "barn"){
+        data.userInfo.forEach(user => {
+            if (user.userStatus === "true"){
+                countActiveUsers++;
+                let userDiv = `
+                <div>
+                    <p id="userUuid">${user.uuid}</p>
+                    <h3>Navn: ${user.name}</h3>
+                    <p>Email: ${user.email}</p>
+                    <p>Tasks completed: ${user.taskCompleted}</p>
+                    <p>Points: ${user.points}</p>
+                </div>`
+                document.querySelector("#activeDiv .users").innerHTML += userDiv;
             }
         })
     }
@@ -131,14 +148,8 @@ async function userAction(type, uuid){
         document.getElementById('editPoints').placeholder = data[0].points;
         document.getElementById('editTaskCompleted').placeholder = data[0].taskCompleted;
         document.getElementsByClassName('editDiv')[0].style.display = "flex";
-        
     } else {
-        let methodType
-        if (type === "Delete"){
-            methodType = "POST"
-        } else{
-            methodType = "PUT"
-        }
+        let methodType = type === "Delete" ? "POST" : "PUT";
         const requestOptions = {
             method: methodType,
             headers: { 'Content-Type': 'application/json' },
@@ -147,7 +158,7 @@ async function userAction(type, uuid){
         let response = await fetch(`/user${type}`, requestOptions);
         let data = await response.json();
         if(data.responseMessage){
-            getGroupInfo();
+            getGroupUsers();
         }
     }
     
@@ -252,4 +263,4 @@ document.getElementsByClassName('optionButton')[1].addEventListener('click', asy
 });
 
 getUserInfo();
-getGroupInfo();
+getGroupUsers();

@@ -4,6 +4,7 @@
   --text-background-color: #F0EFF4;
   --background: #f5f6f9;
   --primary: #6380b4;
+  --primary-rgba: 99, 128, 180;
   --secondary: #98aed7;
   --secondary-rgba: 152, 174, 215;
   --accent: #6b8fd2;
@@ -20,9 +21,8 @@ body {
   display: none;
   width: 100%;
   height: 100%;
-  background-color: var(--primary);
-  z-index: 999;
-  opacity: 0.75; }
+  background: rgba(var(--primary-rgba), 0.75);
+  z-index: 999; }
   .settingDiv .changeSettings, .settingDiv .changeEdit, .editDiv .changeSettings, .editDiv .changeEdit {
     z-index: 1000;
     position: absolute;
@@ -169,8 +169,8 @@ body {
       background-color: var(--secondary);
       color: white; }
       .pages #users #activeDiv .users div button, .pages #users #awatingDiv .users div button {
-        font-size: 14px;
-        padding: 5px 10px 5px 10px;
+        font-size: 13px;
+        padding: 4px 7px 4px 7px;
         border: none;
         border-radius: 10px;
         background-color: var(--text-secondary);
@@ -181,6 +181,8 @@ body {
           color: var(--secondary); }
       .pages #users #activeDiv .users div p, .pages #users #activeDiv .users div h3, .pages #users #awatingDiv .users div p, .pages #users #awatingDiv .users div h3 {
         margin: 5px; }
+      .pages #users #activeDiv .users div #userUuid, .pages #users #awatingDiv .users div #userUuid {
+        font-size: 10px; }
 
 .pages #users #awatingDiv {
   display: none; }
