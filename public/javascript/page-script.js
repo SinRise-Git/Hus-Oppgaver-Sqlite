@@ -77,9 +77,21 @@ async function getGroupUsers() {
     let countActiveUsers = 0;
     let countAwatingUsers = 0; 
     let response = await fetch('/getGroupUsers');
-    let data = await response.json();
-    document.querySelector("#activeDiv .users").innerHTML = '';
+    let data = await response.json()
     console.log(data);
+    let groupData = data.groupInfo[0]
+    let groupInfoDiv = `
+
+    <div class="groupInfo">
+       <h2>Group Information</h2>
+       <h3>Invite code: ${groupData.groupCode}</h3>
+       <p>Name: <span>${groupData.name}</span></p>
+       <p>Owner:<span> ${groupData.createdBy}</span></p>
+       <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
+       <p>Total points collected: <span>${groupData.totalPoints}</span></p>
+    </div>`
+    document.querySelector("#users .group").innerHTML = groupInfoDiv
+    document.querySelector("#activeDiv .users").innerHTML = '';
     if(data.requestType === "eier" || data.requestType === "voksen"){
         document.querySelector("#awatingDiv .users").innerHTML = '';
         data.userInfo.forEach(user => {  
@@ -238,15 +250,12 @@ document.getElementById('editConfirm').addEventListener('click', async function(
         responseMessageDisplay.innerText = data.responseMessage;
         await getGroupUsers();
         if (data.responseMessage === "The user info is updated!") {
+            document.getElementById("editUserForm").reset()
             responseMessageDisplay.style.color = "green"
             editName.placeholder = newName;  
-            editName.value = "";
             editEmail.placeholder = newEmail;  
-            editEmail.value = "";
             editTaskCompleted.placeholder = newTaskCompleted;  
-            editTaskCompleted.value = "";
             editPoints.placeholder = newPoints;  
-            editPoints.value = "";
         } else {
             responseMessageDisplay.style.color = "red"
         }

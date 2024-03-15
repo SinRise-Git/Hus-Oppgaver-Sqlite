@@ -74,15 +74,19 @@ body {
           color: var(--accent); }
 
 .navbar {
+  padding: 0px 10px 0px 10px;
   display: flex;
   position: relative;
   justify-content: space-between;
   align-items: center;
   background-color: var(--secondary);
-  color: var(--text-secondary);
-  padding: 7.5px 15px 7.5px 15px; }
+  color: var(--text-secondary); }
   .navbar .brand-title {
-    font-size: 25px; }
+    height: 7vh;
+    display: flex;
+    align-items: center; }
+    .navbar .brand-title h1 {
+      font-size: 3.5vh; }
   .navbar .navbar-links ul {
     display: flex;
     align-items: center;
@@ -105,15 +109,19 @@ body {
         font-weight: 600; }
   .navbar .toggle-button {
     position: absolute;
-    top: .75rem;
+    top: 50%;
+    transform: translateY(-50%);
     right: 1rem;
     display: none;
     flex-direction: column;
     justify-content: space-between;
     width: 30px;
-    height: 21px;
+    height: 3vh;
     cursor: pointer; }
     .navbar .toggle-button .bar {
+      display: flex;
+      align-items: center;
+      justify-content: center;
       height: 3px;
       width: 100%;
       background-color: white;
@@ -142,7 +150,7 @@ body {
         position: absolute;
         z-index: 9;
         background-color: rgba(var(--secondary-rgba), 0.75);
-        top: 43px;
+        top: 7vh;
         right: 0px;
         animation-duration: 1s;
         border-radius: 0px 0px 10px 10px; } }
@@ -166,9 +174,14 @@ body {
     align-items: center;
     flex-direction: column;
     background-color: var(--secondary);
-    color: var(--text-secondary); }
+    color: var(--text-secondary);
+    border-radius: 10px; }
     .pages #users .group .groupInfo p {
-      margin: 5px; }
+      margin: 2px; }
+      .pages #users .group .groupInfo p span {
+        font-weight: bolder; }
+    .pages #users .group .groupInfo h2, .pages #users .group .groupInfo h3 {
+      margin: 2px; }
 
 .pages #users #activeDiv, .pages #users #awatingDiv {
   background-color: var(--text-background-color);

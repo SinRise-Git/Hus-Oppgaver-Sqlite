@@ -167,7 +167,7 @@ async function getGroupUsers(request, response){
         name: group.groupName,
         groupCode: group.groupCode,
         createdBy: group.name,
-        toalPoints: totalPoints,
+        totalPoints: totalPoints,
         totalTaskCompleted: totalTaskCompleted
     }));
     response.send({
