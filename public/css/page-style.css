@@ -14,7 +14,8 @@ body {
   margin: 0;
   padding: 0;
   animation-name: websiteFadeIn;
-  animation-duration: 1.5s; }
+  animation-duration: 1.5s;
+  overflow: hidden; }
 
 .settingDiv, .editDiv {
   position: absolute;
@@ -82,11 +83,11 @@ body {
   background-color: var(--secondary);
   color: var(--text-secondary); }
   .navbar .brand-title {
-    height: 7vh;
     display: flex;
     align-items: center; }
     .navbar .brand-title h1 {
-      font-size: 3.5vh; }
+      font-size: 30px;
+      margin: 10px 0px 10px 0px; }
   .navbar .navbar-links ul {
     display: flex;
     align-items: center;
@@ -97,7 +98,7 @@ body {
     .navbar .navbar-links ul li {
       list-style: none; }
       .navbar .navbar-links ul li button {
-        font-size: 15px;
+        font-size: 20px;
         background-color: transparent;
         border: none;
         color: var(--text-secondary);
@@ -116,14 +117,14 @@ body {
     flex-direction: column;
     justify-content: space-between;
     width: 30px;
-    height: 3vh;
+    height: 21px;
     cursor: pointer; }
     .navbar .toggle-button .bar {
       display: flex;
       align-items: center;
       justify-content: center;
       height: 3px;
-      width: 100%;
+      width: 30px;
       background-color: white;
       border-radius: 10px; }
   @media (max-width: 800px) {
@@ -150,23 +151,25 @@ body {
         position: absolute;
         z-index: 9;
         background-color: rgba(var(--secondary-rgba), 0.75);
-        top: 7vh;
+        top: 54px;
         right: 0px;
         animation-duration: 1s;
-        border-radius: 0px 0px 10px 10px; } }
+        border-radius: 0px 0px 10px 10px; }
+        .navbar .navbar-links.active button {
+          font-size: 20px; } }
 
-.pages #tasks, .pages #users, .pages #shop, .pages #leaderboard {
+.pages #tasks, .pages #familiy, .pages #shop, .pages #leaderboard {
   display: none; }
 
-.pages #users h1 {
+.pages #familiy h1 {
   text-align: center;
   padding: 5px;
   margin: 0px; }
 
-.pages #users .group {
+.pages #familiy .group {
   display: flex;
   justify-content: center; }
-  .pages #users .group .groupInfo {
+  .pages #familiy .group .groupInfo {
     margin: 20px;
     padding: 10px;
     display: flex;
@@ -176,27 +179,41 @@ body {
     background-color: var(--secondary);
     color: var(--text-secondary);
     border-radius: 10px; }
-    .pages #users .group .groupInfo p {
+    .pages #familiy .group .groupInfo p {
       margin: 2px; }
-      .pages #users .group .groupInfo p span {
+      .pages #familiy .group .groupInfo p span {
         font-weight: bolder; }
-    .pages #users .group .groupInfo h2, .pages #users .group .groupInfo h3 {
+    .pages #familiy .group .groupInfo h2, .pages #familiy .group .groupInfo h3 {
       margin: 2px; }
+    .pages #familiy .group .groupInfo button {
+      font-size: 13px;
+      padding: 4px 7px 4px 7px;
+      margin-top: 5px;
+      border: none;
+      border-radius: 10px;
+      background-color: var(--text-secondary);
+      color: var(--primary);
+      cursor: pointer;
+      transition: color 0.5s ease-in-out; }
+      .pages #familiy .group .groupInfo button:hover {
+        color: var(--accent); }
 
-.pages #users #activeDiv, .pages #users #awatingDiv {
+.pages #familiy #activeDiv, .pages #familiy #awatingDiv {
   background-color: var(--text-background-color);
-  height: 100%; }
-  .pages #users #activeDiv .users, .pages #users #awatingDiv .users {
+  height: 100vh; }
+  .pages #familiy #activeDiv h1, .pages #familiy #awatingDiv h1 {
+    color: var(--primary); }
+  .pages #familiy #activeDiv .users, .pages #familiy #awatingDiv .users {
     display: flex;
     justify-content: center;
     flex-wrap: wrap;
     gap: 20px; }
-    .pages #users #activeDiv .users div, .pages #users #awatingDiv .users div {
+    .pages #familiy #activeDiv .users div, .pages #familiy #awatingDiv .users div {
       padding: 10px;
       border-radius: 10px;
       background-color: var(--secondary);
       color: white; }
-      .pages #users #activeDiv .users div button, .pages #users #awatingDiv .users div button {
+      .pages #familiy #activeDiv .users div button, .pages #familiy #awatingDiv .users div button {
         font-size: 13px;
         padding: 4px 7px 4px 7px;
         border: none;
@@ -205,20 +222,20 @@ body {
         color: var(--accent);
         cursor: pointer;
         transition: color 0.5s ease-in-out; }
-        .pages #users #activeDiv .users div button:hover, .pages #users #awatingDiv .users div button:hover {
+        .pages #familiy #activeDiv .users div button:hover, .pages #familiy #awatingDiv .users div button:hover {
           color: var(--secondary); }
-      .pages #users #activeDiv .users div p, .pages #users #activeDiv .users div h3, .pages #users #awatingDiv .users div p, .pages #users #awatingDiv .users div h3 {
+      .pages #familiy #activeDiv .users div p, .pages #familiy #activeDiv .users div h3, .pages #familiy #awatingDiv .users div p, .pages #familiy #awatingDiv .users div h3 {
         margin: 5px; }
-      .pages #users #activeDiv .users div #userUuid, .pages #users #awatingDiv .users div #userUuid {
+      .pages #familiy #activeDiv .users div #userUuid, .pages #familiy #awatingDiv .users div #userUuid {
         font-size: 10px; }
 
-.pages #users #awatingDiv {
+.pages #familiy #awatingDiv {
   display: none; }
 
-.pages #users .buttons {
+.pages #familiy .buttons {
   display: flex;
   justify-content: center; }
-  .pages #users .buttons button {
+  .pages #familiy .buttons button {
     font-size: 20px;
     margin: 5px;
     padding: 5px 10px 5px 10px;
@@ -228,8 +245,31 @@ body {
     color: var(--text-secondary);
     cursor: pointer;
     transition: color 0.5s ease-in-out; }
-    .pages #users .buttons button:hover {
+    .pages #familiy .buttons button:hover {
       color: var(--accent); }
+
+.pages #familiy .filters {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px; }
+  .pages #familiy .filters label {
+    color: var(--primary);
+    font-size: 20px; }
+  .pages #familiy .filters input {
+    padding: 5px;
+    border-radius: 10px;
+    border: none;
+    margin: 5px;
+    background-color: var(--text-background-color);
+    color: var(--input-color); }
+  .pages #familiy .filters select {
+    padding: 3px 5px 3px 5px;
+    margin: 5px;
+    border-radius: 10px;
+    border: none;
+    background-color: var(--text-background-color);
+    color: var(--input-color); }
 
 @keyframes pageIn {
   0% {

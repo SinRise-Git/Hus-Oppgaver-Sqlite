@@ -66,7 +66,7 @@
         </div>
         <nav class="navbar">
           <div class="brand-title">
-            <h1>Home</h1>
+            <h1 id="page-title">Home</h1>
           </div>
           <div class="toggle-button">
             <span class="bar"></span>
@@ -82,7 +82,7 @@
                 <button onclick="changePage('tasks')" class="optionPage">Tasks</button>
               </li>
               <li>
-                <button onclick="changePage('users')" class="optionPage">Users</button>
+                <button onclick="changePage('familiy')" class="optionPage">Family</button>
               </li>
               <li>
                 <button onclick="changePage('shop')" class="optionPage">Shop</button>
@@ -106,12 +106,20 @@
           <div id="tasks">
             <h1>Tasks</h1>
           </div>
-          <div id="users">
+          <div id="familiy">
             <div class="group">
             </div>
             <div class="buttons">
               <button onclick="changeUserPage('activeDiv')">Active Users</button>
               <button onclick="changeUserPage('awatingDiv')">Awating Users</button>
+            </div>
+            <div class="filters">
+              <label for="filterName">Search:</label>
+              <input type="text" id="filterName" placeholder="Search...">
+              <label for="filterRole">Role:</label>
+              <select id="filterRole">
+                <option value="all">All</option>
+              </select>
             </div>
             <div class="userDiv">
               <div id="activeDiv">

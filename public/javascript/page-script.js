@@ -27,10 +27,11 @@ navbarLinks.addEventListener('animationend', (event) => {
 function changePage(page) {
     document.getElementById("home").style.display = "none";
     document.getElementById("tasks").style.display = "none";
-    document.getElementById("users").style.display = "none";
+    document.getElementById("familiy").style.display = "none";
     document.getElementById("shop").style.display = "none";
     document.getElementById("leaderboard").style.display = "none";
     document.getElementById(page).style.display = "block";
+    document.getElementById("page-title").innerText = page;
 }
 
 function changeUserPage(page) {
@@ -78,19 +79,19 @@ async function getGroupUsers() {
     let countAwatingUsers = 0; 
     let response = await fetch('/getGroupUsers');
     let data = await response.json()
-    console.log(data);
     let groupData = data.groupInfo[0]
     let groupInfoDiv = `
 
     <div class="groupInfo">
-       <h2>Group Information</h2>
+       <h2>Familiy Information</h2>
        <h3>Invite code: ${groupData.groupCode}</h3>
        <p>Name: <span>${groupData.name}</span></p>
        <p>Owner:<span> ${groupData.createdBy}</span></p>
        <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
        <p>Total points collected: <span>${groupData.totalPoints}</span></p>
+       <button onclick="editGroup('${groupData.uuid}')">Edit Group</button>
     </div>`
-    document.querySelector("#users .group").innerHTML = groupInfoDiv
+    document.querySelector("#familiy .group").innerHTML = groupInfoDiv
     document.querySelector("#activeDiv .users").innerHTML = '';
     if(data.requestType === "eier" || data.requestType === "voksen"){
         document.querySelector("#awatingDiv .users").innerHTML = '';
@@ -262,6 +263,18 @@ document.getElementById('editConfirm').addEventListener('click', async function(
     }
 })
 
+async function getUserRoles() {
+    let response = await fetch('getUserRoles');
+    let data = await response.json();
+    let select = document.getElementById('filterRole');
+    data.forEach(role => {
+        let option = document.createElement('option');
+        option.value = role.id;
+        option.innerHTML = role.name;
+        select.appendChild(option);
+    });
+}
+
 document.getElementsByClassName('optionButton')[1].addEventListener('click', async function() {
     let response = await fetch('logout');
     let data = await response.json();
@@ -274,3 +287,4 @@ document.getElementsByClassName('optionButton')[1].addEventListener('click', asy
 
 getUserInfo();
 getGroupUsers();
+getUserRoles()

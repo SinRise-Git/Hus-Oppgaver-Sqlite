@@ -87,10 +87,10 @@ async function getUserInfo(request, response){
     let rows
     let getUserInfo
     let sql = db.prepare(
-    `SELECT uuid, users.name, email, workgroup.groupCode, points, taskCompleted
+    `SELECT users.uuid, users.name, users.email, workgroup.groupCode, users.points, users.taskCompleted
     FROM users 
     INNER JOIN workgroup ON users.workgroup = workgroup.ID
-    WHERE uuid = ?
+    WHERE users.uuid = ?
     `)
     if(request.body.uuid){
         rows = sql.all(request.body.uuid)
@@ -116,7 +116,7 @@ async function getUserInfo(request, response){
 
 async function userEdit(request, response){
     let sql = db.prepare(
-    `SELECT uuid, users.name, email, points, taskCompleted,
+    `SELECT users.uuid, users.name, users.email, users.points, users.taskCompleted
     FROM users 
     WHERE uuid = ?
     `)
@@ -135,14 +135,14 @@ async function getGroupUsers(request, response){
     let totalPoints = 0
     let totalTaskCompleted = 0
     let sqlUsers = db.prepare(
-    `SELECT users.uuid, users.name, users.email, users.userStatus, usertype.role, users.usertype, users.points, users.taskCompleted   
-    from users
+    `SELECT users.uuid, users.name, users.email, users.userStatus, usertype.role, users.usertype, users.points, users.taskCompleted
+    FROM users
     INNER JOIN usertype ON users.usertype = usertype.ID
     WHERE workgroup = ? and uuid != ?
     `)
     let sqlGroup = db.prepare(`
-    SELECT workgroup.name AS groupName, users.name, workgroup.groupCode
-    from workgroup 
+    SELECT workgroup.uuid, workgroup.name AS groupName, users.name, workgroup.groupCode
+    FROM workgroup 
     INNER JOIN users ON workgroup.createdBy = users.uuid
     WHERE createdBy = ?
     
@@ -160,10 +160,13 @@ async function getGroupUsers(request, response){
         taskCompleted: user.taskCompleted,
     }));
     getGroupUsers.forEach(user => {
-        totalPoints += user.points
-        totalTaskCompleted += user.taskCompleted
+        if (user.userRole !== "eier"){
+            totalPoints += user.points
+            totalTaskCompleted += user.taskCompleted
+        }
     })
     getGroupInfo = rowsGroup.map(group => ({
+        uuid: group.uuid,
         name: group.groupName,
         groupCode: group.groupCode,
         createdBy: group.name,
@@ -255,7 +258,7 @@ async function checkAvailability(table, type, info){
 
 async function fixGroup(user, workgroupAction){
     const hashedPassword = await bcrypt.hash(user.password, 10)
-    const UUID = await generatedUuid()
+    const UUID = await generatedUuid("users")
     if (user.usertype === '1' || user.usertype === '2') {
         if (workgroupAction === "join") {
             let sqlGetId = db.prepare("SELECT ID FROM workgroup WHERE groupCode = ?")
@@ -271,8 +274,9 @@ async function fixGroup(user, workgroupAction){
 }
 async function createWorkgroup(name, createdBy){
     let groupCode = await genrateString();
-    const sqlCreateWorkgroup = db.prepare("INSERT INTO workgroup (name, createdBy, groupCode) values (?, ?, ?)")
-    const createWorkgroup = sqlCreateWorkgroup.run(name, createdBy, groupCode)
+    const UUID = await generatedUuid("workgroup")
+    const sqlCreateWorkgroup = db.prepare("INSERT INTO workgroup (uuid, name, createdBy, groupCode) values (?, ?, ?, ?)")
+    const createWorkgroup = sqlCreateWorkgroup.run(UUID, name, createdBy, groupCode)
 }
 
 async function createUser(uuid, name, email, password, usertype, workgroup, userStatus, points, taskCompleted) {
@@ -280,9 +284,9 @@ async function createUser(uuid, name, email, password, usertype, workgroup, user
     const createUser = sqlCreateUser.run(uuid, name, email, password, usertype, workgroup, userStatus, points, taskCompleted)
 }
 
-async function generatedUuid(){
+async function generatedUuid(table){
     let uuidGenrated = uuid.v4()
-    let sqlCheckUuid = db.prepare("SELECT * FROM users WHERE uuid = ?")
+    let sqlCheckUuid = db.prepare(`SELECT * FROM ${table} WHERE uuid = ?`)
     let checkUuid = sqlCheckUuid.all(uuidGenrated)
     if (checkUuid.length === 0) {
         return uuidGenrated;

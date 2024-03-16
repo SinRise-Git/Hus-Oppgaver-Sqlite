@@ -16,6 +16,7 @@ body {
     padding: 0;
     animation-name: websiteFadeIn;
     animation-duration: 1.5s;
+    overflow: hidden;
 }
 
 
@@ -96,11 +97,11 @@ body {
     color: var(--text-secondary);
 
     .brand-title {
-        height: 7vh;
         display: flex;
         align-items: center;
         h1 {
-            font-size: 3.5vh;
+            font-size: 30px;
+            margin: 10px 0px 10px 0px;
         }
     }
 
@@ -115,7 +116,7 @@ body {
             li {
                 list-style: none;
                 button {
-                    font-size: 15px;
+                    font-size: 20px;
                     background-color: transparent;
                     border: none;
                     color: var(--text-secondary); 
@@ -141,7 +142,7 @@ body {
         flex-direction: column;
         justify-content: space-between;
         width: 30px;
-        height: 3vh;
+        height: 21px;
         cursor: pointer;
 
         .bar {
@@ -149,7 +150,7 @@ body {
             align-items: center;
             justify-content: center;
             height: 3px;
-            width: 100%;
+            width: 30px;
             background-color: white;
             border-radius: 10px;
         }
@@ -185,19 +186,22 @@ body {
             position: absolute;
             z-index: 9; 
             background-color: rgba(var(--secondary-rgba), 0.75);
-            top: 7vh;
+            top: 54px;
             right: 0px;
             animation-duration: 1s;
             border-radius: 0px 0px 10px 10px;
+            button {
+                font-size: 20px;
+            }         
         }
     }
 }
 
 .pages {
-    #tasks, #users, #shop, #leaderboard{
+    #tasks, #familiy, #shop, #leaderboard{
         display: none;
     }
-    #users{
+    #familiy{
         h1{
             text-align: center;
             padding: 5px;
@@ -225,11 +229,28 @@ body {
                 h2, h3{
                    margin: 2px;
                 }
+                button{
+                    font-size: 13px;
+                    padding: 4px 7px 4px 7px;
+                    margin-top: 5px;
+                    border: none;
+                    border-radius: 10px;
+                    background-color: var(--text-secondary);
+                    color: var(--primary);
+                    cursor: pointer;
+                    transition: color 0.5s ease-in-out;
+                    &:hover{
+                        color: var(--accent);
+                    }
+                }
             }
         }
         #activeDiv, #awatingDiv {
             background-color: var(--text-background-color);
-            height: 100%;
+            height: 100vh;
+            h1{
+                color: var(--primary);
+            }
             .users{
                 display: flex;
                 justify-content: center;
@@ -261,6 +282,7 @@ body {
                        
                     }
                 }
+
             }
         }
 
@@ -283,6 +305,33 @@ body {
                 &:hover{
                     color: var(--accent);
                 }
+            }
+        }
+        .filters{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px;
+            label{
+                color: var(--primary);
+                font-size: 20px;
+            }
+            input{
+                padding: 5px;
+                border-radius: 10px;
+                border: none;
+                margin: 5px;
+                background-color: var(--text-background-color);
+                color: var(--input-color);
+            }
+            select{
+                padding: 3px 5px 3px 5px;
+                margin: 5px;
+                border-radius: 10px;
+                border: none;
+                background-color: var(--text-background-color);
+                color: var(--input-color);
+            
             }
         }
 
