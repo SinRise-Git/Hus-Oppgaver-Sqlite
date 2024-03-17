@@ -17,16 +17,18 @@ body {
   animation-duration: 1.5s;
   overflow: hidden; }
 
-.settingDiv, .editDiv {
+.settingBackgroud {
   position: absolute;
   display: none;
   width: 100%;
   height: 100%;
   background: rgba(var(--primary-rgba), 0.75);
   z-index: 999; }
-  .settingDiv .changeSettings, .settingDiv .changeEdit, .editDiv .changeSettings, .editDiv .changeEdit {
+  .settingBackgroud .settingEdit, .settingBackgroud .settingChange {
     z-index: 1000;
     position: absolute;
+    display: flex;
+    flex-direction: column;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -34,34 +36,33 @@ body {
     border-radius: 10px;
     color: var(--primary);
     padding: 10px 20px 10px 20px; }
-    .settingDiv .changeSettings p, .settingDiv .changeEdit p, .editDiv .changeSettings p, .editDiv .changeEdit p {
+    .settingBackgroud .settingEdit p, .settingBackgroud .settingChange p {
       text-align: center;
       font-size: 13px;
-      margin: 5px 0px 5px 0px;
-      display: none; }
-    .settingDiv .changeSettings .settingInput, .settingDiv .changeSettings .editInput, .settingDiv .changeEdit .settingInput, .settingDiv .changeEdit .editInput, .editDiv .changeSettings .settingInput, .editDiv .changeSettings .editInput, .editDiv .changeEdit .settingInput, .editDiv .changeEdit .editInput {
+      margin: 5px 0px 5px 0px; }
+    .settingBackgroud .settingEdit .settingEditForm, .settingBackgroud .settingEdit .settingChangeForm, .settingBackgroud .settingChange .settingEditForm, .settingBackgroud .settingChange .settingChangeForm {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column; }
-      .settingDiv .changeSettings .settingInput input, .settingDiv .changeSettings .editInput input, .settingDiv .changeEdit .settingInput input, .settingDiv .changeEdit .editInput input, .editDiv .changeSettings .settingInput input, .editDiv .changeSettings .editInput input, .editDiv .changeEdit .settingInput input, .editDiv .changeEdit .editInput input {
+      .settingBackgroud .settingEdit .settingEditForm input, .settingBackgroud .settingEdit .settingChangeForm input, .settingBackgroud .settingChange .settingEditForm input, .settingBackgroud .settingChange .settingChangeForm input {
         color: var(--input-color);
         margin-bottom: 5px;
         padding: 5px;
         border-radius: 10px;
         border: none;
         background-color: var(--text-background-color); }
-      .settingDiv .changeSettings .settingInput p, .settingDiv .changeSettings .editInput p, .settingDiv .changeEdit .settingInput p, .settingDiv .changeEdit .editInput p, .editDiv .changeSettings .settingInput p, .editDiv .changeSettings .editInput p, .editDiv .changeEdit .settingInput p, .editDiv .changeEdit .editInput p {
+      .settingBackgroud .settingEdit .settingEditForm p, .settingBackgroud .settingEdit .settingChangeForm p, .settingBackgroud .settingChange .settingEditForm p, .settingBackgroud .settingChange .settingChangeForm p {
         color: var(--primary);
         font-size: 13px;
         margin: 10px 0px 10px 0px;
         text-align: center;
         display: block; }
-    .settingDiv .changeSettings .buttons, .settingDiv .changeEdit .buttons, .editDiv .changeSettings .buttons, .editDiv .changeEdit .buttons {
+    .settingBackgroud .settingEdit .buttons, .settingBackgroud .settingChange .buttons {
       display: flex;
       align-items: center;
       justify-content: center; }
-      .settingDiv .changeSettings .buttons button, .settingDiv .changeEdit .buttons button, .editDiv .changeSettings .buttons button, .editDiv .changeEdit .buttons button {
+      .settingBackgroud .settingEdit .buttons button, .settingBackgroud .settingChange .buttons button {
         font-size: 15px;
         background-color: var(--secondary);
         color: var(--text-secondary);
@@ -71,7 +72,7 @@ body {
         border-radius: 10px;
         cursor: pointer;
         transition: color 0.5s ease-in-out; }
-        .settingDiv .changeSettings .buttons button:hover, .settingDiv .changeEdit .buttons button:hover, .editDiv .changeSettings .buttons button:hover, .editDiv .changeEdit .buttons button:hover {
+        .settingBackgroud .settingEdit .buttons button:hover, .settingBackgroud .settingChange .buttons button:hover {
           color: var(--accent); }
 
 .navbar {

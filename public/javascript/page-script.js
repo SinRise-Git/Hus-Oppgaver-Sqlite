@@ -23,41 +23,38 @@ navbarLinks.addEventListener('animationend', (event) => {
     isAnimating = false;
 });
 
-
 function changePage(page) {
-    document.getElementById("home").style.display = "none";
-    document.getElementById("tasks").style.display = "none";
-    document.getElementById("familiy").style.display = "none";
-    document.getElementById("shop").style.display = "none";
-    document.getElementById("leaderboard").style.display = "none";
-    document.getElementById(page).style.display = "block";
-    document.getElementById("page-title").innerText = page;
+    let pagesDiv = document.querySelector('.pages');
+    Array.from(pagesDiv.children).forEach(div => {
+        div.id === page ? div.style.display = 'block' : div.style.display = 'none';
+    });
 }
 
 function changeUserPage(page) {
-    document.getElementById("activeDiv").style.display = "none";
-    document.getElementById("awatingDiv").style.display = "none";
-    document.getElementById(page).style.display = "block";
+    let pagesDiv = document.querySelector('.userDiv');
+    Array.from(pagesDiv.children).forEach(div => {
+        div.id === page ? div.style.display = 'block' : div.style.display = 'none';
+    });
 }
 
 document.getElementsByClassName('optionButton')[0].addEventListener('click', async function() {
-    document.getElementsByClassName('settingDiv')[0].style.display = 'flex'
-});
+    document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+    let settingDiv = document.querySelector('.settingBackgroud');
+    Array.from(settingDiv.children).forEach(div => {
+        div.className === "settingChange" ? div.style.display = 'flex' : div.style.display = 'none';
+    });
+})
 
 document.getElementById('settingCancel').addEventListener('click', function() {
-    document.getElementsByClassName('settingDiv')[0].style.display = 'none';
-    document.getElementById("settingName").value = "";
-    document.getElementById("settingEmail").value = "";
-    document.getElementById("settingGroup").value = "";
-    document.getElementById("settingResponseMessage").innerText = "";
+    document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
+    document.getElementsByClassName('settingChange')[0].style.display = 'none';
+    document.getElementById("settingChangeForm").reset();
 });
 
 document.getElementById('editCancel').addEventListener('click', function() {
-    document.getElementsByClassName('editDiv')[0].style.display = 'none';
-    document.getElementById("editName").value = "";
-    document.getElementById("editEmail").value = "";
-    document.getElementById("editPoints").value = "";
-    document.getElementById("editTaskCompleted").value = "";
+    document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
+    document.getElementsByClassName('settingEdit')[0].style.display = 'none';
+    document.getElementById("settingEditForm").reset();
 })
 
 async function getUserInfo() {
@@ -155,13 +152,17 @@ async function userAction(type, uuid){
         };
         let response = await fetch(`/getUserInfo`, requestOptions);
         let data = await response.json();
-        document.getElementById('editUserUuid').innerText = data[0].uuid;
+        document.getElementById('editUserUuid').innerText =data[0].uuid;
         document.getElementById('editName').placeholder = data[0].name;
         document.getElementById('editEmail').placeholder = data[0].email;
         document.getElementById('editPoints').placeholder = data[0].points;
         document.getElementById('editTaskCompleted').placeholder = data[0].taskCompleted;
-        document.getElementsByClassName('editDiv')[0].style.display = "flex";
-    } else {
+        document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+        let settingDiv = document.querySelector('.settingBackgroud');
+        Array.from(settingDiv.children).forEach(div => {
+            div.className === "settingEdit" ? div.style.display = 'flex' : div.style.display = 'none';
+        });
+    } else if (type === "Delete" || type === "Confirm"){
         let methodType = type === "Delete" ? "POST" : "PUT";
         const requestOptions = {
             method: methodType,
