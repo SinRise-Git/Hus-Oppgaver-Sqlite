@@ -6,9 +6,9 @@
     --primary: #6380b4;
     --primary-rgba: 99, 128, 180;
     --secondary: #98aed7;
-    --secondary-rgba: 152, 174, 215;
     --accent: #6b8fd2; 
     --input-color: #808080;
+    --red-color: #FF0000;
 }
 
 body {
@@ -30,7 +30,7 @@ body {
     .settingEdit, .settingChange{
         z-index: 1000;
         position: absolute;
-        display: flex;
+        display: none;
         flex-direction: column;
         top: 50%;
         left: 50%;
@@ -38,13 +38,13 @@ body {
         background-color: var(--text-secondary);
         border-radius: 10px;        
         color: var(--primary);
-        padding: 10px 20px 10px 20px;
+        padding: 10px 20px 5px 20px;
         p:not(.settingInput p){
             text-align: center;
             font-size: 13px;
             margin: 5px 0px 5px 0px;
         }
-        .settingEditForm, .settingChangeForm{
+        #settingEditForm, #settingChangeForm{
             display: flex;
             align-items: center;
             justify-content: center;
@@ -144,7 +144,6 @@ body {
         width: 30px;
         height: 21px;
         cursor: pointer;
-
         .bar {
             display: flex;
             align-items: center;
@@ -229,6 +228,14 @@ body {
                 h2, h3{
                    margin: 2px;
                 }
+                #deleteButton{
+                    color: var(--text-secondary);
+                    background-color: var(--red-color);
+                    transition: color 0.5s ease-in-out;
+                    &:hover{
+                        color: var(--text);
+                    }
+                }
                 button{
                     font-size: 13px;
                     padding: 4px 7px 4px 7px;
@@ -240,7 +247,7 @@ body {
                     cursor: pointer;
                     transition: color 0.5s ease-in-out;
                     &:hover{
-                        color: var(--accent);
+                        color: var(--text);
                     }
                 }
             }
@@ -261,6 +268,14 @@ body {
                     border-radius: 10px;
                     background-color: var(--secondary);
                     color: white;
+                    #deleteButton{
+                        color: var(--text-secondary);
+                        background-color: var(--red-color);
+                        transition: color 0.5s ease-in-out;
+                        &:hover{
+                            color: var(--text);
+                        }
+                    }
                     button{
                         font-size: 13px;
                         padding: 4px 7px 4px 7px;
@@ -271,7 +286,7 @@ body {
                         cursor: pointer;
                         transition: color 0.5s ease-in-out;
                         &:hover{
-                            color: var(--secondary);
+                            color: var(--text);
                         }
                     }
                     p, h3{
@@ -315,6 +330,7 @@ body {
             label{
                 color: var(--primary);
                 font-size: 20px;
+                padding: 0px 0px 0px 5px;
             }
             input{
                 padding: 5px;
@@ -325,7 +341,8 @@ body {
                 color: var(--input-color);
             }
             select{
-                padding: 3px 5px 3px 5px;
+                font-size: 12.9px;
+                padding: 5px;
                 margin: 5px;
                 border-radius: 10px;
                 border: none;

@@ -132,13 +132,15 @@ async function userEdit(request, response){
 
 async function getGroupUsers(request, response){
     let getGroupUsers
+    let sqlStatement 
     let totalPoints = 0
     let totalTaskCompleted = 0
+    request.session.isLoggedIn === "eier" || request.session.isLoggedIn === "barn" ? sqlStatement = "usertype.role != 'eier'" : sqlStatement =  "usertype.role = 'barn'"
     let sqlUsers = db.prepare(
     `SELECT users.uuid, users.name, users.email, users.userStatus, usertype.role, users.usertype, users.points, users.taskCompleted
     FROM users
     INNER JOIN usertype ON users.usertype = usertype.ID
-    WHERE workgroup = ? and uuid != ?
+    WHERE workgroup = ? and uuid != ? and ${sqlStatement}
     `)
     let sqlGroup = db.prepare(`
     SELECT workgroup.uuid, workgroup.name AS groupName, users.name, workgroup.groupCode
@@ -318,28 +320,23 @@ async function genrateString(){
 async function updateUserInfo(request, response){
     const user = request.body
     const sqlCheckEmail = db.prepare("SELECT name, email FROM users WHERE email = ? and uuid != ?")
-    if(user.type === "setting"){
-        getEmail = sqlCheckEmail.all(user.email, request.session.userUuid)
-        if (getEmail.length !== 0){
-            response.send({responseMessage: "Email already in use!"})
-        } else {
+    let UUID = user.type === "setting" ? request.session.userUuid : user.uuid
+    getEmail = sqlCheckEmail.all(user.email, UUID)
+    if (getEmail.length !== 0){
+        response.send({responseMessage: "Email already in use!"})   
+    } else {
+        if(user.type === "setting"){
             let sqlUpdate = db.prepare("UPDATE users SET name = ?, email = ? WHERE uuid = ?")
             let updateUserInfo = sqlUpdate.run(user.name, user.email, request.session.userUuid) 
             response.send({responseMessage: "The user info is updated!"})
         }
-    }else if(user.type === "edit"){
-        getEmail = sqlCheckEmail.all(user.email, user.uuid)
-        if (getEmail.length !== 0){
-            response.send({responseMessage: "Email already in use!"})
-        } else {
+        else if(user.type === "edit"){
             let sqlUpdate = db.prepare("UPDATE users SET name = ?, email = ?, points = ?, taskCompleted = ? WHERE uuid = ?")
             let updateUserInfo = sqlUpdate.run(user.name, user.email, user.points, user.taskCompleted, user.uuid) 
             response.send({responseMessage: "The user info is updated!"})
-        }
-        
+        }  
     }
 }
-
 app.listen(3000, () => {
     console.log("Server is running on http://localhost:3000/login-page.html");
-});
+})
