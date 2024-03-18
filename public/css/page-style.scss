@@ -30,8 +30,6 @@ body {
     .settingEdit, .settingChange{
         z-index: 1000;
         position: absolute;
-        display: none;
-        flex-direction: column;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
@@ -44,7 +42,7 @@ body {
             font-size: 13px;
             margin: 5px 0px 5px 0px;
         }
-        #settingEditForm, #settingChangeForm{
+        .settingInput, .editInput{
             display: flex;
             align-items: center;
             justify-content: center;
@@ -228,28 +226,6 @@ body {
                 h2, h3{
                    margin: 2px;
                 }
-                #deleteButton{
-                    color: var(--text-secondary);
-                    background-color: var(--red-color);
-                    transition: color 0.5s ease-in-out;
-                    &:hover{
-                        color: var(--text);
-                    }
-                }
-                button{
-                    font-size: 13px;
-                    padding: 4px 7px 4px 7px;
-                    margin-top: 5px;
-                    border: none;
-                    border-radius: 10px;
-                    background-color: var(--text-secondary);
-                    color: var(--primary);
-                    cursor: pointer;
-                    transition: color 0.5s ease-in-out;
-                    &:hover{
-                        color: var(--text);
-                    }
-                }
             }
         }
         #activeDiv, #awatingDiv {
@@ -320,35 +296,6 @@ body {
                 &:hover{
                     color: var(--accent);
                 }
-            }
-        }
-        .filters{
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin-bottom: 5px;
-            label{
-                color: var(--primary);
-                font-size: 20px;
-                padding: 0px 0px 0px 5px;
-            }
-            input{
-                padding: 5px;
-                border-radius: 10px;
-                border: none;
-                margin: 5px;
-                background-color: var(--text-background-color);
-                color: var(--input-color);
-            }
-            select{
-                font-size: 12.9px;
-                padding: 5px;
-                margin: 5px;
-                border-radius: 10px;
-                border: none;
-                background-color: var(--text-background-color);
-                color: var(--input-color);
-            
             }
         }
 

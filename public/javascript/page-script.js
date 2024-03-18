@@ -28,7 +28,10 @@ function changePage(page) {
     Array.from(pagesDiv.children).forEach(div => {
         div.id === page ? div.style.display = 'block' : div.style.display = 'none';
     });
+<<<<<<< HEAD
     document.getElementById('page-title').innerText = page[0].toUpperCase() + page.slice(1) ;
+=======
+>>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
 }
 
 function changeUserPage(page) {
@@ -40,20 +43,33 @@ function changeUserPage(page) {
 
 document.getElementsByClassName('optionButton')[0].addEventListener('click', async function() {
     document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+<<<<<<< HEAD
     document.getElementsByClassName('settingChange')[0].style.display = 'flex'
+=======
+    let settingDiv = document.querySelector('.settingBackgroud');
+    Array.from(settingDiv.children).forEach(div => {
+        div.className === "settingChange" ? div.style.display = 'flex' : div.style.display = 'none';
+    });
+>>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
 })
 
 document.getElementById('settingCancel').addEventListener('click', function() {
     document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
     document.getElementsByClassName('settingChange')[0].style.display = 'none';
+<<<<<<< HEAD
     document.getElementById("settingResponseMessage").innerText = "";
+=======
+>>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
     document.getElementById("settingChangeForm").reset();
 });
 
 document.getElementById('editCancel').addEventListener('click', function() {
     document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
     document.getElementsByClassName('settingEdit')[0].style.display = 'none';
+<<<<<<< HEAD
     document.getElementById("settingResponseMessage").innerText = "";
+=======
+>>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
     document.getElementById("settingEditForm").reset();
 })
 
@@ -89,6 +105,7 @@ async function getGroupUsers() {
        <p>Owner:<span> ${groupData.createdBy}</span></p>
        <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
        <p>Total points collected: <span>${groupData.totalPoints}</span></p>
+<<<<<<< HEAD
        <div>
           <button onclick="editGroup('${groupData.uuid}')">Edit Group</button>
           <button id="deleteButton" onclick="purgeGroup('${groupData.uuid}')">Purge</button>
@@ -98,6 +115,10 @@ async function getGroupUsers() {
     let filterRole = document.getElementById("filterRole").value 
     let filterMost = document.getElementById("filterMost").value
     filterMost === "points" ? data.userInfo.sort((a, b) => b.points - a.points) : data.userInfo.sort((a, b) => b.taskCompleted - a.taskCompleted);
+=======
+       <button onclick="editGroup('${groupData.uuid}')">Edit Group</button>
+    </div>`
+>>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
     document.querySelector("#familiy .group").innerHTML = groupInfoDiv
     document.querySelector("#activeDiv .users").innerHTML = '';
     if(data.requestType === "eier" || data.requestType === "voksen"){
@@ -167,13 +188,20 @@ async function userAction(type, uuid){
         };
         let response = await fetch(`/getUserInfo`, requestOptions);
         let data = await response.json();
-        document.getElementById('editUserUuid').innerText = data[0].uuid;
+        document.getElementById('editUserUuid').innerText =data[0].uuid;
         document.getElementById('editName').placeholder = data[0].name;
         document.getElementById('editEmail').placeholder = data[0].email;
         document.getElementById('editPoints').placeholder = data[0].points;
         document.getElementById('editTaskCompleted').placeholder = data[0].taskCompleted;
         document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+<<<<<<< HEAD
         document.getElementsByClassName('settingEdit')[0].style.display = 'flex';
+=======
+        let settingDiv = document.querySelector('.settingBackgroud');
+        Array.from(settingDiv.children).forEach(div => {
+            div.className === "settingEdit" ? div.style.display = 'flex' : div.style.display = 'none';
+        });
+>>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
     } else if (type === "Delete" || type === "Confirm"){
         let methodType = type === "Delete" ? "POST" : "PUT";
         const requestOptions = {
