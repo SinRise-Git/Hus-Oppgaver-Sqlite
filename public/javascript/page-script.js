@@ -28,10 +28,7 @@ function changePage(page) {
     Array.from(pagesDiv.children).forEach(div => {
         div.id === page ? div.style.display = 'block' : div.style.display = 'none';
     });
-<<<<<<< HEAD
     document.getElementById('page-title').innerText = page[0].toUpperCase() + page.slice(1) ;
-=======
->>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
 }
 
 function changeUserPage(page) {
