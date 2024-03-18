@@ -23,40 +23,38 @@ navbarLinks.addEventListener('animationend', (event) => {
     isAnimating = false;
 });
 
-
 function changePage(page) {
-    document.getElementById("home").style.display = "none";
-    document.getElementById("tasks").style.display = "none";
-    document.getElementById("users").style.display = "none";
-    document.getElementById("shop").style.display = "none";
-    document.getElementById("leaderboard").style.display = "none";
-    document.getElementById(page).style.display = "block";
+    let pagesDiv = document.querySelector('.pages');
+    Array.from(pagesDiv.children).forEach(div => {
+        div.id === page ? div.style.display = 'block' : div.style.display = 'none';
+    });
 }
 
 function changeUserPage(page) {
-    document.getElementById("activeDiv").style.display = "none";
-    document.getElementById("awatingDiv").style.display = "none";
-    document.getElementById(page).style.display = "block";
+    let pagesDiv = document.querySelector('.userDiv');
+    Array.from(pagesDiv.children).forEach(div => {
+        div.id === page ? div.style.display = 'block' : div.style.display = 'none';
+    });
 }
 
 document.getElementsByClassName('optionButton')[0].addEventListener('click', async function() {
-    document.getElementsByClassName('settingDiv')[0].style.display = 'flex'
-});
+    document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+    let settingDiv = document.querySelector('.settingBackgroud');
+    Array.from(settingDiv.children).forEach(div => {
+        div.className === "settingChange" ? div.style.display = 'flex' : div.style.display = 'none';
+    });
+})
 
 document.getElementById('settingCancel').addEventListener('click', function() {
-    document.getElementsByClassName('settingDiv')[0].style.display = 'none';
-    document.getElementById("settingName").value = "";
-    document.getElementById("settingEmail").value = "";
-    document.getElementById("settingGroup").value = "";
-    document.getElementById("settingResponseMessage").innerText = "";
+    document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
+    document.getElementsByClassName('settingChange')[0].style.display = 'none';
+    document.getElementById("settingChangeForm").reset();
 });
 
 document.getElementById('editCancel').addEventListener('click', function() {
-    document.getElementsByClassName('editDiv')[0].style.display = 'none';
-    document.getElementById("editName").value = "";
-    document.getElementById("editEmail").value = "";
-    document.getElementById("editPoints").value = "";
-    document.getElementById("editTaskCompleted").value = "";
+    document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
+    document.getElementsByClassName('settingEdit')[0].style.display = 'none';
+    document.getElementById("settingEditForm").reset();
 })
 
 async function getUserInfo() {
@@ -78,19 +76,19 @@ async function getGroupUsers() {
     let countAwatingUsers = 0; 
     let response = await fetch('/getGroupUsers');
     let data = await response.json()
-    console.log(data);
     let groupData = data.groupInfo[0]
     let groupInfoDiv = `
 
     <div class="groupInfo">
-       <h2>Group Information</h2>
+       <h2>Familiy Information</h2>
        <h3>Invite code: ${groupData.groupCode}</h3>
        <p>Name: <span>${groupData.name}</span></p>
        <p>Owner:<span> ${groupData.createdBy}</span></p>
        <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
        <p>Total points collected: <span>${groupData.totalPoints}</span></p>
+       <button onclick="editGroup('${groupData.uuid}')">Edit Group</button>
     </div>`
-    document.querySelector("#users .group").innerHTML = groupInfoDiv
+    document.querySelector("#familiy .group").innerHTML = groupInfoDiv
     document.querySelector("#activeDiv .users").innerHTML = '';
     if(data.requestType === "eier" || data.requestType === "voksen"){
         document.querySelector("#awatingDiv .users").innerHTML = '';
@@ -154,13 +152,17 @@ async function userAction(type, uuid){
         };
         let response = await fetch(`/getUserInfo`, requestOptions);
         let data = await response.json();
-        document.getElementById('editUserUuid').innerText = data[0].uuid;
+        document.getElementById('editUserUuid').innerText =data[0].uuid;
         document.getElementById('editName').placeholder = data[0].name;
         document.getElementById('editEmail').placeholder = data[0].email;
         document.getElementById('editPoints').placeholder = data[0].points;
         document.getElementById('editTaskCompleted').placeholder = data[0].taskCompleted;
-        document.getElementsByClassName('editDiv')[0].style.display = "flex";
-    } else {
+        document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+        let settingDiv = document.querySelector('.settingBackgroud');
+        Array.from(settingDiv.children).forEach(div => {
+            div.className === "settingEdit" ? div.style.display = 'flex' : div.style.display = 'none';
+        });
+    } else if (type === "Delete" || type === "Confirm"){
         let methodType = type === "Delete" ? "POST" : "PUT";
         const requestOptions = {
             method: methodType,
@@ -262,6 +264,18 @@ document.getElementById('editConfirm').addEventListener('click', async function(
     }
 })
 
+async function getUserRoles() {
+    let response = await fetch('getUserRoles');
+    let data = await response.json();
+    let select = document.getElementById('filterRole');
+    data.forEach(role => {
+        let option = document.createElement('option');
+        option.value = role.id;
+        option.innerHTML = role.name;
+        select.appendChild(option);
+    });
+}
+
 document.getElementsByClassName('optionButton')[1].addEventListener('click', async function() {
     let response = await fetch('logout');
     let data = await response.json();
@@ -274,3 +288,4 @@ document.getElementsByClassName('optionButton')[1].addEventListener('click', asy
 
 getUserInfo();
 getGroupUsers();
+getUserRoles()

@@ -9,64 +9,65 @@
   <body>
     <div class="main">
       <div class="content">
-        <div class="editDiv">
-          <div class="changeEdit">
-            <div class="editInput">
-              <p id="editUserUuid"></p>
-              <form id="editUserForm">
-                <div class="name">
+        <div class="settingBackgroud">
+          <div class="settingEdit">
+            <p id="editUserUuid"></p>
+              <form id="settingEditForm">
+                <div>
                   <label for="editName">Name:</label>
                   <input type="text" id="editName">
                 </div>
-                <div class="email">
+                <div>
                   <label for="editEmail">Email:</label>
                   <input type="text" id="editEmail">
                 </div>
-                <div class="group">
+                <div>
                   <label for="editTaskCompleted">Tasks:</label>
                   <input type="text" id="editTaskCompleted">
                 </div>
-                <div class="points">
+                <div>
                   <label for="editPoints">Points:</label>
                   <input type="text" id="editPoints">
                 </div>
               </form>
-            </div>
             <div class="buttons">
               <button id="editConfirm">Confirm</button>
               <button id="editCancel">Cancel</button>
             </div>
-            <p id="editResponseMessage"></p>
+            <div class="responseMessage">
+              <p id="settingEditRepesone"></p>
+            </div>
           </div>
-        </div>
-        <div class="settingDiv">
-          <div class="changeSettings">
-            <div class="settingInput">
+            <div class="settingChange">
               <p id="settingUserUuid"></p>
-              <div class="name">
-                <label for="settingName">Name:</label>
-                <input type="text" id="settingName">
+              <form id="settingChangeForm">
+                <div>
+                  <label for="settingName">Name:</label>
+                  <input type="text" id="settingName">
+                </div>
+                <div>
+                  <label for="settingEmail">Email:</label>
+                  <input type="text" id="settingEmail">
+                </div>
+                <div>
+                  <label for="settingGroup">Group:</label>
+                  <input type="text" id="settingGroup" disabled>
+                </div>
+                <p>Eier cant change there group!</p>
+              </form>
+              <div class="buttons">
+                <button id="settingConfirm">Confirm</button>
+                <button id="settingCancel">Cancel</button>
               </div>
-              <div class="email">
-                <label for="settingEmail">Email:</label>
-                <input type="text" id="settingEmail">
+              <div class="settingResponse">
+                <p id="settingResponseMessage"></p>
               </div>
-              <div class="group">
-                <label for="settingGroup">Group:</label>
-                <input type="text" id="settingGroup" disabled>
-              </div>
-              <p>Eier cant change there group!</p>
             </div>
-            <div class="buttons">
-              <button id="settingConfirm">Confirm</button>
-              <button id="settingCancel">Cancel</button>
-            </div>
-            <p id="settingResponseMessage"></p>
           </div>
         </div>
         <nav class="navbar">
           <div class="brand-title">
-            <h1>Home</h1>
+            <h1 id="page-title">Home</h1>
           </div>
           <div class="toggle-button">
             <span class="bar"></span>
@@ -82,7 +83,7 @@
                 <button onclick="changePage('tasks')" class="optionPage">Tasks</button>
               </li>
               <li>
-                <button onclick="changePage('users')" class="optionPage">Users</button>
+                <button onclick="changePage('familiy')" class="optionPage">Family</button>
               </li>
               <li>
                 <button onclick="changePage('shop')" class="optionPage">Shop</button>
@@ -106,12 +107,20 @@
           <div id="tasks">
             <h1>Tasks</h1>
           </div>
-          <div id="users">
+          <div id="familiy">
             <div class="group">
             </div>
             <div class="buttons">
               <button onclick="changeUserPage('activeDiv')">Active Users</button>
               <button onclick="changeUserPage('awatingDiv')">Awating Users</button>
+            </div>
+            <div class="filters">
+              <label for="filterName">Search:</label>
+              <input type="text" id="filterName" placeholder="Search...">
+              <label for="filterRole">Role:</label>
+              <select id="filterRole">
+                <option value="all">All</option>
+              </select>
             </div>
             <div class="userDiv">
               <div id="activeDiv">
