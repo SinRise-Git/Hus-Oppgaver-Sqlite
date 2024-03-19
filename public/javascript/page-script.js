@@ -1,14 +1,13 @@
 const toggleButton = document.getElementsByClassName('toggle-button')[0];
 const navbarLinks = document.getElementsByClassName('navbar-links')[0];
 let isAnimating = false;
+let confirmDelete = false; 
 
 toggleButton.addEventListener('click', () => {
     if (isAnimating) {
         return;
     }
-
     isAnimating = true;
-
     if (navbarLinks.classList.contains('active')) {
         navbarLinks.style.animationName = 'pageOut';
     } else {
@@ -57,7 +56,14 @@ document.getElementById('editCancel').addEventListener('click', function() {
     document.getElementById("settingEditForm").reset();
 })
 
-
+if (document.getElementById('groupCancel')) {
+    document.getElementById('groupCancel').addEventListener('click', function() {
+        document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
+        document.getElementsByClassName('settingGroup')[0].style.display = 'none';
+        document.getElementById("settingGroupResponse").innerText = "";
+        document.getElementById("settingGroupForm").reset();
+    });
+}
 
 async function getUserInfo() {
     const requestOptions = {
@@ -78,27 +84,40 @@ document.getElementById('filterRole').addEventListener('change', getGroupUsers)
 document.getElementById('filterMost').addEventListener('change', getGroupUsers)
 
 async function getGroupUsers() {
+    let groupInfoDiv
     let countActiveUsers = 0;
     let countAwatingUsers = 0; 
     let response = await fetch('/getGroupUsers');
     let data = await response.json()
     let groupData = data.groupInfo[0]
-    let groupInfoDiv = `
-    <div class="groupInfo">
-       <h2>Familiy Information</h2>
-       <h3>Invite code: ${groupData.groupCode}</h3>
-       <p>Name: <span>${groupData.name}</span></p>
-       <p>Owner:<span> ${groupData.createdBy}</span></p>
-       <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
-       <p>Total points collected: <span>${groupData.totalPoints}</span></p>
-       <div class="buttons">
-          <button onClick="editGroup()">Edit Group</button>
-          <button onclikc="deleteGroup()">Purge</button>
-       </div>
-    </div>`
+    if(data.requestType === "eier"){
+        groupInfoDiv = `
+        <div class="groupInfo">
+           <h2>Familiy Information</h2>
+           <h3>Invite code: ${groupData.groupCode}</h3>
+           <p>Name: <span>${groupData.name}</span></p>
+           <p>Owner:<span> ${groupData.createdBy}</span></p>
+           <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
+           <p>Total points collected: <span>${groupData.totalPoints}</span></p>
+           <div class="buttons">
+              <button onclick="editGroup()">Edit Group</button>
+              <button id="deleteButtonGroup" onclick="deleteGroup()">Purge</button>
+           </div>
+        </div>`
+    } else if(data.requestType === "voksen" || data.requestType === "barn"){
+        groupInfoDiv = `
+        <div class="groupInfo">
+           <h2>Familiy Information</h2>
+           <h3>Invite code: ${groupData.groupCode}</h3>
+           <p>Name: <span>${groupData.name}</span></p>
+           <p>Owner:<span> ${groupData.createdBy}</span></p>
+           <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
+           <p>Total points collected: <span>${groupData.totalPoints}</span></p>
+        </div>`
+    }
     let filterSearch = document.getElementById("filterName").value.toLowerCase()
-    let filterRole = document.getElementById("filterRole").value 
-    let filterMost = document.getElementById("filterMost").value
+    let filterRoleElement = document.getElementById("filterRole");
+    let filterRole = filterRoleElement ? filterRoleElement.value : "all";    let filterMost = document.getElementById("filterMost").value
     filterMost === "points" ? data.userInfo.sort((a, b) => b.points - a.points) : data.userInfo.sort((a, b) => b.taskCompleted - a.taskCompleted);
     document.querySelector("#familiy .group").innerHTML = groupInfoDiv
     document.querySelector("#activeDiv .users").innerHTML = '';
@@ -194,10 +213,30 @@ async function userAction(type, uuid){
 async function editGroup(){
     document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
     document.getElementsByClassName('settingGroup')[0].style.display = 'flex'
-    let response = await fetch(`/getGroupName`);
+    let response = await fetch(`/getGroupUsers`);
     let data = await response.json()
+    document.getElementById('settingGroupUuid').innerText = data.groupInfo[0].uuid;
+    document.getElementById('editGroupName').placeholder = data.groupInfo[0].name;
+    document.getElementById('editOwner').placeholder = data.groupInfo[0].createdByUuid;
 }
 
+
+async function deleteGroup(){
+    document.getElementById('deleteButtonGroup').innerText = "You sure?"
+    if(confirmDelete === false){
+        confirmDelete = true;
+        setTimeout(() => {
+            confirmDelete = false;
+            document.getElementById('deleteButtonGroup').innerText = "Purge"
+        }, 5000);
+    } else if(confirmDelete === true){
+        let response = await fetch('/deleteGroup');
+        let data = await response.json();
+        if(data.responseMessage){
+            window.location.href = data.redirectUrl;
+        }
+    }
+}
 document.getElementById('settingConfirm').addEventListener('click', async function () {
     let settingName = document.getElementById("settingName");
     let settingEmail = document.getElementById("settingEmail");
@@ -251,7 +290,7 @@ document.getElementById('editConfirm').addEventListener('click', async function(
 
     const updateUser = {
         type: "edit",
-        uuid: document.getElementById('editUserUuid').innerText,
+        uuid: document.getElementById('settingEditUuid').innerText,
         name: newName,
         email: newEmail,
         taskCompleted: newTaskCompleted,
@@ -282,6 +321,46 @@ document.getElementById('editConfirm').addEventListener('click', async function(
     }
 })
 
+if(document.getElementById('groupConfirm')){
+    document.getElementById('groupConfirm').addEventListener('click', async function() {
+        let editGroupName = document.getElementById("editGroupName");
+        let editOwner = document.getElementById("editOwner");
+        let responseMessageDisplay = document.getElementById("settingGroupResponse");
+    
+        let newName = editGroupName.value !== "" ? editGroupName.value : editGroupName.placeholder;
+        let newOwner = editOwner.value !== "" ? editOwner.value : "NaN";
+    
+        const updateGroup = {
+            name: newName,
+            owner: newOwner,
+        };
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateGroup)
+        };
+        let response = await fetch('/updateGroupInfo', requestOptions)
+        let data = await response.json();
+    
+        if (data.responseMessage) {
+            responseMessageDisplay.style.display = "block"
+            responseMessageDisplay.innerText = data.responseMessage;
+            await getGroupUsers();
+            if (data.responseMessage === "The group info is updated!") {
+                responseMessageDisplay.style.color = "green"
+                editGroupName.placeholder = newName;  
+                document.getElementById("settingGroupForm").reset()
+            } else {
+                responseMessageDisplay.style.color = "red"
+            }
+        } else if(data.responseURL){
+            window.location.href = data.responseURL;
+        }
+    })
+}
+
+
+
 async function getUserRoles() {
     let response = await fetch('getUserRoles');
     let data = await response.json();
@@ -299,10 +378,8 @@ document.getElementsByClassName('optionButton')[1].addEventListener('click', asy
     let data = await response.json();
     if (data.redirectUrl) {
         window.location.href = data.redirectUrl;
-        getGroupUsers();
     }
 });
-
 
 getUserInfo();
 getGroupUsers();

@@ -5,7 +5,6 @@ const sqlite3 = require('better-sqlite3')
 const bcrypt = require('bcrypt')
 const dotenv = require('dotenv')
 const uuid = require('uuid');
-const { get } = require("http")
 
 dotenv.config();
 
@@ -54,11 +53,11 @@ app.post("/getUserInfo", getUserInfo)
 
 app.get("/getGroupUsers", getGroupUsers)
 
-app.get("/getGroupName", getGroupName)
-
 app.post("/userEdit", userEdit)
 
 app.post("/userDelete", userDelete)
+
+app.get("/groupDelete", groupDelete)
 
 app.put("/userConfirm", userConfirm)
 
@@ -68,6 +67,8 @@ app.post("/checkLogin", checkLogin)
 
 app.put("/updateUserInfo", updateUserInfo)
 
+app.put("/updateGroupInfo", updateGroupInfo)
+
 async function getUserRoles(request, response) {
     const sql = db.prepare('SELECT * FROM usertype WHERE ID <= 2')
     let rows = sql.all()
@@ -76,11 +77,6 @@ async function getUserRoles(request, response) {
         name: role.role
     }));
     response.send(roles)
-}
-
-async function logout(request, response){
-    request.session.destroy()
-    response.send({redirectUrl: 'login-page.html'})
 }
 
 async function getUserInfo(request, response){
@@ -116,25 +112,24 @@ async function getUserInfo(request, response){
 
 async function getGroupUsers(request, response){
     let getGroupUsers
-    let sqlStatement 
     let totalPoints = 0
     let totalTaskCompleted = 0
-    request.session.isLoggedIn === "eier" || request.session.isLoggedIn === "barn" ? sqlStatement = "usertype.role != 'eier'" : sqlStatement =  "usertype.role = 'barn'"
     let sqlUsers = db.prepare(
     `SELECT users.uuid, users.name, users.email, users.userStatus, usertype.role, users.usertype, users.points, users.taskCompleted
     FROM users
     INNER JOIN usertype ON users.usertype = usertype.ID
-    WHERE workgroup = ? and uuid != ? and ${sqlStatement}
+    WHERE workgroup = ? and uuid != ? and users.usertype != '3'
     `)
+
+    console.log(sqlUsers)
     let sqlGroup = db.prepare(`
-    SELECT workgroup.uuid, workgroup.name AS groupName, users.name, workgroup.groupCode
+    SELECT workgroup.id, workgroup.uuid, workgroup.name AS groupName, users.name, workgroup.groupCode, workgroup.createdBy 
     FROM workgroup 
     INNER JOIN users ON workgroup.createdBy = users.uuid
-    WHERE createdBy = ?
-    
+    WHERE workgroup.ID = ?
     `)
     let rowsUsers = sqlUsers.all(request.session.userWorkgroup, request.session.userUuid)
-    let rowsGroup = sqlGroup.all(request.session.userUuid)
+    let rowsGroup = sqlGroup.all(request.session.userWorkgroup)
     getGroupUsers = rowsUsers.map(user => ({
         uuid: user.uuid,
         name: user.name,
@@ -146,7 +141,7 @@ async function getGroupUsers(request, response){
         taskCompleted: user.taskCompleted,
     }));
     getGroupUsers.forEach(user => {
-        if (user.userRole !== "eier"){
+        if (user.roleId === 1){
             totalPoints += user.points
             totalTaskCompleted += user.taskCompleted
         }
@@ -156,6 +151,7 @@ async function getGroupUsers(request, response){
         name: group.groupName,
         groupCode: group.groupCode,
         createdBy: group.name,
+        createdByUuid: group.createdBy,
         totalPoints: totalPoints,
         totalTaskCompleted: totalTaskCompleted
     }));
@@ -164,13 +160,8 @@ async function getGroupUsers(request, response){
         userInfo: getGroupUsers,
         groupInfo: getGroupInfo,
     })
+    console.log(getGroupUsers)
 };
-
-async function getGroupName(request, response){
-    let sql = db.sql("SELECT name FROM workgroup WHERE createdBy = ?")
-    let rows = await sql.get(request.session.userUuid)
-    response.send(rows)
-}
 
 async function userEdit(request, response){
     let sql = db.prepare(
@@ -197,6 +188,18 @@ async function userConfirm(request, response){
     let sql = db.prepare("UPDATE users SET userStatus = 'true' WHERE uuid = ?")
     let editUser = sql.run(request.body.uuid)
     response.send({responseMessage: "The user is comfirmed!"})
+}
+
+
+async function groupDelete(request, response){
+    //db.transaction(() => {
+        //db.prepare("DELETE FROM tasks WHERE workgroup = ?").run(request.session.userWorkgroup);
+        //db.prepare("DELETE FROM shop WHERE workgroup = ?").run(request.session.userWorkgroup);
+        //db.prepare("DELETE FROM users WHERE wokrgroup = ?").run(request.session.userWorkgroup); 
+        //db.prepare("DELETE FROM group WHERE ID = ?").run(request.session.userWorkgroup);
+    //})();
+    //request.session.destroy()
+    //response.send({responseURL: "login-page.html"})
 }
 
 async function checkLogin(request, response){
@@ -340,6 +343,34 @@ async function updateUserInfo(request, response){
         }  
     }
 }
+
+async function updateGroupInfo(request, response){
+    const user = request.body
+    if (user.owner === "NaN"){
+        sqlUpdateGroup = db.prepare("UPDATE workgroup SET name = ? WHERE ID = ?")
+        let updateGroupName = sqlUpdateGroup.run(user.name, request.session.userWorkgroup)
+        response.send({responseMessage: "The group info is updated!"})
+    } else if(user.owner !== "NaN"){
+        let checkOwner = await checkAvailability("users", "uuid", user.owner)
+        if(checkOwner === true){
+            response.send({responseMessage: "There is no user with that email!" })
+        } else if(checkOwner === false){
+            db.transaction(() => {
+                db.prepare("UPDATE workgroup SET createdBy = ? WHERE ID = ?").run(user.owner, request.session.userWorkgroup);
+                db.prepare("UPDATE users SET usertype = ? WHERE uuid = ?").run(3, user.owner); 
+                db.prepare("UPDATE users SET usertype = ? WHERE uuid = ?").run(2, request.session.userUuid);
+            })();
+            request.session.destroy()
+            response.send({responseURL: "login-page.html"})
+        }
+    } 
+}
+
+async function logout(request, response){
+    request.session.destroy()
+    response.send({redirectUrl: 'login-page.html'})
+}
+
 app.listen(3000, () => {
     console.log("Server is running on http://localhost:3000/login-page.html");
 })

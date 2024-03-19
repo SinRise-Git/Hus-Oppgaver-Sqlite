@@ -40,7 +40,8 @@ body {
     .settingBackgroud .settingEdit p, .settingBackgroud .settingChange p, .settingBackgroud .settingGroup p {
       text-align: center;
       font-size: 13px;
-      margin: 5px 0px 5px 0px; }
+      margin: 5px 0px 5px 0px;
+      max-width: 250px; }
     .settingBackgroud .settingEdit #settingChangeForm, .settingBackgroud .settingEdit #settingEditForm, .settingBackgroud .settingEdit #settingGroupForm, .settingBackgroud .settingChange #settingChangeForm, .settingBackgroud .settingChange #settingEditForm, .settingBackgroud .settingChange #settingGroupForm, .settingBackgroud .settingGroup #settingChangeForm, .settingBackgroud .settingGroup #settingEditForm, .settingBackgroud .settingGroup #settingGroupForm {
       display: flex;
       align-items: center;
@@ -74,7 +75,7 @@ body {
         cursor: pointer;
         transition: color 0.5s ease-in-out; }
         .settingBackgroud .settingEdit .buttons button:hover, .settingBackgroud .settingChange .buttons button:hover, .settingBackgroud .settingGroup .buttons button:hover {
-          color: var(--accent); }
+          color: var(--text); }
 
 .navbar {
   padding: 0px 10px 0px 10px;
@@ -190,11 +191,11 @@ body {
       margin: 2px; }
     .pages #familiy .group .groupInfo .buttons {
       gap: 5px; }
-      .pages #familiy .group .groupInfo .buttons #deleteButton, .pages #familiy .group .groupInfo .buttons #deleteGroup {
+      .pages #familiy .group .groupInfo .buttons #deleteButton, .pages #familiy .group .groupInfo .buttons #deleteButtonGroup {
         color: var(--text-secondary);
         background-color: var(--red-color);
         transition: color 0.5s ease-in-out; }
-        .pages #familiy .group .groupInfo .buttons #deleteButton:hover, .pages #familiy .group .groupInfo .buttons #deleteGroup:hover {
+        .pages #familiy .group .groupInfo .buttons #deleteButton:hover, .pages #familiy .group .groupInfo .buttons #deleteButtonGroup:hover {
           color: var(--text); }
       .pages #familiy .group .groupInfo .buttons button {
         margin: 5px 0px 0px 0px;
