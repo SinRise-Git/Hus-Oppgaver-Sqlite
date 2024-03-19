@@ -53,7 +53,7 @@ document.getElementById('settingCancel').addEventListener('click', function() {
 document.getElementById('editCancel').addEventListener('click', function() {
     document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
     document.getElementsByClassName('settingEdit')[0].style.display = 'none';
-    document.getElementById("settingResponseMessage").innerText = "";
+    document.getElementById("settingEditResponse").innerText = "";
     document.getElementById("settingEditForm").reset();
 })
 
@@ -65,7 +65,7 @@ async function getUserInfo() {
     };
     let response = await fetch('getUserInfo', requestOptions);
     let data = await response.json();
-    document.getElementById('settingUserUuid').innerText = data[0].uuid;
+    document.getElementById('settingChangeUuid').innerText = data[0].uuid;
     document.getElementById('settingName').placeholder = data[0].name;
     document.getElementById('settingEmail').placeholder = data[0].email;
     document.getElementById('settingGroup').placeholder = data[0].workgroup;
@@ -167,8 +167,8 @@ async function userAction(type, uuid){
         };
         let response = await fetch(`/getUserInfo`, requestOptions);
         let data = await response.json();
-        document.getElementById('editUserUuid').innerText =data[0].uuid;
-        document.getElementById('E').placeholder = data[0].name;
+        document.getElementById('settingEditUuid').innerText = data[0].uuid;
+        document.getElementById('editName').placeholder = data[0].name;
         document.getElementById('editEmail').placeholder = data[0].email;
         document.getElementById('editPoints').placeholder = data[0].points;
         document.getElementById('editTaskCompleted').placeholder = data[0].taskCompleted;
@@ -219,8 +219,8 @@ document.getElementById('settingConfirm').addEventListener('click', async functi
         responseMessageDisplay.style.display = "block"
         responseMessageDisplay.innerText = data.responseMessage;
         if (data.responseMessage === "The user info is updated!") {
-            getUserInfo()
             responseMessageDisplay.style.color = "green"
+            await getUserInfo()
             document.getElementById("settingChangeForm").reset()
         } else {
             responseMessageDisplay.style.color = "red"
@@ -294,6 +294,7 @@ document.getElementsByClassName('optionButton')[1].addEventListener('click', asy
         getGroupUsers();
     }
 });
+
 
 getUserInfo();
 getGroupUsers();

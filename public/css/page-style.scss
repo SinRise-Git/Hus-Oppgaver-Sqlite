@@ -37,6 +37,8 @@ body {
         border-radius: 10px;        
         color: var(--primary);
         padding: 10px 20px 5px 20px;
+        display: flex;
+        flex-direction: column;
         p:not(.settingInput p){
             text-align: center;
             font-size: 13px;
@@ -298,7 +300,34 @@ body {
                 }
             }
         }
-
+        .filters{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 5px; 
+            label{
+                color: var(--primary);
+                font-size: 20px;
+                padding: 0px 0px 0px 5px; 
+            }
+            input{
+                padding: 5px;
+                border-radius: 10px;
+                border: none;
+                margin: 5px;
+                background-color: var(--text-background-color);
+                color: var(--input-color);          
+            }
+            select{
+                font-size: 12.9px;
+                padding: 3px 5px 3px 5px;       
+                margin: 5px;
+                border-radius: 10px;
+                border: none;
+                background-color: var(--text-background-color);
+                color: var(--input-color); 
+            }
+        }
     }
 }
 @keyframes pageIn {

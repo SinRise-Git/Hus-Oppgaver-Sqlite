@@ -27,32 +27,32 @@ body {
   .settingBackgroud .settingEdit, .settingBackgroud .settingChange {
     z-index: 1000;
     position: absolute;
-    display: flex;
-    flex-direction: column;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     background-color: var(--text-secondary);
     border-radius: 10px;
     color: var(--primary);
-    padding: 10px 20px 5px 20px; }
+    padding: 10px 20px 5px 20px;
+    display: flex;
+    flex-direction: column; }
     .settingBackgroud .settingEdit p, .settingBackgroud .settingChange p {
       text-align: center;
       font-size: 13px;
       margin: 5px 0px 5px 0px; }
-    .settingBackgroud .settingEdit #settingEditForm, .settingBackgroud .settingEdit #settingChangeForm, .settingBackgroud .settingChange #settingEditForm, .settingBackgroud .settingChange #settingChangeForm {
+    .settingBackgroud .settingEdit .settingInput, .settingBackgroud .settingEdit .editInput, .settingBackgroud .settingChange .settingInput, .settingBackgroud .settingChange .editInput {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column; }
-      .settingBackgroud .settingEdit #settingEditForm input, .settingBackgroud .settingEdit #settingChangeForm input, .settingBackgroud .settingChange #settingEditForm input, .settingBackgroud .settingChange #settingChangeForm input {
+      .settingBackgroud .settingEdit .settingInput input, .settingBackgroud .settingEdit .editInput input, .settingBackgroud .settingChange .settingInput input, .settingBackgroud .settingChange .editInput input {
         color: var(--input-color);
         margin-bottom: 5px;
         padding: 5px;
         border-radius: 10px;
         border: none;
         background-color: var(--text-background-color); }
-      .settingBackgroud .settingEdit #settingEditForm p, .settingBackgroud .settingEdit #settingChangeForm p, .settingBackgroud .settingChange #settingEditForm p, .settingBackgroud .settingChange #settingChangeForm p {
+      .settingBackgroud .settingEdit .settingInput p, .settingBackgroud .settingEdit .editInput p, .settingBackgroud .settingChange .settingInput p, .settingBackgroud .settingChange .editInput p {
         color: var(--primary);
         font-size: 13px;
         margin: 10px 0px 10px 0px;
@@ -186,31 +186,6 @@ body {
         font-weight: bolder; }
     .pages #familiy .group .groupInfo h2, .pages #familiy .group .groupInfo h3 {
       margin: 2px; }
-<<<<<<< HEAD
-    .pages #familiy .group .groupInfo #deleteButton {
-      color: var(--text-secondary);
-      background-color: var(--red-color);
-      transition: color 0.5s ease-in-out; }
-      .pages #familiy .group .groupInfo #deleteButton:hover {
-        color: var(--text); }
-=======
->>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
-    .pages #familiy .group .groupInfo button {
-      font-size: 13px;
-      padding: 4px 7px 4px 7px;
-      margin-top: 5px;
-      border: none;
-      border-radius: 10px;
-      background-color: var(--text-secondary);
-      color: var(--primary);
-      cursor: pointer;
-      transition: color 0.5s ease-in-out; }
-      .pages #familiy .group .groupInfo button:hover {
-<<<<<<< HEAD
-        color: var(--text); }
-=======
-        color: var(--accent); }
->>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
 
 .pages #familiy #activeDiv, .pages #familiy #awatingDiv {
   background-color: var(--text-background-color);
@@ -227,15 +202,12 @@ body {
       border-radius: 10px;
       background-color: var(--secondary);
       color: white; }
-<<<<<<< HEAD
       .pages #familiy #activeDiv .users div #deleteButton, .pages #familiy #awatingDiv .users div #deleteButton {
         color: var(--text-secondary);
         background-color: var(--red-color);
         transition: color 0.5s ease-in-out; }
         .pages #familiy #activeDiv .users div #deleteButton:hover, .pages #familiy #awatingDiv .users div #deleteButton:hover {
           color: var(--text); }
-=======
->>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
       .pages #familiy #activeDiv .users div button, .pages #familiy #awatingDiv .users div button {
         font-size: 13px;
         padding: 4px 7px 4px 7px;
@@ -246,11 +218,7 @@ body {
         cursor: pointer;
         transition: color 0.5s ease-in-out; }
         .pages #familiy #activeDiv .users div button:hover, .pages #familiy #awatingDiv .users div button:hover {
-<<<<<<< HEAD
           color: var(--text); }
-=======
-          color: var(--secondary); }
->>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
       .pages #familiy #activeDiv .users div p, .pages #familiy #activeDiv .users div h3, .pages #familiy #awatingDiv .users div p, .pages #familiy #awatingDiv .users div h3 {
         margin: 5px; }
       .pages #familiy #activeDiv .users div #userUuid, .pages #familiy #awatingDiv .users div #userUuid {
@@ -282,12 +250,8 @@ body {
   margin-bottom: 5px; }
   .pages #familiy .filters label {
     color: var(--primary);
-<<<<<<< HEAD
     font-size: 20px;
     padding: 0px 0px 0px 5px; }
-=======
-    font-size: 20px; }
->>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
   .pages #familiy .filters input {
     padding: 5px;
     border-radius: 10px;
@@ -296,12 +260,8 @@ body {
     background-color: var(--text-background-color);
     color: var(--input-color); }
   .pages #familiy .filters select {
-<<<<<<< HEAD
     font-size: 12.9px;
-    padding: 5px;
-=======
     padding: 3px 5px 3px 5px;
->>>>>>> da585a4a89a1e75ba56d853dfc2b7f42ae8f04c9
     margin: 5px;
     border-radius: 10px;
     border: none;

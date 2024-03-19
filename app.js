@@ -52,8 +52,6 @@ app.get("/logout",  logout)
 
 app.post("/getUserInfo", getUserInfo)
 
-app.get("/userEdit", userEdit)
-
 app.get("/getGroupUsers", getGroupUsers)
 
 app.post("/userEdit", userEdit)
@@ -114,22 +112,6 @@ async function getUserInfo(request, response){
     response.send(getUserInfo)
 }
 
-async function userEdit(request, response){
-    let sql = db.prepare(
-    `SELECT users.uuid, users.name, users.email, users.points, users.taskCompleted
-    FROM users 
-    WHERE uuid = ?
-    `)
-    let rows = sql.all(response.body.uuid)
-    let getUserEditInfo = rows.map(user => ({
-        uuid: user.uuid,
-        name: user.name,
-        points: user.points,
-        taskCompleted: user.taskCompleted,
-    }));
-    response.send(getUserEditInfo)
-}
-
 async function getGroupUsers(request, response){
     let getGroupUsers
     let sqlStatement 
@@ -182,6 +164,21 @@ async function getGroupUsers(request, response){
     })
 };
 
+async function userEdit(request, response){
+    let sql = db.prepare(
+    `SELECT users.uuid, users.name, users.email, users.points, users.taskCompleted
+    FROM users 
+    WHERE uuid = ?
+    `)
+    let rows = sql.all(response.body.uuid)
+    let getUserEditInfo = rows.map(user => ({
+        uuid: user.uuid,
+        name: user.name,
+        points: user.points,
+        taskCompleted: user.taskCompleted,
+    }));
+    response.send(getUserEditInfo)
+}
 
 async function userDelete(request, response){
     let sql = db.prepare("DELETE FROM users WHERE uuid = ?")
@@ -193,8 +190,6 @@ async function userConfirm(request, response){
     let editUser = sql.run(request.body.uuid)
     response.send({responseMessage: "The user is comfirmed!"})
 }
-
-
 
 async function checkLogin(request, response){
     const user = request.body.userCredentials
