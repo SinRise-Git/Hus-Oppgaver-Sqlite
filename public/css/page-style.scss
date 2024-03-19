@@ -44,25 +44,28 @@ body {
             font-size: 13px;
             margin: 5px 0px 5px 0px;
         }
-        .settingInput, .editInput{
+        #settingChangeForm, #settingEditForm{
             display: flex;
             align-items: center;
             justify-content: center;
-            flex-direction: column;
-            input{
-                color: var(--input-color);
-                margin-bottom: 5px;
-                padding: 5px;
-                border-radius: 10px;
-                border: none;
-                background-color: var(--text-background-color);
-            }
-            p{
-                color: var(--primary);
-                font-size: 13px;
-                margin: 10px 0px 10px 0px;
-                text-align: center;
-                display: block;
+            flex-direction: column;;
+            div{
+                input{
+                    color: var(--input-color);
+                    margin-bottom: 5px;
+                    padding: 5px;
+                    border-radius: 10px;
+                    border: none;
+                    background-color: var(--text-background-color);
+                }
+                p{
+                    color: var(--primary);
+                    font-size: 13px;
+                    margin: 10px 0px 10px 0px;
+                    text-align: center;
+                    display: block;
+                }
+
             }
         }
         .buttons{

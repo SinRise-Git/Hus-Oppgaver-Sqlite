@@ -40,19 +40,19 @@ body {
       text-align: center;
       font-size: 13px;
       margin: 5px 0px 5px 0px; }
-    .settingBackgroud .settingEdit .settingInput, .settingBackgroud .settingEdit .editInput, .settingBackgroud .settingChange .settingInput, .settingBackgroud .settingChange .editInput {
+    .settingBackgroud .settingEdit #settingChangeForm, .settingBackgroud .settingEdit #settingEditForm, .settingBackgroud .settingChange #settingChangeForm, .settingBackgroud .settingChange #settingEditForm {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column; }
-      .settingBackgroud .settingEdit .settingInput input, .settingBackgroud .settingEdit .editInput input, .settingBackgroud .settingChange .settingInput input, .settingBackgroud .settingChange .editInput input {
+      .settingBackgroud .settingEdit #settingChangeForm div input, .settingBackgroud .settingEdit #settingEditForm div input, .settingBackgroud .settingChange #settingChangeForm div input, .settingBackgroud .settingChange #settingEditForm div input {
         color: var(--input-color);
         margin-bottom: 5px;
         padding: 5px;
         border-radius: 10px;
         border: none;
         background-color: var(--text-background-color); }
-      .settingBackgroud .settingEdit .settingInput p, .settingBackgroud .settingEdit .editInput p, .settingBackgroud .settingChange .settingInput p, .settingBackgroud .settingChange .editInput p {
+      .settingBackgroud .settingEdit #settingChangeForm div p, .settingBackgroud .settingEdit #settingEditForm div p, .settingBackgroud .settingChange #settingChangeForm div p, .settingBackgroud .settingChange #settingEditForm div p {
         color: var(--primary);
         font-size: 13px;
         margin: 10px 0px 10px 0px;
