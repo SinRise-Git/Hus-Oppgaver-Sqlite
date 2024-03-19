@@ -57,6 +57,8 @@ document.getElementById('editCancel').addEventListener('click', function() {
     document.getElementById("settingEditForm").reset();
 })
 
+
+
 async function getUserInfo() {
     const requestOptions = {
         method: "POST",
@@ -90,8 +92,8 @@ async function getGroupUsers() {
        <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
        <p>Total points collected: <span>${groupData.totalPoints}</span></p>
        <div class="buttons">
-          <button onclick="editGroup('${groupData.uuid}')">Edit Group</button>
-          <button id="deleteButton" onclick="purgeGroup('${groupData.uuid}')">Purge</button>
+          <button onClick="editGroup()">Edit Group</button>
+          <button onclikc="deleteGroup()">Purge</button>
        </div>
     </div>`
     let filterSearch = document.getElementById("filterName").value.toLowerCase()
@@ -187,7 +189,13 @@ async function userAction(type, uuid){
             getGroupUsers();
         }
     }
-    
+}
+
+async function editGroup(){
+    document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+    document.getElementsByClassName('settingGroup')[0].style.display = 'flex'
+    let response = await fetch(`/getGroupName`);
+    let data = await response.json()
 }
 
 document.getElementById('settingConfirm').addEventListener('click', async function () {

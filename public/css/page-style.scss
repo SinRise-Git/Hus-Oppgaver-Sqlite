@@ -235,7 +235,7 @@ body {
                 }
                 .buttons{
                     gap: 5px;
-                    #deleteButton{
+                    #deleteButton, #deleteGroup{
                         color: var(--text-secondary);
                         background-color: var(--red-color);
                         transition: color 0.5s ease-in-out;

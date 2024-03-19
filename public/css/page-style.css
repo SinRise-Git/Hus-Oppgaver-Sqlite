@@ -190,11 +190,11 @@ body {
       margin: 2px; }
     .pages #familiy .group .groupInfo .buttons {
       gap: 5px; }
-      .pages #familiy .group .groupInfo .buttons #deleteButton {
+      .pages #familiy .group .groupInfo .buttons #deleteButton, .pages #familiy .group .groupInfo .buttons #deleteGroup {
         color: var(--text-secondary);
         background-color: var(--red-color);
         transition: color 0.5s ease-in-out; }
-        .pages #familiy .group .groupInfo .buttons #deleteButton:hover {
+        .pages #familiy .group .groupInfo .buttons #deleteButton:hover, .pages #familiy .group .groupInfo .buttons #deleteGroup:hover {
           color: var(--text); }
       .pages #familiy .group .groupInfo .buttons button {
         margin: 5px 0px 0px 0px;

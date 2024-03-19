@@ -54,6 +54,8 @@ app.post("/getUserInfo", getUserInfo)
 
 app.get("/getGroupUsers", getGroupUsers)
 
+app.get("/getGroupName", getGroupName)
+
 app.post("/userEdit", userEdit)
 
 app.post("/userDelete", userDelete)
@@ -163,6 +165,12 @@ async function getGroupUsers(request, response){
         groupInfo: getGroupInfo,
     })
 };
+
+async function getGroupName(request, response){
+    let sql = db.sql("SELECT name FROM workgroup WHERE createdBy = ?")
+    let rows = await sql.get(request.session.userUuid)
+    response.send(rows)
+}
 
 async function userEdit(request, response){
     let sql = db.prepare(
