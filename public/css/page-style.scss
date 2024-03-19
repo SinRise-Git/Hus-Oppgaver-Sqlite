@@ -5,6 +5,7 @@
     --background: #f5f6f9;
     --primary: #6380b4;
     --primary-rgba: 99, 128, 180;
+    --secondary-rgba: 99, 128, 180;
     --secondary: #98aed7;
     --accent: #6b8fd2; 
     --input-color: #808080;
@@ -27,7 +28,7 @@ body {
     height: 100%;
     background: rgba(var(--primary-rgba), 0.75);
     z-index: 999;
-    .settingEdit, .settingChange{
+    .settingEdit, .settingChange, .settingGroup{
         z-index: 1000;
         position: absolute;
         top: 50%;
@@ -37,14 +38,14 @@ body {
         border-radius: 10px;        
         color: var(--primary);
         padding: 10px 20px 5px 20px;
-        display: flex;
+        display: none;
         flex-direction: column;
         p:not(.settingInput p){
             text-align: center;
             font-size: 13px;
             margin: 5px 0px 5px 0px;
         }
-        #settingChangeForm, #settingEditForm{
+        #settingChangeForm, #settingEditForm, #settingGroupForm{
             display: flex;
             align-items: center;
             justify-content: center;
@@ -187,6 +188,7 @@ body {
             display: flex;
             position: absolute;
             z-index: 9; 
+            background-color: var(--secondary);
             background-color: rgba(var(--secondary-rgba), 0.75);
             top: 54px;
             right: 0px;
@@ -230,6 +232,31 @@ body {
                 }
                 h2, h3{
                    margin: 2px;
+                }
+                .buttons{
+                    gap: 5px;
+                    #deleteButton{
+                        color: var(--text-secondary);
+                        background-color: var(--red-color);
+                        transition: color 0.5s ease-in-out;
+                        &:hover{
+                            color: var(--text);
+                        }
+                    }
+                    button{
+                        margin: 5px 0px 0px 0px;
+                        font-size: 13px;
+                        padding: 4px 7px 4px 7px;
+                        border: none;
+                        border-radius: 10px;
+                        background-color: var(--text-secondary);
+                        color: var(--accent);
+                        cursor: pointer;
+                        transition: color 0.5s ease-in-out;
+                        &:hover{
+                            color: var(--text);
+                        }
+                    }
                 }
             }
         }

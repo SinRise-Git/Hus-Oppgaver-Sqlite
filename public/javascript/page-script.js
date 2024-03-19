@@ -89,7 +89,7 @@ async function getGroupUsers() {
        <p>Owner:<span> ${groupData.createdBy}</span></p>
        <p>Total tasks completed: <span>${groupData.totalTaskCompleted}</span></p>
        <p>Total points collected: <span>${groupData.totalPoints}</span></p>
-       <div>
+       <div class="buttons">
           <button onclick="editGroup('${groupData.uuid}')">Edit Group</button>
           <button id="deleteButton" onclick="purgeGroup('${groupData.uuid}')">Purge</button>
        </div>

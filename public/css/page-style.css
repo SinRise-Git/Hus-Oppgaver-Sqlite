@@ -5,6 +5,7 @@
   --background: #f5f6f9;
   --primary: #6380b4;
   --primary-rgba: 99, 128, 180;
+  --secondary-rgba: 99, 128, 180;
   --secondary: #98aed7;
   --accent: #6b8fd2;
   --input-color: #808080;
@@ -24,7 +25,7 @@ body {
   height: 100%;
   background: rgba(var(--primary-rgba), 0.75);
   z-index: 999; }
-  .settingBackgroud .settingEdit, .settingBackgroud .settingChange {
+  .settingBackgroud .settingEdit, .settingBackgroud .settingChange, .settingBackgroud .settingGroup {
     z-index: 1000;
     position: absolute;
     top: 50%;
@@ -34,35 +35,35 @@ body {
     border-radius: 10px;
     color: var(--primary);
     padding: 10px 20px 5px 20px;
-    display: flex;
+    display: none;
     flex-direction: column; }
-    .settingBackgroud .settingEdit p, .settingBackgroud .settingChange p {
+    .settingBackgroud .settingEdit p, .settingBackgroud .settingChange p, .settingBackgroud .settingGroup p {
       text-align: center;
       font-size: 13px;
       margin: 5px 0px 5px 0px; }
-    .settingBackgroud .settingEdit #settingChangeForm, .settingBackgroud .settingEdit #settingEditForm, .settingBackgroud .settingChange #settingChangeForm, .settingBackgroud .settingChange #settingEditForm {
+    .settingBackgroud .settingEdit #settingChangeForm, .settingBackgroud .settingEdit #settingEditForm, .settingBackgroud .settingEdit #settingGroupForm, .settingBackgroud .settingChange #settingChangeForm, .settingBackgroud .settingChange #settingEditForm, .settingBackgroud .settingChange #settingGroupForm, .settingBackgroud .settingGroup #settingChangeForm, .settingBackgroud .settingGroup #settingEditForm, .settingBackgroud .settingGroup #settingGroupForm {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column; }
-      .settingBackgroud .settingEdit #settingChangeForm div input, .settingBackgroud .settingEdit #settingEditForm div input, .settingBackgroud .settingChange #settingChangeForm div input, .settingBackgroud .settingChange #settingEditForm div input {
+      .settingBackgroud .settingEdit #settingChangeForm div input, .settingBackgroud .settingEdit #settingEditForm div input, .settingBackgroud .settingEdit #settingGroupForm div input, .settingBackgroud .settingChange #settingChangeForm div input, .settingBackgroud .settingChange #settingEditForm div input, .settingBackgroud .settingChange #settingGroupForm div input, .settingBackgroud .settingGroup #settingChangeForm div input, .settingBackgroud .settingGroup #settingEditForm div input, .settingBackgroud .settingGroup #settingGroupForm div input {
         color: var(--input-color);
         margin-bottom: 5px;
         padding: 5px;
         border-radius: 10px;
         border: none;
         background-color: var(--text-background-color); }
-      .settingBackgroud .settingEdit #settingChangeForm div p, .settingBackgroud .settingEdit #settingEditForm div p, .settingBackgroud .settingChange #settingChangeForm div p, .settingBackgroud .settingChange #settingEditForm div p {
+      .settingBackgroud .settingEdit #settingChangeForm div p, .settingBackgroud .settingEdit #settingEditForm div p, .settingBackgroud .settingEdit #settingGroupForm div p, .settingBackgroud .settingChange #settingChangeForm div p, .settingBackgroud .settingChange #settingEditForm div p, .settingBackgroud .settingChange #settingGroupForm div p, .settingBackgroud .settingGroup #settingChangeForm div p, .settingBackgroud .settingGroup #settingEditForm div p, .settingBackgroud .settingGroup #settingGroupForm div p {
         color: var(--primary);
         font-size: 13px;
         margin: 10px 0px 10px 0px;
         text-align: center;
         display: block; }
-    .settingBackgroud .settingEdit .buttons, .settingBackgroud .settingChange .buttons {
+    .settingBackgroud .settingEdit .buttons, .settingBackgroud .settingChange .buttons, .settingBackgroud .settingGroup .buttons {
       display: flex;
       align-items: center;
       justify-content: center; }
-      .settingBackgroud .settingEdit .buttons button, .settingBackgroud .settingChange .buttons button {
+      .settingBackgroud .settingEdit .buttons button, .settingBackgroud .settingChange .buttons button, .settingBackgroud .settingGroup .buttons button {
         font-size: 15px;
         background-color: var(--secondary);
         color: var(--text-secondary);
@@ -72,7 +73,7 @@ body {
         border-radius: 10px;
         cursor: pointer;
         transition: color 0.5s ease-in-out; }
-        .settingBackgroud .settingEdit .buttons button:hover, .settingBackgroud .settingChange .buttons button:hover {
+        .settingBackgroud .settingEdit .buttons button:hover, .settingBackgroud .settingChange .buttons button:hover, .settingBackgroud .settingGroup .buttons button:hover {
           color: var(--accent); }
 
 .navbar {
@@ -151,6 +152,7 @@ body {
         display: flex;
         position: absolute;
         z-index: 9;
+        background-color: var(--secondary);
         background-color: rgba(var(--secondary-rgba), 0.75);
         top: 54px;
         right: 0px;
@@ -186,6 +188,26 @@ body {
         font-weight: bolder; }
     .pages #familiy .group .groupInfo h2, .pages #familiy .group .groupInfo h3 {
       margin: 2px; }
+    .pages #familiy .group .groupInfo .buttons {
+      gap: 5px; }
+      .pages #familiy .group .groupInfo .buttons #deleteButton {
+        color: var(--text-secondary);
+        background-color: var(--red-color);
+        transition: color 0.5s ease-in-out; }
+        .pages #familiy .group .groupInfo .buttons #deleteButton:hover {
+          color: var(--text); }
+      .pages #familiy .group .groupInfo .buttons button {
+        margin: 5px 0px 0px 0px;
+        font-size: 13px;
+        padding: 4px 7px 4px 7px;
+        border: none;
+        border-radius: 10px;
+        background-color: var(--text-secondary);
+        color: var(--accent);
+        cursor: pointer;
+        transition: color 0.5s ease-in-out; }
+        .pages #familiy .group .groupInfo .buttons button:hover {
+          color: var(--text); }
 
 .pages #familiy #activeDiv, .pages #familiy #awatingDiv {
   background-color: var(--text-background-color);
