@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Voksen</title>
+    <title>Eier</title>
     <link rel="stylesheet" href="./css/page-style.css">
   </head>
   <body>
@@ -51,9 +51,9 @@
                 </div>
                 <div>
                   <label for="settingGroup">Group:</label>
-                  <input type="text" id="settingGroup">
+                  <input type="text" id="settingGroup" disabled>
                 </div>
-                <p>If you change your group you will be logged out, and your account wil be deactivated!</p>
+                <p>If you change your group you will be logged out, and your account will have to be reativated!</p>
               </form>
               <div class="buttons">
                 <button id="settingConfirm">Confirm</button>
@@ -63,7 +63,59 @@
                 <p id="settingResponseMessage"></p>
               </div>
             </div>
-          </div>
+            <div class="settingTaskCreate">
+                <form id="settingTaskCreateForm">
+                  <h1>Create task</h1>
+                  <div>
+                    <label for="taskCreateName">Name:</label>
+                    <input type="text" id="taskCreateName" placeholder="Name...">
+                  </div>
+                  <div>
+                    <label for="taskCreateDescription">Desc:</label>
+                    <input type="text" id="taskCreateDescription" placeholder="Description..">
+                  </div>
+                  <div>
+                    <label for="taskCreatePoints">Points:</label>
+                    <input type="number" id="taskCreatePoints" placeholder="Points..." >
+                  </div>
+                  <div>
+                    <label for="taskCreateAssigned">Assigned:</label>
+                    <input type="text" id="taskCreateAssigned" placeholder="Use UUID...">
+                  </div>
+                  <p>If you assigned empty anyone can do the task, and if you want to give it to someone use there UUID.</p>
+                </form>
+              <div class="buttons">
+                <button id="taskCreateConfirm">Confirm</button>
+                <button id="taskCreateCancel">Cancel</button>
+              </div>
+              <div class="responseMessage">
+                <p id="settingTaskCreateResponse"></p>
+              </div>
+            </div>
+            <div class="settingTaskEdit">
+              <p id="settingTaskEditUuid"></p>
+                <form id="settingTaskEditForm">
+                  <div>
+                    <label for="taskEditName">Name:</label>
+                    <input type="text" id="taskEditName">
+                  </div>
+                  <div>
+                    <label for="taskEditDescription">Desc:</label>
+                    <input type="text" id="taskEditDescription">
+                  </div>
+                  <div>
+                    <label for="taskEditPoints">Points:</label>
+                    <input type="text" id="taskEditPoints">
+                  </div>
+                </form>
+              <div class="buttons">
+                <button id="taskEditConfirm">Confirm</button>
+                <button id="taskEditCancel">Cancel</button>
+              </div>
+              <div class="responseMessage">
+                <p id="settingTaskEdit"></p>
+              </div>
+            </div>
         </div>
         <nav class="navbar">
           <div class="brand-title">
@@ -83,7 +135,7 @@
                 <button onclick="changePage('tasks')" class="optionPage">Tasks</button>
               </li>
               <li>
-                <button onclick="changePage('familiy')" class="optionPage">Family</button>
+                <button onclick="changePage('familiy')" class="optionPage">Familiy</button>
               </li>
               <li>
                 <button onclick="changePage('shop')" class="optionPage">Shop</button>
@@ -105,7 +157,42 @@
             <h1>Home</h1>
           </div>
           <div id="tasks">
-            <h1>Tasks</h1>
+            <div class="userInformation">
+            </div>
+            <div class="buttons">
+              <button onclick="changeGroupPage('activeDiv')">Active Tasks</button>
+              <button onclick="changeGroupPage('awatingDiv')">Awating Tasks</button>
+              <button onclick="changeGroupPage('completedDiv')">Completed Tasks</button>
+            </div>
+            <div class="filtes">
+
+            </div>
+            <div class="groupTasks"> 
+              <div id="activeDiv">
+                <h1>Active tasks: <span id="activeTasksCount"></span>
+                </h1>
+                <div class="addTask">
+                  <button id="addTaskButton">Add task</button>
+                </div>
+                <div class="tasks">
+
+                </div>
+              </div>
+              <div id="awatingDiv">
+                <h1>Awating tasks: <span id="awatingTasksCount"></span>
+                </h1>
+                <div class="tasks">
+
+                </div>
+              </div>
+              <div id="completedDiv">
+                <h1>Completed tasks: <span id="completedTasksCount"></span>
+                </h1>
+                <div class="tasks">
+
+                </div>
+              </div>
+            </div>
           </div>
           <div id="familiy">
             <div class="group">

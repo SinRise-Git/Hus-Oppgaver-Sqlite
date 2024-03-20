@@ -64,12 +64,14 @@ document.getElementById('settingCancel').addEventListener('click', function() {
     document.getElementById("settingChangeForm").reset();
 });
 
-document.getElementById('editCancel').addEventListener('click', function() {
-    document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
-    document.getElementsByClassName('settingEdit')[0].style.display = 'none';
-    document.getElementById("settingEditResponse").innerText = "";
-    document.getElementById("settingEditForm").reset();
-})
+if(document.getElementById('editCancel')){
+    document.getElementById('editCancel').addEventListener('click', function() {
+        document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
+        document.getElementsByClassName('settingEdit')[0].style.display = 'none';
+        document.getElementById("settingEditResponse").innerText = "";
+        document.getElementById("settingEditForm").reset();
+    })
+}
 
 if (document.getElementById('groupCancel')) {
     document.getElementById('groupCancel').addEventListener('click', function() {
@@ -137,6 +139,7 @@ async function getGroupTasks() {
     let countCompletedTasks = 0;
     let response = await fetch('/getGroupTasks');
     let data = await response.json();
+    console.log(data)
     document.querySelector("#activeDiv .tasks").innerHTML = '';
     document.querySelector("#awatingDiv .tasks").innerHTML = '';
     document.querySelector("#completedDiv .tasks").innerHTML = '';
@@ -198,53 +201,56 @@ async function getGroupTasks() {
             }
         });
     } else if (data.requestType === "barn"){
-        if(task.status === "active" && (task.assignedToUUID === data.requestUUID || task.assignedTo === "None")){
-            countActiveTasks++;
-            let taskDiv = `
-            <div>
-                <p id="taskUuid">${task.uuid}</p>
-                <h3>Name: ${task.name}</h3>
-                <p>Description: ${task.description}</p>
-                <p>Points: ${task.points}</p>
-                <p>Assigned to: ${assignedTo}</p>
-                <p>Created by: ${task.createdBy}</p>
-                <p>Created at: ${task.dateCreated}</p>
-                <button onclick="taskAction('Complete','${task.uuid}')">Complete Task</button>
-            </div>`
-            document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
-
-        } else if (task.status === "awating" || task.completedBy === data.completedBy){
-            countAwatingTasks++;
-            let taskDiv = `
-            <div>
-                <p id="taskUuid">${task.uuid}</p>
-                <h3>Name: ${task.name}</h3>
-                <p>Description: ${task.description}</p>
-                <p>Points: ${task.points}</p>
-                <p>Assigned to: ${assignedTo}</p>
-                <p>Created by: ${task.createdBy}</p>
-                <p>Created at: ${task.dateCreated}</p>
-                <button onclick="taskAction('Uncomplete','${task.uuid}')">Reverse Task</button>
-            </div>`
-            document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
-
-        } else if (task.status === "completed" || task.completedBy === us){
-            countCompletedTasks++
-            let taskDiv = `
-            <div>
-                <p id="taskUuid">${task.uuid}</p>
-                <h3>Name: ${task.name}</h3>
-                <p>Description: ${task.description}</p>
-                <p>Points: ${task.points}</p>
-                <p>Assigned to: ${assignedTo}</p>
-                <p>Created by: ${task.createdBy}</p>
-                <p>Created at: ${task.dateCreated}</p>
-                <button id="deleteButton" onclick="taskAction('delete','${task.uuid}')">Remove Task</button>
-            </div>`
-            document.querySelector("#completedDiv .tasks").innerHTML += taskDiv;
-
-
-        }
+        data.groupTasks.forEach(task => {
+            let assignedTo = task.assignedTo ? task.assignedTo : 'None';
+            if(task.status === "active" && (task.assignedToUUID === data.requestUUID || task.assignedTo === "None")){
+                countActiveTasks++;
+                let taskDiv = `
+                <div>
+                    <p id="taskUuid">${task.uuid}</p>
+                    <h3>Name: ${task.name}</h3>
+                    <p>Description: ${task.description}</p>
+                    <p>Points: ${task.points}</p>
+                    <p>Assigned to: ${assignedTo}</p>
+                    <p>Created by: ${task.createdBy}</p>
+                    <p>Created at: ${task.dateCreated}</p>
+                    <button onclick="taskAction('Complete','${task.uuid}')">Complete Task</button>
+                </div>`
+                document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
+    
+            } else if (task.status === "awating" || task.completedBy === data.requestUUID){
+                countAwatingTasks++;
+                let taskDiv = `
+                <div>
+                    <p id="taskUuid">${task.uuid}</p>
+                    <h3>Name: ${task.name}</h3>
+                    <p>Description: ${task.description}</p>
+                    <p>Points: ${task.points}</p>
+                    <p>Assigned to: ${assignedTo}</p>
+                    <p>Created by: ${task.createdBy}</p>
+                    <p>Created at: ${task.dateCreated}</p>
+                    <button onclick="taskAction('Uncomplete','${task.uuid}')">Reverse Task</button>
+                </div>`
+                document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
+    
+            } else if (task.status === "completed" || task.completedBy === data.requestUUID){
+                countCompletedTasks++
+                let taskDiv = `
+                <div>
+                    <p id="taskUuid">${task.uuid}</p>
+                    <h3>Name: ${task.name}</h3>
+                    <p>Description: ${task.description}</p>
+                    <p>Points: ${task.points}</p>
+                    <p>Assigned to: ${assignedTo}</p>
+                    <p>Created by: ${task.createdBy}</p>
+                    <p>Created at: ${task.dateCreated}</p>
+                    <button id="deleteButton" onclick="taskAction('delete','${task.uuid}')">Remove Task</button>
+                </div>`
+                document.querySelector("#completedDiv .tasks").innerHTML += taskDiv;
+    
+    
+            }
+        })
     }
     document.getElementById('activeTasksCount').innerText = countActiveTasks;
     document.getElementById('awatingTasksCount').innerText = countAwatingTasks;
@@ -502,51 +508,53 @@ document.getElementById('settingConfirm').addEventListener('click', async functi
     }
 });
 
-document.getElementById('editConfirm').addEventListener('click', async function() {
-    let editName = document.getElementById("editName");
-    let editEmail = document.getElementById("editEmail");
-    let editTaskCompleted = document.getElementById("editTaskCompleted");
-    let editPoints = document.getElementById("editPoints");
-    let responseMessageDisplay = document.getElementById("settingEditResponse");
-
-    let newName = editName.value !== "" ? editName.value : editName.placeholder;
-    let newEmail = editEmail.value !== "" ? editEmail.value : editEmail.placeholder;
-    let newTaskCompleted = editTaskCompleted.value !== "" ? editTaskCompleted.value : editTaskCompleted.placeholder;
-    let newPoints = editPoints.value !== "" ? editPoints.value : editPoints.placeholder;
-
-
-    const updateUser = {
-        type: "edit",
-        uuid: document.getElementById('settingEditUuid').innerText,
-        name: newName,
-        email: newEmail,
-        taskCompleted: newTaskCompleted,
-        points: newPoints,
-    };
-    const requestOptions = {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(updateUser)
-    };
-    let response = await fetch('/updateUserInfo', requestOptions)
-    let data = await response.json();
-
-    if (data.responseMessage) {
-        responseMessageDisplay.style.display = "block"
-        responseMessageDisplay.innerText = data.responseMessage;
-        await getGroupUsers();
-        if (data.responseMessage === "The user info is updated!") {
-            responseMessageDisplay.style.color = "green"
-            editName.placeholder = newName;  
-            editEmail.placeholder = newEmail;  
-            editTaskCompleted.placeholder = newTaskCompleted;  
-            editPoints.placeholder = newPoints;  
-            document.getElementById("settingEditForm").reset()
-        } else {
-            responseMessageDisplay.style.color = "red"
+if(document.getElementById('editConfirm')){
+    document.getElementById('editConfirm').addEventListener('click', async function() {
+        let editName = document.getElementById("editName");
+        let editEmail = document.getElementById("editEmail");
+        let editTaskCompleted = document.getElementById("editTaskCompleted");
+        let editPoints = document.getElementById("editPoints");
+        let responseMessageDisplay = document.getElementById("settingEditResponse");
+    
+        let newName = editName.value !== "" ? editName.value : editName.placeholder;
+        let newEmail = editEmail.value !== "" ? editEmail.value : editEmail.placeholder;
+        let newTaskCompleted = editTaskCompleted.value !== "" ? editTaskCompleted.value : editTaskCompleted.placeholder;
+        let newPoints = editPoints.value !== "" ? editPoints.value : editPoints.placeholder;
+    
+    
+        const updateUser = {
+            type: "edit",
+            uuid: document.getElementById('settingEditUuid').innerText,
+            name: newName,
+            email: newEmail,
+            taskCompleted: newTaskCompleted,
+            points: newPoints,
+        };
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateUser)
+        };
+        let response = await fetch('/updateUserInfo', requestOptions)
+        let data = await response.json();
+    
+        if (data.responseMessage) {
+            responseMessageDisplay.style.display = "block"
+            responseMessageDisplay.innerText = data.responseMessage;
+            await getGroupUsers();
+            if (data.responseMessage === "The user info is updated!") {
+                responseMessageDisplay.style.color = "green"
+                editName.placeholder = newName;  
+                editEmail.placeholder = newEmail;  
+                editTaskCompleted.placeholder = newTaskCompleted;  
+                editPoints.placeholder = newPoints;  
+                document.getElementById("settingEditForm").reset()
+            } else {
+                responseMessageDisplay.style.color = "red"
+            }
         }
-    }
-})
+    })
+}
 
 if(document.getElementById('groupConfirm')){
     document.getElementById('groupConfirm').addEventListener('click', async function() {

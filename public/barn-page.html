@@ -1,83 +1,157 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Barn</title>
+    <title>Eier</title>
     <link rel="stylesheet" href="./css/page-style.css">
-</head>
-<body>
+  </head>
+  <body>
     <div class="main">
-        <div class="content">
-             <div class="settingDiv">
-                <div class="changeSettings">
-                  <div class="settingInput">
-                    <p id="userUuid"></p>
-                    <div class="name"> 
-                      <label for="settingName">Name:</label>
-                      <input type="text" id="settingName">
-                    </div>
-                    <div class="email"> 
-                      <label for="settingEmail">Email:</label>
-                      <input type="text" id="settingEmail">
-                    </div>
-                    <div class="group">
-                      <label for="settingGroup">Group:</label>
-                      <input type="text" id="settingGroup">
-                    </div>
-                    <p>If you change group you will be logged out.<br>And your account will have to be reactivated</p>
-                  </div>
-                  <div class="buttons">
-                    <button id="settingConfirm">Confirm</button>
-                    <button id="settingCancel">Cancel</button>
-                  </div>
-                  <p id="responseMessage">ww</p>
+      <div class="content">
+        <div class="settingBackgroud">
+            <div class="settingChange">
+              <p id="settingChangeUuid"></p>
+              <form id="settingChangeForm">
+                <div>
+                  <label for="settingName">Name:</label>
+                  <input type="text" id="settingName">
                 </div>
+                <div>
+                  <label for="settingEmail">Email:</label>
+                  <input type="text" id="settingEmail">
+                </div>
+                <div>
+                  <label for="settingGroup">Group:</label>
+                  <input type="text" id="settingGroup" disabled>
+                </div>
+                <p>If you change your group you will be logged out, and your account will have to be reativated!</p>
+              </form>
+              <div class="buttons">
+                <button id="settingConfirm">Confirm</button>
+                <button id="settingCancel">Cancel</button>
               </div>
-            <nav class="navbar">
-                <div class="brand-title">Home</div>
-                <div class="toggle-button"> 
-                  <span class="bar"></span>
-                  <span class="bar"></span>
-                  <span class="bar"></span>
-                </div>
-                <div class="navbar-links">
-                  <ul>
-                    <li><button class="optionPage">Home</button></li>
-                    <li><button class="optionPage">Tasks</button></li>
-                    <li><button class="optionPage">Users</button></li>
-                    <li><button class="optionPage">Shop</button></li>
-                    <li><button class="optionPage">Leaderboard</button></li>
-                    <li><button class="optionButton">Setting</button></li>
-                    <li><button class="optionButton">Logout</button></li>
-                  </ul>
-                </div>
-              </nav>
-              <div class="pages">
-                <div class="home">
-                  <h1>Home</h1>
-
-                </div>
-                <div class="tasks">
-                  <h1>Tasks</h1>
-
-                </div>
-                <div class="users">
-                  <h1>Users</h1>
-
-                </div>
-                <div class="shop">
-                  <h1>Shop</h1>
-
-                </div>
-                <div class="leaderboard">
-                  <h1>Leaderboard</h1>
-
-                </div>
+              <div class="settingResponse">
+                <p id="settingResponseMessage"></p>
               </div>
+            </div>
         </div>
+        <nav class="navbar">
+          <div class="brand-title">
+            <h1 id="page-title">Home</h1>
+          </div>
+          <div class="toggle-button">
+            <span class="bar"></span>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <div class="navbar-links">
+            <ul>
+              <li>
+                <button onclick="changePage('home')" class="optionPage">Home</button>
+              </li>
+              <li>
+                <button onclick="changePage('tasks')" class="optionPage">Tasks</button>
+              </li>
+              <li>
+                <button onclick="changePage('familiy')" class="optionPage">Familiy</button>
+              </li>
+              <li>
+                <button onclick="changePage('shop')" class="optionPage">Shop</button>
+              </li>
+              <li>
+                <button onclick="changePage('leaderboard')" class="optionPage">Leaderboard</button>
+              </li>
+              <li>
+                <button class="optionButton">Setting</button>
+              </li>
+              <li>
+                <button class="optionButton">Logout</button>
+              </li>
+            </ul>
+          </div>
+        </nav>
+        <div class="pages">
+          <div id="home">
+            <h1>Home</h1>
+          </div>
+          <div id="tasks">
+            <div class="userInformation">
+            </div>
+            <div class="buttons">
+              <button onclick="changeGroupPage('activeDiv')">Active Tasks</button>
+              <button onclick="changeGroupPage('awatingDiv')">Awating Tasks</button>
+              <button onclick="changeGroupPage('completedDiv')">Completed Tasks</button>
+            </div>
+            <div class="filtes">
+
+            </div>
+            <div class="groupTasks"> 
+              <div id="activeDiv">
+                <h1>Active tasks: <span id="activeTasksCount"></span>
+                </h1>
+                <div class="tasks">
+
+                </div>
+              </div>
+              <div id="awatingDiv">
+                <h1>Awating tasks: <span id="awatingTasksCount"></span>
+                </h1>
+                <div class="tasks">
+
+                </div>
+              </div>
+              <div id="completedDiv">
+                <h1>Completed tasks: <span id="completedTasksCount"></span>
+                </h1>
+                <div class="tasks">
+
+                </div>
+              </div>
+            </div>
+          </div>
+          <div id="familiy">
+            <div class="group">
+            </div>
+            <div class="buttons">
+              <button onclick="changeUserPage('activeDiv')">Active Users</button>
+            </div>
+            <div class="filters">
+              <label for="filterName">Search:</label>
+              <input type="text" id="filterName" placeholder="Search...">
+              <label for="filterRole">Role:</label>
+              <select id="filterRole">
+                <option value="all">All</option>
+              </select>
+              <label for="filterMost">Most:</label>
+              <select id="filterMost">
+                <option value="none">None</option>
+                <option value="points">Points</option>
+                <option value="tasks">Tasks</option>
+              </select>
+            </div>
+            <div class="userDiv">
+              <div id="activeDiv">
+                <h1>Active users: <span id="activeUsersCount"></span>
+                </h1>
+                <div class="users"></div>
+              </div>
+              <div id="awatingDiv">
+                <h1>Awating users <span id="awatingUsersCount"></span>
+                </h1>
+                <div class="users"></div>
+              </div>
+            </div>
+          </div>
+          <div id="shop">
+            <h1>Shop</h1>
+          </div>
+          <div id="leaderboard">
+            <h1>Leaderboard</h1>
+          </div>
+        </div>
+      </div>
     </div>
-</body>
-<script src="./javascript/page-script.js"></script>
-<script> alert("You are not logged in"); </script>
+  </body>
+  <script src="./javascript/page-script.js"></script>
 </html>
