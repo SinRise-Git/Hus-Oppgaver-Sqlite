@@ -28,7 +28,7 @@ body {
     height: 100%;
     background: rgba(var(--primary-rgba), 0.75);
     z-index: 999;
-    .settingEdit, .settingChange, .settingGroup{
+    .settingEdit, .settingChange, .settingGroup, .settingTaskCreate, .settingTaskEdit{
         z-index: 1000;
         position: absolute;
         top: 50%;
@@ -46,7 +46,10 @@ body {
             margin: 5px 0px 5px 0px;
             max-width: 250px;
         }
-        #settingChangeForm, #settingEditForm, #settingGroupForm{
+        h1{
+            margin: 2px;
+        }
+        #settingChangeForm, #settingEditForm, #settingGroupForm, #settingTaskCreateForm, #settingTaskEditForm{
             display: flex;
             align-items: center;
             justify-content: center;
@@ -206,16 +209,20 @@ body {
     #tasks, #familiy, #shop, #leaderboard{
         display: none;
     }
-    #familiy{
+    #familiy, #tasks{
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+
         h1{
             text-align: center;
             padding: 5px;
             margin: 0px;
         }
-        .group{   
+        .group, .userInformation{   
             display: flex;
             justify-content: center;
-            .groupInfo{
+            .groupInfo, .userInfo{
                 margin: 20px;
                 padding: 10px;
                 display: flex;
@@ -261,18 +268,38 @@ body {
                 }
             }
         }
-        #activeDiv, #awatingDiv {
+        #activeDiv, #awatingDiv, #completedDiv{
             background-color: var(--text-background-color);
             height: 100vh;
+            width: 100vw;
             h1{
                 color: var(--primary);
             }
-            .users{
+            .addTask{
+                display: flex;
+                justify-content: center;
+                button{
+                    font-size: 15px;
+                    padding: 5px 10px 5px 10px;
+                    border: none;
+                    margin-bottom: 10px;
+                    border-radius: 10px;
+                    background-color: var(--secondary);
+                    color: var(--text-secondary);
+                    cursor: pointer;
+                    transition: color 0.5s ease-in-out;
+                    &:hover{
+                        color: var(--accent);
+                    }
+                }
+            }
+            .users, .tasks{
                 display: flex;
                 justify-content: center;
                 flex-wrap: wrap;
                 gap: 20px;
                 div{
+                    max-width: 200px;
                     padding: 10px;
                     border-radius: 10px;
                     background-color: var(--secondary);
@@ -301,7 +328,7 @@ body {
                     p, h3{
                         margin: 5px;
                     }
-                    #userUuid{
+                    #userUuid, #taskUuid{
                         font-size: 10px;
                        
                     }
@@ -310,7 +337,7 @@ body {
             }
         }
 
-        #awatingDiv{
+        #awatingDiv, #completedDiv{
             display: none;
         }
         .buttons{
@@ -322,7 +349,7 @@ body {
                 padding: 5px 10px 5px 10px;
                 border: none;
                 border-radius: 10px;
-                background-color: var(--secondary);
+                background-color: var(--primary);
                 color: var(--text-secondary);
                 cursor: pointer;
                 transition: color 0.5s ease-in-out;
@@ -360,6 +387,7 @@ body {
             }
         }
     }
+
 }
 @keyframes pageIn {
     0% {

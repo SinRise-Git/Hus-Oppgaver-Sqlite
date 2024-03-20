@@ -53,9 +53,25 @@ app.post("/getUserInfo", getUserInfo)
 
 app.get("/getGroupUsers", getGroupUsers)
 
+app.get("/getGroupTasks", getGroupTasks)
+
+app.post("/createGroupTasks", createGroupTasks)
+
 app.post("/userEdit", userEdit)
 
+app.post("/editGroupTasks", editGroupTasks)
+
+app.put("/confirmGroupTasks", confirmGroupTasks)
+
+app.put("/confirmedGroupTasks", confirmedGroupTasks)
+
+app.put("/completeGroupTasks", completeGroupTasks)
+
+app.put("/uncompleteGroupTasks", uncompleteGroupTasks)
+
 app.post("/userDelete", userDelete)
+
+app.post("/deleteGroupTasks", deleteGroupTasks)
 
 app.get("/groupDelete", groupDelete)
 
@@ -83,7 +99,7 @@ async function getUserInfo(request, response){
     let rows
     let getUserInfo
     let sql = db.prepare(
-    `SELECT users.uuid, users.name, users.email, workgroup.groupCode, users.points, users.taskCompleted
+    `SELECT users.uuid, users.name, users.email, workgroup.groupCode, workgroup.name AS groupName , users.points, users.taskCompleted
     FROM users 
     INNER JOIN workgroup ON users.workgroup = workgroup.ID
     WHERE users.uuid = ?
@@ -98,8 +114,22 @@ async function getUserInfo(request, response){
             taskCompleted: user.taskCompleted,
         }));
         
-    } else if(!request.body.uuid) {
-        rows = sql.all(request.session.userUuid)
+    } 
+    else if(request.body.type){
+        let sqlAssigned= db.prepare(`SELECT COUNT(*) as taskCount FROM tasks WHERE tasks.workgroup = ? and tasks.assignedTo = ? and tasks.status = ? `).get(request.session.userWorkgroup, request.session.userID, "active");
+        rows = sql.all(request.session.userUUID)
+        getUserInfo = rows.map(user => ({
+            uuid: user.uuid,
+            name: user.name,
+            workgroup: user.groupName,
+            points: user.points,
+            taskCompleted: user.taskCompleted,
+            taskAssigned: sqlAssigned.taskCount
+        }));
+    }
+    else if(!request.body.uuid) {
+
+        rows = sql.all(request.session.userUUID)
         getUserInfo = rows.map(user => ({
             uuid: user.uuid,
             name: user.name,
@@ -109,6 +139,7 @@ async function getUserInfo(request, response){
     }
     response.send(getUserInfo)
 }
+
 
 async function getGroupUsers(request, response){
     let getGroupUsers
@@ -120,15 +151,13 @@ async function getGroupUsers(request, response){
     INNER JOIN usertype ON users.usertype = usertype.ID
     WHERE workgroup = ? and uuid != ? and users.usertype != '3'
     `)
-
-    console.log(sqlUsers)
     let sqlGroup = db.prepare(`
     SELECT workgroup.id, workgroup.uuid, workgroup.name AS groupName, users.name, workgroup.groupCode, workgroup.createdBy 
     FROM workgroup 
     INNER JOIN users ON workgroup.createdBy = users.uuid
     WHERE workgroup.ID = ?
     `)
-    let rowsUsers = sqlUsers.all(request.session.userWorkgroup, request.session.userUuid)
+    let rowsUsers = sqlUsers.all(request.session.userWorkgroup, request.session.userUUID)
     let rowsGroup = sqlGroup.all(request.session.userWorkgroup)
     getGroupUsers = rowsUsers.map(user => ({
         uuid: user.uuid,
@@ -160,8 +189,65 @@ async function getGroupUsers(request, response){
         userInfo: getGroupUsers,
         groupInfo: getGroupInfo,
     })
-    console.log(getGroupUsers)
 };
+
+async function getGroupTasks(request, response){
+    let sql = db.prepare(`
+    SELECT tasks.uuid, tasks.status, tasks.name, tasks.description, tasks.points, tasks.dateCreated, tasks.dateCompleted, 
+    userCreatedBy.name As createdBy, userAssignedBy.name AS userAssigned, tasks.assignedTo, tasks.completedBy
+    FROM tasks
+    INNER JOIN users As userCreatedBy ON tasks.createdBy = userCreatedBy.id
+    LEFT JOIN users As userAssignedBy ON tasks.assignedTo = userAssignedBy.uuid
+    WHERE tasks.workgroup = ? 
+    `)
+    let rows = sql.all(request.session.userWorkgroup)
+    let getGroupTasks = rows.map(task => ({
+        uuid: task.uuid,
+        status: task.status,
+        name: task.name,
+        description: task.description,
+        points: task.points,
+        dateCreated: task.dateCreated,
+        dateCompleted: task.dateCompleted,
+        createdBy: task.createdBy,
+        assignedTo: task.userAssigned,
+        assignedToUUID: task.assignedTo,
+        completedBy: task.completedBy,
+    }))
+    response.send({
+       requestType: request.session.isLoggedIn,
+       requestUUID: request.session.userUUID,
+       groupTasks: getGroupTasks,
+    })
+}
+ 
+
+
+async function createGroupTasks(request, response){
+    group = request.body  
+    if(group.assignedTo === "none"){
+        let sqlCreateTask = db.prepare("INSERT INTO tasks (uuid, status, name, description, points, dateCreated, dateCompleted, createdBy, assignedTo, completedBy, workgroup) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+        let UUID = await generatedUuid("tasks")
+        let date = new Date().toISOString()
+        let createTask = sqlCreateTask.run(UUID, "active", group.name, group.description, group.points, date, "None", request.session.userID, "None", "None", request.session.userWorkgroup)
+        if(createTask){
+            response.send({responseMessage: "The task is created!"})
+        }
+    } else{
+        let checkUser = await checkAvailability("users", "uuid", group.assignedTo)
+        if(checkUser === false){
+            let sqlCreateTask = db.prepare("INSERT INTO tasks (uuid, status, name, description, points, dateCreated, dateCompleted, createdBy, assignedTo, completedBy, workgroup) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+            let UUID = await generatedUuid("tasks")
+            let date = new Date().toISOString()
+            let createTask = sqlCreateTask.run(UUID, "active", group.name, group.description, group.points, date, "None", request.session.userID, group.assignedTo, "None", request.session.userWorkgroup)
+            if(createTask){
+               response.send({responseMessage: "The task is created!"})
+            }
+        } else {
+            response.send({responseMessage: "There is no user with this uuid!"})
+        }
+    }
+}
 
 async function userEdit(request, response){
     let sql = db.prepare(
@@ -190,6 +276,41 @@ async function userConfirm(request, response){
     response.send({responseMessage: "The user is comfirmed!"})
 }
 
+async function confirmGroupTasks(request, response){
+    let sql = db.prepare("UPDATE tasks SET name = ?, description = ?, points = ? WHERE uuid = ?")
+    let editTask = sql.run(request.body.name, request.body.description, request.body.points, request.body.uuid)
+    response.send({responseMessage: "The task is updated!"})
+}
+
+async function completeGroupTasks(request, response){
+    let sql = db.prepare("UPDATE tasks SET status = ?, dateCompleted = ?, completedBy = ? WHERE uuid = ?")
+    let date = new Date().toISOString()
+    let editTask = sql.run("awating", date, request.session.userID, request.body.uuid)
+    response.send({responseMessage: "The task is completed!"})
+}
+
+async function uncompleteGroupTasks(request, response){
+    let sql = db.prepare("UPDATE tasks SET status = ?, dateCompleted = ?, completedBy = ? WHERE uuid = ?")
+    let editTask = sql.run("active", "None", "None", request.body.uuid)
+    response.send({responseMessage: "The task is uncompleted!"})
+}
+
+async function confirmedGroupTasks(request, response){
+    
+}
+
+async function editGroupTasks(request, response){
+    let sql = db.prepare("SELECT tasks.uuid, tasks.name, tasks.description, tasks.points FROM tasks WHERE tasks.uuid = ?")
+    let getTaskInfo = sql.all(request.body.uuid)
+    response.send(getTaskInfo)
+}
+
+async function deleteGroupTasks(request, response){
+    let sql = db.prepare("DELETE FROM tasks WHERE uuid = ?")
+    let deleteUser = sql.run(request.body.uuid)
+    response.send({responseMessage: "The task is deleted!"})
+}
+
 
 async function groupDelete(request, response){
     //db.transaction(() => {
@@ -205,7 +326,7 @@ async function groupDelete(request, response){
 async function checkLogin(request, response){
     const user = request.body.userCredentials
     const sql = db.prepare(
-    `SELECT password, userStatus, usertype.role, uuid, workgroup
+    `SELECT users.id, users.password, users.userStatus, usertype.role, users.uuid, users.workgroup
     FROM users
     INNER JOIN usertype ON users.usertype = usertype.ID
     WHERE email = ?
@@ -219,7 +340,8 @@ async function checkLogin(request, response){
         if(isPasswordCorrect){
             if(users.userStatus === "true"){
                 request.session.isLoggedIn = users.role.toLowerCase()
-                request.session.userUuid = users.uuid
+                request.session.userUUID = users.uuid
+                request.session.userID = users.ID
                 request.session.userWorkgroup = users.workgroup
                 response.send({redirectUrl: `${users.role.toLowerCase()}-page.html`})
             } else {
@@ -326,14 +448,14 @@ async function genrateString(){
 async function updateUserInfo(request, response){
     const user = request.body
     const sqlCheckEmail = db.prepare("SELECT name, email FROM users WHERE email = ? and uuid != ?")
-    let UUID = user.type === "setting" ? request.session.userUuid : user.uuid
+    let UUID = user.type === "setting" ? request.session.userUUID : user.uuid
     getEmail = sqlCheckEmail.all(user.email, UUID)
     if (getEmail.length !== 0){
         response.send({responseMessage: "Email already in use!"})   
     } else {
         if(user.type === "setting"){
             let sqlUpdate = db.prepare("UPDATE users SET name = ?, email = ? WHERE uuid = ?")
-            let updateUserInfo = sqlUpdate.run(user.name, user.email, request.session.userUuid) 
+            let updateUserInfo = sqlUpdate.run(user.name, user.email, request.session.userUUID) 
             response.send({responseMessage: "The user info is updated!"})
         }
         else if(user.type === "edit"){
@@ -353,12 +475,12 @@ async function updateGroupInfo(request, response){
     } else if(user.owner !== "NaN"){
         let checkOwner = await checkAvailability("users", "uuid", user.owner)
         if(checkOwner === true){
-            response.send({responseMessage: "There is no user with that email!" })
+            response.send({responseMessage: "There is no user with that uuid!" })
         } else if(checkOwner === false){
             db.transaction(() => {
                 db.prepare("UPDATE workgroup SET createdBy = ? WHERE ID = ?").run(user.owner, request.session.userWorkgroup);
                 db.prepare("UPDATE users SET usertype = ? WHERE uuid = ?").run(3, user.owner); 
-                db.prepare("UPDATE users SET usertype = ? WHERE uuid = ?").run(2, request.session.userUuid);
+                db.prepare("UPDATE users SET usertype = ? WHERE uuid = ?").run(2, request.session.userUUID);
             })();
             request.session.destroy()
             response.send({responseURL: "login-page.html"})

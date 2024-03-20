@@ -25,7 +25,7 @@ body {
   height: 100%;
   background: rgba(var(--primary-rgba), 0.75);
   z-index: 999; }
-  .settingBackgroud .settingEdit, .settingBackgroud .settingChange, .settingBackgroud .settingGroup {
+  .settingBackgroud .settingEdit, .settingBackgroud .settingChange, .settingBackgroud .settingGroup, .settingBackgroud .settingTaskCreate, .settingBackgroud .settingTaskEdit {
     z-index: 1000;
     position: absolute;
     top: 50%;
@@ -37,34 +37,36 @@ body {
     padding: 10px 20px 5px 20px;
     display: none;
     flex-direction: column; }
-    .settingBackgroud .settingEdit p, .settingBackgroud .settingChange p, .settingBackgroud .settingGroup p {
+    .settingBackgroud .settingEdit p, .settingBackgroud .settingChange p, .settingBackgroud .settingGroup p, .settingBackgroud .settingTaskCreate p, .settingBackgroud .settingTaskEdit p {
       text-align: center;
       font-size: 13px;
       margin: 5px 0px 5px 0px;
       max-width: 250px; }
-    .settingBackgroud .settingEdit #settingChangeForm, .settingBackgroud .settingEdit #settingEditForm, .settingBackgroud .settingEdit #settingGroupForm, .settingBackgroud .settingChange #settingChangeForm, .settingBackgroud .settingChange #settingEditForm, .settingBackgroud .settingChange #settingGroupForm, .settingBackgroud .settingGroup #settingChangeForm, .settingBackgroud .settingGroup #settingEditForm, .settingBackgroud .settingGroup #settingGroupForm {
+    .settingBackgroud .settingEdit h1, .settingBackgroud .settingChange h1, .settingBackgroud .settingGroup h1, .settingBackgroud .settingTaskCreate h1, .settingBackgroud .settingTaskEdit h1 {
+      margin: 2px; }
+    .settingBackgroud .settingEdit #settingChangeForm, .settingBackgroud .settingEdit #settingEditForm, .settingBackgroud .settingEdit #settingGroupForm, .settingBackgroud .settingEdit #settingTaskCreateForm, .settingBackgroud .settingEdit #settingTaskEditForm, .settingBackgroud .settingChange #settingChangeForm, .settingBackgroud .settingChange #settingEditForm, .settingBackgroud .settingChange #settingGroupForm, .settingBackgroud .settingChange #settingTaskCreateForm, .settingBackgroud .settingChange #settingTaskEditForm, .settingBackgroud .settingGroup #settingChangeForm, .settingBackgroud .settingGroup #settingEditForm, .settingBackgroud .settingGroup #settingGroupForm, .settingBackgroud .settingGroup #settingTaskCreateForm, .settingBackgroud .settingGroup #settingTaskEditForm, .settingBackgroud .settingTaskCreate #settingChangeForm, .settingBackgroud .settingTaskCreate #settingEditForm, .settingBackgroud .settingTaskCreate #settingGroupForm, .settingBackgroud .settingTaskCreate #settingTaskCreateForm, .settingBackgroud .settingTaskCreate #settingTaskEditForm, .settingBackgroud .settingTaskEdit #settingChangeForm, .settingBackgroud .settingTaskEdit #settingEditForm, .settingBackgroud .settingTaskEdit #settingGroupForm, .settingBackgroud .settingTaskEdit #settingTaskCreateForm, .settingBackgroud .settingTaskEdit #settingTaskEditForm {
       display: flex;
       align-items: center;
       justify-content: center;
       flex-direction: column; }
-      .settingBackgroud .settingEdit #settingChangeForm div input, .settingBackgroud .settingEdit #settingEditForm div input, .settingBackgroud .settingEdit #settingGroupForm div input, .settingBackgroud .settingChange #settingChangeForm div input, .settingBackgroud .settingChange #settingEditForm div input, .settingBackgroud .settingChange #settingGroupForm div input, .settingBackgroud .settingGroup #settingChangeForm div input, .settingBackgroud .settingGroup #settingEditForm div input, .settingBackgroud .settingGroup #settingGroupForm div input {
+      .settingBackgroud .settingEdit #settingChangeForm div input, .settingBackgroud .settingEdit #settingEditForm div input, .settingBackgroud .settingEdit #settingGroupForm div input, .settingBackgroud .settingEdit #settingTaskCreateForm div input, .settingBackgroud .settingEdit #settingTaskEditForm div input, .settingBackgroud .settingChange #settingChangeForm div input, .settingBackgroud .settingChange #settingEditForm div input, .settingBackgroud .settingChange #settingGroupForm div input, .settingBackgroud .settingChange #settingTaskCreateForm div input, .settingBackgroud .settingChange #settingTaskEditForm div input, .settingBackgroud .settingGroup #settingChangeForm div input, .settingBackgroud .settingGroup #settingEditForm div input, .settingBackgroud .settingGroup #settingGroupForm div input, .settingBackgroud .settingGroup #settingTaskCreateForm div input, .settingBackgroud .settingGroup #settingTaskEditForm div input, .settingBackgroud .settingTaskCreate #settingChangeForm div input, .settingBackgroud .settingTaskCreate #settingEditForm div input, .settingBackgroud .settingTaskCreate #settingGroupForm div input, .settingBackgroud .settingTaskCreate #settingTaskCreateForm div input, .settingBackgroud .settingTaskCreate #settingTaskEditForm div input, .settingBackgroud .settingTaskEdit #settingChangeForm div input, .settingBackgroud .settingTaskEdit #settingEditForm div input, .settingBackgroud .settingTaskEdit #settingGroupForm div input, .settingBackgroud .settingTaskEdit #settingTaskCreateForm div input, .settingBackgroud .settingTaskEdit #settingTaskEditForm div input {
         color: var(--input-color);
         margin-bottom: 5px;
         padding: 5px;
         border-radius: 10px;
         border: none;
         background-color: var(--text-background-color); }
-      .settingBackgroud .settingEdit #settingChangeForm div p, .settingBackgroud .settingEdit #settingEditForm div p, .settingBackgroud .settingEdit #settingGroupForm div p, .settingBackgroud .settingChange #settingChangeForm div p, .settingBackgroud .settingChange #settingEditForm div p, .settingBackgroud .settingChange #settingGroupForm div p, .settingBackgroud .settingGroup #settingChangeForm div p, .settingBackgroud .settingGroup #settingEditForm div p, .settingBackgroud .settingGroup #settingGroupForm div p {
+      .settingBackgroud .settingEdit #settingChangeForm div p, .settingBackgroud .settingEdit #settingEditForm div p, .settingBackgroud .settingEdit #settingGroupForm div p, .settingBackgroud .settingEdit #settingTaskCreateForm div p, .settingBackgroud .settingEdit #settingTaskEditForm div p, .settingBackgroud .settingChange #settingChangeForm div p, .settingBackgroud .settingChange #settingEditForm div p, .settingBackgroud .settingChange #settingGroupForm div p, .settingBackgroud .settingChange #settingTaskCreateForm div p, .settingBackgroud .settingChange #settingTaskEditForm div p, .settingBackgroud .settingGroup #settingChangeForm div p, .settingBackgroud .settingGroup #settingEditForm div p, .settingBackgroud .settingGroup #settingGroupForm div p, .settingBackgroud .settingGroup #settingTaskCreateForm div p, .settingBackgroud .settingGroup #settingTaskEditForm div p, .settingBackgroud .settingTaskCreate #settingChangeForm div p, .settingBackgroud .settingTaskCreate #settingEditForm div p, .settingBackgroud .settingTaskCreate #settingGroupForm div p, .settingBackgroud .settingTaskCreate #settingTaskCreateForm div p, .settingBackgroud .settingTaskCreate #settingTaskEditForm div p, .settingBackgroud .settingTaskEdit #settingChangeForm div p, .settingBackgroud .settingTaskEdit #settingEditForm div p, .settingBackgroud .settingTaskEdit #settingGroupForm div p, .settingBackgroud .settingTaskEdit #settingTaskCreateForm div p, .settingBackgroud .settingTaskEdit #settingTaskEditForm div p {
         color: var(--primary);
         font-size: 13px;
         margin: 10px 0px 10px 0px;
         text-align: center;
         display: block; }
-    .settingBackgroud .settingEdit .buttons, .settingBackgroud .settingChange .buttons, .settingBackgroud .settingGroup .buttons {
+    .settingBackgroud .settingEdit .buttons, .settingBackgroud .settingChange .buttons, .settingBackgroud .settingGroup .buttons, .settingBackgroud .settingTaskCreate .buttons, .settingBackgroud .settingTaskEdit .buttons {
       display: flex;
       align-items: center;
       justify-content: center; }
-      .settingBackgroud .settingEdit .buttons button, .settingBackgroud .settingChange .buttons button, .settingBackgroud .settingGroup .buttons button {
+      .settingBackgroud .settingEdit .buttons button, .settingBackgroud .settingChange .buttons button, .settingBackgroud .settingGroup .buttons button, .settingBackgroud .settingTaskCreate .buttons button, .settingBackgroud .settingTaskEdit .buttons button {
         font-size: 15px;
         background-color: var(--secondary);
         color: var(--text-secondary);
@@ -74,7 +76,7 @@ body {
         border-radius: 10px;
         cursor: pointer;
         transition: color 0.5s ease-in-out; }
-        .settingBackgroud .settingEdit .buttons button:hover, .settingBackgroud .settingChange .buttons button:hover, .settingBackgroud .settingGroup .buttons button:hover {
+        .settingBackgroud .settingEdit .buttons button:hover, .settingBackgroud .settingChange .buttons button:hover, .settingBackgroud .settingGroup .buttons button:hover, .settingBackgroud .settingTaskCreate .buttons button:hover, .settingBackgroud .settingTaskEdit .buttons button:hover {
           color: var(--text); }
 
 .navbar {
@@ -165,131 +167,147 @@ body {
 .pages #tasks, .pages #familiy, .pages #shop, .pages #leaderboard {
   display: none; }
 
-.pages #familiy h1 {
-  text-align: center;
-  padding: 5px;
-  margin: 0px; }
-
-.pages #familiy .group {
-  display: flex;
-  justify-content: center; }
-  .pages #familiy .group .groupInfo {
-    margin: 20px;
-    padding: 10px;
+.pages #familiy, .pages #tasks {
+  justify-content: center;
+  align-items: center;
+  flex-direction: column; }
+  .pages #familiy h1, .pages #tasks h1 {
+    text-align: center;
+    padding: 5px;
+    margin: 0px; }
+  .pages #familiy .group, .pages #familiy .userInformation, .pages #tasks .group, .pages #tasks .userInformation {
+    display: flex;
+    justify-content: center; }
+    .pages #familiy .group .groupInfo, .pages #familiy .group .userInfo, .pages #familiy .userInformation .groupInfo, .pages #familiy .userInformation .userInfo, .pages #tasks .group .groupInfo, .pages #tasks .group .userInfo, .pages #tasks .userInformation .groupInfo, .pages #tasks .userInformation .userInfo {
+      margin: 20px;
+      padding: 10px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: var(--secondary);
+      color: var(--text-secondary);
+      border-radius: 10px; }
+      .pages #familiy .group .groupInfo p, .pages #familiy .group .userInfo p, .pages #familiy .userInformation .groupInfo p, .pages #familiy .userInformation .userInfo p, .pages #tasks .group .groupInfo p, .pages #tasks .group .userInfo p, .pages #tasks .userInformation .groupInfo p, .pages #tasks .userInformation .userInfo p {
+        margin: 2px; }
+        .pages #familiy .group .groupInfo p span, .pages #familiy .group .userInfo p span, .pages #familiy .userInformation .groupInfo p span, .pages #familiy .userInformation .userInfo p span, .pages #tasks .group .groupInfo p span, .pages #tasks .group .userInfo p span, .pages #tasks .userInformation .groupInfo p span, .pages #tasks .userInformation .userInfo p span {
+          font-weight: bolder; }
+      .pages #familiy .group .groupInfo h2, .pages #familiy .group .groupInfo h3, .pages #familiy .group .userInfo h2, .pages #familiy .group .userInfo h3, .pages #familiy .userInformation .groupInfo h2, .pages #familiy .userInformation .groupInfo h3, .pages #familiy .userInformation .userInfo h2, .pages #familiy .userInformation .userInfo h3, .pages #tasks .group .groupInfo h2, .pages #tasks .group .groupInfo h3, .pages #tasks .group .userInfo h2, .pages #tasks .group .userInfo h3, .pages #tasks .userInformation .groupInfo h2, .pages #tasks .userInformation .groupInfo h3, .pages #tasks .userInformation .userInfo h2, .pages #tasks .userInformation .userInfo h3 {
+        margin: 2px; }
+      .pages #familiy .group .groupInfo .buttons, .pages #familiy .group .userInfo .buttons, .pages #familiy .userInformation .groupInfo .buttons, .pages #familiy .userInformation .userInfo .buttons, .pages #tasks .group .groupInfo .buttons, .pages #tasks .group .userInfo .buttons, .pages #tasks .userInformation .groupInfo .buttons, .pages #tasks .userInformation .userInfo .buttons {
+        gap: 5px; }
+        .pages #familiy .group .groupInfo .buttons #deleteButton, .pages #familiy .group .groupInfo .buttons #deleteButtonGroup, .pages #familiy .group .userInfo .buttons #deleteButton, .pages #familiy .group .userInfo .buttons #deleteButtonGroup, .pages #familiy .userInformation .groupInfo .buttons #deleteButton, .pages #familiy .userInformation .groupInfo .buttons #deleteButtonGroup, .pages #familiy .userInformation .userInfo .buttons #deleteButton, .pages #familiy .userInformation .userInfo .buttons #deleteButtonGroup, .pages #tasks .group .groupInfo .buttons #deleteButton, .pages #tasks .group .groupInfo .buttons #deleteButtonGroup, .pages #tasks .group .userInfo .buttons #deleteButton, .pages #tasks .group .userInfo .buttons #deleteButtonGroup, .pages #tasks .userInformation .groupInfo .buttons #deleteButton, .pages #tasks .userInformation .groupInfo .buttons #deleteButtonGroup, .pages #tasks .userInformation .userInfo .buttons #deleteButton, .pages #tasks .userInformation .userInfo .buttons #deleteButtonGroup {
+          color: var(--text-secondary);
+          background-color: var(--red-color);
+          transition: color 0.5s ease-in-out; }
+          .pages #familiy .group .groupInfo .buttons #deleteButton:hover, .pages #familiy .group .groupInfo .buttons #deleteButtonGroup:hover, .pages #familiy .group .userInfo .buttons #deleteButton:hover, .pages #familiy .group .userInfo .buttons #deleteButtonGroup:hover, .pages #familiy .userInformation .groupInfo .buttons #deleteButton:hover, .pages #familiy .userInformation .groupInfo .buttons #deleteButtonGroup:hover, .pages #familiy .userInformation .userInfo .buttons #deleteButton:hover, .pages #familiy .userInformation .userInfo .buttons #deleteButtonGroup:hover, .pages #tasks .group .groupInfo .buttons #deleteButton:hover, .pages #tasks .group .groupInfo .buttons #deleteButtonGroup:hover, .pages #tasks .group .userInfo .buttons #deleteButton:hover, .pages #tasks .group .userInfo .buttons #deleteButtonGroup:hover, .pages #tasks .userInformation .groupInfo .buttons #deleteButton:hover, .pages #tasks .userInformation .groupInfo .buttons #deleteButtonGroup:hover, .pages #tasks .userInformation .userInfo .buttons #deleteButton:hover, .pages #tasks .userInformation .userInfo .buttons #deleteButtonGroup:hover {
+            color: var(--text); }
+        .pages #familiy .group .groupInfo .buttons button, .pages #familiy .group .userInfo .buttons button, .pages #familiy .userInformation .groupInfo .buttons button, .pages #familiy .userInformation .userInfo .buttons button, .pages #tasks .group .groupInfo .buttons button, .pages #tasks .group .userInfo .buttons button, .pages #tasks .userInformation .groupInfo .buttons button, .pages #tasks .userInformation .userInfo .buttons button {
+          margin: 5px 0px 0px 0px;
+          font-size: 13px;
+          padding: 4px 7px 4px 7px;
+          border: none;
+          border-radius: 10px;
+          background-color: var(--text-secondary);
+          color: var(--accent);
+          cursor: pointer;
+          transition: color 0.5s ease-in-out; }
+          .pages #familiy .group .groupInfo .buttons button:hover, .pages #familiy .group .userInfo .buttons button:hover, .pages #familiy .userInformation .groupInfo .buttons button:hover, .pages #familiy .userInformation .userInfo .buttons button:hover, .pages #tasks .group .groupInfo .buttons button:hover, .pages #tasks .group .userInfo .buttons button:hover, .pages #tasks .userInformation .groupInfo .buttons button:hover, .pages #tasks .userInformation .userInfo .buttons button:hover {
+            color: var(--text); }
+  .pages #familiy #activeDiv, .pages #familiy #awatingDiv, .pages #familiy #completedDiv, .pages #tasks #activeDiv, .pages #tasks #awatingDiv, .pages #tasks #completedDiv {
+    background-color: var(--text-background-color);
+    height: 100vh;
+    width: 100vw; }
+    .pages #familiy #activeDiv h1, .pages #familiy #awatingDiv h1, .pages #familiy #completedDiv h1, .pages #tasks #activeDiv h1, .pages #tasks #awatingDiv h1, .pages #tasks #completedDiv h1 {
+      color: var(--primary); }
+    .pages #familiy #activeDiv .addTask, .pages #familiy #awatingDiv .addTask, .pages #familiy #completedDiv .addTask, .pages #tasks #activeDiv .addTask, .pages #tasks #awatingDiv .addTask, .pages #tasks #completedDiv .addTask {
+      display: flex;
+      justify-content: center; }
+      .pages #familiy #activeDiv .addTask button, .pages #familiy #awatingDiv .addTask button, .pages #familiy #completedDiv .addTask button, .pages #tasks #activeDiv .addTask button, .pages #tasks #awatingDiv .addTask button, .pages #tasks #completedDiv .addTask button {
+        font-size: 15px;
+        padding: 5px 10px 5px 10px;
+        border: none;
+        margin-bottom: 10px;
+        border-radius: 10px;
+        background-color: var(--secondary);
+        color: var(--text-secondary);
+        cursor: pointer;
+        transition: color 0.5s ease-in-out; }
+        .pages #familiy #activeDiv .addTask button:hover, .pages #familiy #awatingDiv .addTask button:hover, .pages #familiy #completedDiv .addTask button:hover, .pages #tasks #activeDiv .addTask button:hover, .pages #tasks #awatingDiv .addTask button:hover, .pages #tasks #completedDiv .addTask button:hover {
+          color: var(--accent); }
+    .pages #familiy #activeDiv .users, .pages #familiy #activeDiv .tasks, .pages #familiy #awatingDiv .users, .pages #familiy #awatingDiv .tasks, .pages #familiy #completedDiv .users, .pages #familiy #completedDiv .tasks, .pages #tasks #activeDiv .users, .pages #tasks #activeDiv .tasks, .pages #tasks #awatingDiv .users, .pages #tasks #awatingDiv .tasks, .pages #tasks #completedDiv .users, .pages #tasks #completedDiv .tasks {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 20px; }
+      .pages #familiy #activeDiv .users div, .pages #familiy #activeDiv .tasks div, .pages #familiy #awatingDiv .users div, .pages #familiy #awatingDiv .tasks div, .pages #familiy #completedDiv .users div, .pages #familiy #completedDiv .tasks div, .pages #tasks #activeDiv .users div, .pages #tasks #activeDiv .tasks div, .pages #tasks #awatingDiv .users div, .pages #tasks #awatingDiv .tasks div, .pages #tasks #completedDiv .users div, .pages #tasks #completedDiv .tasks div {
+        max-width: 200px;
+        padding: 10px;
+        border-radius: 10px;
+        background-color: var(--secondary);
+        color: white; }
+        .pages #familiy #activeDiv .users div #deleteButton, .pages #familiy #activeDiv .tasks div #deleteButton, .pages #familiy #awatingDiv .users div #deleteButton, .pages #familiy #awatingDiv .tasks div #deleteButton, .pages #familiy #completedDiv .users div #deleteButton, .pages #familiy #completedDiv .tasks div #deleteButton, .pages #tasks #activeDiv .users div #deleteButton, .pages #tasks #activeDiv .tasks div #deleteButton, .pages #tasks #awatingDiv .users div #deleteButton, .pages #tasks #awatingDiv .tasks div #deleteButton, .pages #tasks #completedDiv .users div #deleteButton, .pages #tasks #completedDiv .tasks div #deleteButton {
+          color: var(--text-secondary);
+          background-color: var(--red-color);
+          transition: color 0.5s ease-in-out; }
+          .pages #familiy #activeDiv .users div #deleteButton:hover, .pages #familiy #activeDiv .tasks div #deleteButton:hover, .pages #familiy #awatingDiv .users div #deleteButton:hover, .pages #familiy #awatingDiv .tasks div #deleteButton:hover, .pages #familiy #completedDiv .users div #deleteButton:hover, .pages #familiy #completedDiv .tasks div #deleteButton:hover, .pages #tasks #activeDiv .users div #deleteButton:hover, .pages #tasks #activeDiv .tasks div #deleteButton:hover, .pages #tasks #awatingDiv .users div #deleteButton:hover, .pages #tasks #awatingDiv .tasks div #deleteButton:hover, .pages #tasks #completedDiv .users div #deleteButton:hover, .pages #tasks #completedDiv .tasks div #deleteButton:hover {
+            color: var(--text); }
+        .pages #familiy #activeDiv .users div button, .pages #familiy #activeDiv .tasks div button, .pages #familiy #awatingDiv .users div button, .pages #familiy #awatingDiv .tasks div button, .pages #familiy #completedDiv .users div button, .pages #familiy #completedDiv .tasks div button, .pages #tasks #activeDiv .users div button, .pages #tasks #activeDiv .tasks div button, .pages #tasks #awatingDiv .users div button, .pages #tasks #awatingDiv .tasks div button, .pages #tasks #completedDiv .users div button, .pages #tasks #completedDiv .tasks div button {
+          font-size: 13px;
+          padding: 4px 7px 4px 7px;
+          border: none;
+          border-radius: 10px;
+          background-color: var(--text-secondary);
+          color: var(--accent);
+          cursor: pointer;
+          transition: color 0.5s ease-in-out; }
+          .pages #familiy #activeDiv .users div button:hover, .pages #familiy #activeDiv .tasks div button:hover, .pages #familiy #awatingDiv .users div button:hover, .pages #familiy #awatingDiv .tasks div button:hover, .pages #familiy #completedDiv .users div button:hover, .pages #familiy #completedDiv .tasks div button:hover, .pages #tasks #activeDiv .users div button:hover, .pages #tasks #activeDiv .tasks div button:hover, .pages #tasks #awatingDiv .users div button:hover, .pages #tasks #awatingDiv .tasks div button:hover, .pages #tasks #completedDiv .users div button:hover, .pages #tasks #completedDiv .tasks div button:hover {
+            color: var(--text); }
+        .pages #familiy #activeDiv .users div p, .pages #familiy #activeDiv .users div h3, .pages #familiy #activeDiv .tasks div p, .pages #familiy #activeDiv .tasks div h3, .pages #familiy #awatingDiv .users div p, .pages #familiy #awatingDiv .users div h3, .pages #familiy #awatingDiv .tasks div p, .pages #familiy #awatingDiv .tasks div h3, .pages #familiy #completedDiv .users div p, .pages #familiy #completedDiv .users div h3, .pages #familiy #completedDiv .tasks div p, .pages #familiy #completedDiv .tasks div h3, .pages #tasks #activeDiv .users div p, .pages #tasks #activeDiv .users div h3, .pages #tasks #activeDiv .tasks div p, .pages #tasks #activeDiv .tasks div h3, .pages #tasks #awatingDiv .users div p, .pages #tasks #awatingDiv .users div h3, .pages #tasks #awatingDiv .tasks div p, .pages #tasks #awatingDiv .tasks div h3, .pages #tasks #completedDiv .users div p, .pages #tasks #completedDiv .users div h3, .pages #tasks #completedDiv .tasks div p, .pages #tasks #completedDiv .tasks div h3 {
+          margin: 5px; }
+        .pages #familiy #activeDiv .users div #userUuid, .pages #familiy #activeDiv .users div #taskUuid, .pages #familiy #activeDiv .tasks div #userUuid, .pages #familiy #activeDiv .tasks div #taskUuid, .pages #familiy #awatingDiv .users div #userUuid, .pages #familiy #awatingDiv .users div #taskUuid, .pages #familiy #awatingDiv .tasks div #userUuid, .pages #familiy #awatingDiv .tasks div #taskUuid, .pages #familiy #completedDiv .users div #userUuid, .pages #familiy #completedDiv .users div #taskUuid, .pages #familiy #completedDiv .tasks div #userUuid, .pages #familiy #completedDiv .tasks div #taskUuid, .pages #tasks #activeDiv .users div #userUuid, .pages #tasks #activeDiv .users div #taskUuid, .pages #tasks #activeDiv .tasks div #userUuid, .pages #tasks #activeDiv .tasks div #taskUuid, .pages #tasks #awatingDiv .users div #userUuid, .pages #tasks #awatingDiv .users div #taskUuid, .pages #tasks #awatingDiv .tasks div #userUuid, .pages #tasks #awatingDiv .tasks div #taskUuid, .pages #tasks #completedDiv .users div #userUuid, .pages #tasks #completedDiv .users div #taskUuid, .pages #tasks #completedDiv .tasks div #userUuid, .pages #tasks #completedDiv .tasks div #taskUuid {
+          font-size: 10px; }
+  .pages #familiy #awatingDiv, .pages #familiy #completedDiv, .pages #tasks #awatingDiv, .pages #tasks #completedDiv {
+    display: none; }
+  .pages #familiy .buttons, .pages #tasks .buttons {
+    display: flex;
+    justify-content: center; }
+    .pages #familiy .buttons button, .pages #tasks .buttons button {
+      font-size: 20px;
+      margin: 5px;
+      padding: 5px 10px 5px 10px;
+      border: none;
+      border-radius: 10px;
+      background-color: var(--primary);
+      color: var(--text-secondary);
+      cursor: pointer;
+      transition: color 0.5s ease-in-out; }
+      .pages #familiy .buttons button:hover, .pages #tasks .buttons button:hover {
+        color: var(--accent); }
+  .pages #familiy .filters, .pages #tasks .filters {
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
-    background-color: var(--secondary);
-    color: var(--text-secondary);
-    border-radius: 10px; }
-    .pages #familiy .group .groupInfo p {
-      margin: 2px; }
-      .pages #familiy .group .groupInfo p span {
-        font-weight: bolder; }
-    .pages #familiy .group .groupInfo h2, .pages #familiy .group .groupInfo h3 {
-      margin: 2px; }
-    .pages #familiy .group .groupInfo .buttons {
-      gap: 5px; }
-      .pages #familiy .group .groupInfo .buttons #deleteButton, .pages #familiy .group .groupInfo .buttons #deleteButtonGroup {
-        color: var(--text-secondary);
-        background-color: var(--red-color);
-        transition: color 0.5s ease-in-out; }
-        .pages #familiy .group .groupInfo .buttons #deleteButton:hover, .pages #familiy .group .groupInfo .buttons #deleteButtonGroup:hover {
-          color: var(--text); }
-      .pages #familiy .group .groupInfo .buttons button {
-        margin: 5px 0px 0px 0px;
-        font-size: 13px;
-        padding: 4px 7px 4px 7px;
-        border: none;
-        border-radius: 10px;
-        background-color: var(--text-secondary);
-        color: var(--accent);
-        cursor: pointer;
-        transition: color 0.5s ease-in-out; }
-        .pages #familiy .group .groupInfo .buttons button:hover {
-          color: var(--text); }
-
-.pages #familiy #activeDiv, .pages #familiy #awatingDiv {
-  background-color: var(--text-background-color);
-  height: 100vh; }
-  .pages #familiy #activeDiv h1, .pages #familiy #awatingDiv h1 {
-    color: var(--primary); }
-  .pages #familiy #activeDiv .users, .pages #familiy #awatingDiv .users {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    gap: 20px; }
-    .pages #familiy #activeDiv .users div, .pages #familiy #awatingDiv .users div {
-      padding: 10px;
+    margin-bottom: 5px; }
+    .pages #familiy .filters label, .pages #tasks .filters label {
+      color: var(--primary);
+      font-size: 20px;
+      padding: 0px 0px 0px 5px; }
+    .pages #familiy .filters input, .pages #tasks .filters input {
+      padding: 5px;
       border-radius: 10px;
-      background-color: var(--secondary);
-      color: white; }
-      .pages #familiy #activeDiv .users div #deleteButton, .pages #familiy #awatingDiv .users div #deleteButton {
-        color: var(--text-secondary);
-        background-color: var(--red-color);
-        transition: color 0.5s ease-in-out; }
-        .pages #familiy #activeDiv .users div #deleteButton:hover, .pages #familiy #awatingDiv .users div #deleteButton:hover {
-          color: var(--text); }
-      .pages #familiy #activeDiv .users div button, .pages #familiy #awatingDiv .users div button {
-        font-size: 13px;
-        padding: 4px 7px 4px 7px;
-        border: none;
-        border-radius: 10px;
-        background-color: var(--text-secondary);
-        color: var(--accent);
-        cursor: pointer;
-        transition: color 0.5s ease-in-out; }
-        .pages #familiy #activeDiv .users div button:hover, .pages #familiy #awatingDiv .users div button:hover {
-          color: var(--text); }
-      .pages #familiy #activeDiv .users div p, .pages #familiy #activeDiv .users div h3, .pages #familiy #awatingDiv .users div p, .pages #familiy #awatingDiv .users div h3 {
-        margin: 5px; }
-      .pages #familiy #activeDiv .users div #userUuid, .pages #familiy #awatingDiv .users div #userUuid {
-        font-size: 10px; }
-
-.pages #familiy #awatingDiv {
-  display: none; }
-
-.pages #familiy .buttons {
-  display: flex;
-  justify-content: center; }
-  .pages #familiy .buttons button {
-    font-size: 20px;
-    margin: 5px;
-    padding: 5px 10px 5px 10px;
-    border: none;
-    border-radius: 10px;
-    background-color: var(--secondary);
-    color: var(--text-secondary);
-    cursor: pointer;
-    transition: color 0.5s ease-in-out; }
-    .pages #familiy .buttons button:hover {
-      color: var(--accent); }
-
-.pages #familiy .filters {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-bottom: 5px; }
-  .pages #familiy .filters label {
-    color: var(--primary);
-    font-size: 20px;
-    padding: 0px 0px 0px 5px; }
-  .pages #familiy .filters input {
-    padding: 5px;
-    border-radius: 10px;
-    border: none;
-    margin: 5px;
-    background-color: var(--text-background-color);
-    color: var(--input-color); }
-  .pages #familiy .filters select {
-    font-size: 12.9px;
-    padding: 3px 5px 3px 5px;
-    margin: 5px;
-    border-radius: 10px;
-    border: none;
-    background-color: var(--text-background-color);
-    color: var(--input-color); }
+      border: none;
+      margin: 5px;
+      background-color: var(--text-background-color);
+      color: var(--input-color); }
+    .pages #familiy .filters select, .pages #tasks .filters select {
+      font-size: 12.9px;
+      padding: 3px 5px 3px 5px;
+      margin: 5px;
+      border-radius: 10px;
+      border: none;
+      background-color: var(--text-background-color);
+      color: var(--input-color); }
 
 @keyframes pageIn {
   0% {

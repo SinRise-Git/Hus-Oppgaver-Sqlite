@@ -25,7 +25,7 @@ navbarLinks.addEventListener('animationend', (event) => {
 function changePage(page) {
     let pagesDiv = document.querySelector('.pages');
     Array.from(pagesDiv.children).forEach(div => {
-        div.id === page ? div.style.display = 'block' : div.style.display = 'none';
+        div.id === page ? div.style.display = 'flex' : div.style.display = 'none';
     });
     document.getElementById('page-title').innerText = page[0].toUpperCase() + page.slice(1) ;
 }
@@ -36,11 +36,26 @@ function changeUserPage(page) {
         div.id === page ? div.style.display = 'block' : div.style.display = 'none';
     });
 }
+function changeGroupPage(page) {
+    let pagesDiv = document.querySelector('.groupTasks');
+    Array.from(pagesDiv.children).forEach(div => {
+        div.id === page ? div.style.display = 'block' : div.style.display = 'none';
+    });
+}
+
 
 document.getElementsByClassName('optionButton')[0].addEventListener('click', async function() {
     document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
     document.getElementsByClassName('settingChange')[0].style.display = 'flex'
 })
+
+if(document.getElementById('addTaskButton')){
+    document.getElementById('addTaskButton').addEventListener('click', async function() {
+        document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+        document.getElementsByClassName('settingTaskCreate')[0].style.display = 'flex'
+    })
+}
+
 
 document.getElementById('settingCancel').addEventListener('click', function() {
     document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
@@ -65,18 +80,176 @@ if (document.getElementById('groupCancel')) {
     });
 }
 
+if(document.getElementById('taskCreateCancel')){
+    document.getElementById('taskCreateCancel').addEventListener('click', function() {
+        document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
+        document.getElementsByClassName('settingTaskCreate')[0].style.display = 'none';
+        document.getElementById("settingTaskCreateResponse").innerText = "";
+        document.getElementById("settingTaskCreateForm").reset();
+    });
+}
+
+if(document.getElementById('taskEditCancel')){
+    document.getElementById('taskEditCancel').addEventListener('click', function() {
+        document.getElementsByClassName('settingBackgroud')[0].style.display = 'none';
+        document.getElementsByClassName('settingTaskEdit')[0].style.display = 'none';
+        document.getElementById("settingTaskEdit").innerText = "";
+        document.getElementById("settingTaskEditForm").reset();
+    });
+}
+
 async function getUserInfo() {
     const requestOptions = {
         method: "POST",
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify()
+        body: JSON.stringify({})
     };
-    let response = await fetch('getUserInfo', requestOptions);
+    let response = await fetch('/getUserInfo', requestOptions);
     let data = await response.json();
     document.getElementById('settingChangeUuid').innerText = data[0].uuid;
     document.getElementById('settingName').placeholder = data[0].name;
     document.getElementById('settingEmail').placeholder = data[0].email;
     document.getElementById('settingGroup').placeholder = data[0].workgroup;
+}
+
+async function getUserInfoTasks(){
+    const requestOptions = {
+        method: "POST",
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({type: "task"})
+    };
+    let response = await fetch('/getUserInfo', requestOptions);
+    let data = await response.json();
+    let groupInfoDiv = `
+    <div class="userInfo">
+       <h2>Welcome ${data[0].name}</h2>
+       <h3>Group: <span>${data[0].workgroup}</span></h3>
+       <p>Tasked assigned to: <span>${data[0].taskAssigned}</span></p>
+       <p>Total tasks completed: <span>${data[0].taskCompleted}</span></p>
+       <p>Total points collected: <span>${data[0].points}</span></p>
+    </div>`
+    document.querySelector("#tasks .userInformation").innerHTML = groupInfoDiv
+}
+
+async function getGroupTasks() {
+    let countActiveTasks = 0;
+    let countAwatingTasks = 0;
+    let countCompletedTasks = 0;
+    let response = await fetch('/getGroupTasks');
+    let data = await response.json();
+    document.querySelector("#activeDiv .tasks").innerHTML = '';
+    document.querySelector("#awatingDiv .tasks").innerHTML = '';
+    document.querySelector("#completedDiv .tasks").innerHTML = '';
+
+    if(data.requestType === "eier" || data.requestType === "voksen"){
+        data.groupTasks.forEach(task => {
+            let assignedTo = task.assignedTo ? task.assignedTo : 'None';
+            if(task.status === "active"){
+                countActiveTasks++;
+                let taskDiv = `
+                <div>
+                    <p id="taskUuid">${task.uuid}</p>
+                    <h3>Name: ${task.name}</h3>
+                    <p>Description: ${task.description}</p>
+                    <p>Points: ${task.points}</p>
+                    <p>Assigned to: ${assignedTo}</p>
+                    <p>Created by: ${task.createdBy}</p>
+                    <p>Created at: ${task.dateCreated}</p>
+                    <button onclick="taskAction('Edit','${task.uuid}')">Edit Task</button>
+                    <button id="deleteButton" onclick="taskAction('Delete','${task.uuid}')">Delete Task</button>
+                </div>`
+                document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
+
+            }else if (task.status === "awating"){
+                countAwatingTasks++;
+                let taskDiv = `
+                <div>
+                    <p id="taskUuid">${task.uuid}</p>
+                    <h3>Name: ${task.name}</h3>
+                    <p>Description: ${task.description}</p>
+                    <p>Points: ${task.points}</p>
+                    <p>Assigned to: ${assignedTo}</p>
+                    <p>Created by: ${task.createdBy}</p>
+                    <p>Completed by: ${task.completedBy}</p>
+                    <p>Created at: ${task.dateCreated}</p>
+                    <p>Completed at: ${task.dateCompleted}</p>
+                    <button onclick="taskAction('Confirmed','${task.uuid}')">Confirm Task</button>
+                    <button id="deleteButton" onclick="taskAction('Uncomplete','${task.uuid}')">Reverse Task</button>
+                </div>`
+                document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
+
+            }else if (task.status === "completed"){
+                countCompletedTasks++
+                let taskDiv = `
+                <div>
+                    <p id="taskUuid">${task.uuid}</p>
+                    <h3>Name: ${task.name}</h3>
+                    <p>Description: ${task.description}</p>
+                    <p>Points: ${task.points}</p>
+                    <p>Assigned to: ${assignedTo}</p>
+                    <p>Created by: ${task.createdBy}</p>
+                    <p>Completed by: ${task.completedBy}</p>
+                    <p>Created at: ${task.dateCreated}</p>
+                    <p>Completed at: ${task.dateCompleted}</p>
+                    <button id="deleteButton" onclick="taskAction('Delete','${task.uuid}')">Delete Task</button>
+                </div>`
+                document.querySelector("#completedDiv .tasks").innerHTML += taskDiv;
+
+            }
+        });
+    } else if (data.requestType === "barn"){
+        if(task.status === "active" && (task.assignedToUUID === data.requestUUID || task.assignedTo === "None")){
+            countActiveTasks++;
+            let taskDiv = `
+            <div>
+                <p id="taskUuid">${task.uuid}</p>
+                <h3>Name: ${task.name}</h3>
+                <p>Description: ${task.description}</p>
+                <p>Points: ${task.points}</p>
+                <p>Assigned to: ${assignedTo}</p>
+                <p>Created by: ${task.createdBy}</p>
+                <p>Created at: ${task.dateCreated}</p>
+                <button onclick="taskAction('Complete','${task.uuid}')">Complete Task</button>
+            </div>`
+            document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
+
+        } else if (task.status === "awating" || task.completedBy === data.completedBy){
+            countAwatingTasks++;
+            let taskDiv = `
+            <div>
+                <p id="taskUuid">${task.uuid}</p>
+                <h3>Name: ${task.name}</h3>
+                <p>Description: ${task.description}</p>
+                <p>Points: ${task.points}</p>
+                <p>Assigned to: ${assignedTo}</p>
+                <p>Created by: ${task.createdBy}</p>
+                <p>Created at: ${task.dateCreated}</p>
+                <button onclick="taskAction('Uncomplete','${task.uuid}')">Reverse Task</button>
+            </div>`
+            document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
+
+        } else if (task.status === "completed" || task.completedBy === us){
+            countCompletedTasks++
+            let taskDiv = `
+            <div>
+                <p id="taskUuid">${task.uuid}</p>
+                <h3>Name: ${task.name}</h3>
+                <p>Description: ${task.description}</p>
+                <p>Points: ${task.points}</p>
+                <p>Assigned to: ${assignedTo}</p>
+                <p>Created by: ${task.createdBy}</p>
+                <p>Created at: ${task.dateCreated}</p>
+                <button id="deleteButton" onclick="taskAction('delete','${task.uuid}')">Remove Task</button>
+            </div>`
+            document.querySelector("#completedDiv .tasks").innerHTML += taskDiv;
+
+
+        }
+    }
+    document.getElementById('activeTasksCount').innerText = countActiveTasks;
+    document.getElementById('awatingTasksCount').innerText = countAwatingTasks;
+    document.getElementById('completedTasksCount').innerText = countCompletedTasks;
+    
 }
 
 document.getElementById('filterName').addEventListener('input',  getGroupUsers)
@@ -117,10 +290,10 @@ async function getGroupUsers() {
     }
     let filterSearch = document.getElementById("filterName").value.toLowerCase()
     let filterRoleElement = document.getElementById("filterRole");
-    let filterRole = filterRoleElement ? filterRoleElement.value : "all";    let filterMost = document.getElementById("filterMost").value
+    let filterRole = filterRoleElement ? filterRoleElement.value : "all"; let filterMost = document.getElementById("filterMost").value
     filterMost === "points" ? data.userInfo.sort((a, b) => b.points - a.points) : data.userInfo.sort((a, b) => b.taskCompleted - a.taskCompleted);
     document.querySelector("#familiy .group").innerHTML = groupInfoDiv
-    document.querySelector("#activeDiv .users").innerHTML = '';
+    document.querySelector(".userDiv #activeDiv .users").innerHTML = '';
     if(data.requestType === "eier" || data.requestType === "voksen"){
         document.querySelector("#awatingDiv .users").innerHTML = '';
         data.userInfo.forEach(user => {  
@@ -170,7 +343,7 @@ async function getGroupUsers() {
                         <p>Tasks completed: ${user.taskCompleted}</p>
                         <p>Points: ${user.points}</p>
                     </div>`
-                    document.querySelector("#activeDiv .users").innerHTML += userDiv;
+                    document.querySelector(".userDiv #activeDiv .users").innerHTML += userDiv;
                 }
             }
         })
@@ -237,6 +410,59 @@ async function deleteGroup(){
         }
     }
 }
+
+async function taskAction(type, uuid){
+    if(type === "Delete"){
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({uuid: uuid})
+        };
+        let response = await fetch(`/${type.toLowerCase()}GroupTasks`, requestOptions);
+        let data = await response.json();
+        if(data.responseMessage){
+            getGroupTasks();
+        }
+    } else if (type === "Edit"){
+        document.getElementsByClassName('settingBackgroud')[0].style.display = 'flex'
+        document.getElementsByClassName('settingTaskEdit')[0].style.display = 'flex'
+        const requestOptions = {
+            method: "POST",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({uuid: uuid})
+        };
+        let response = await fetch(`/${type.toLowerCase()}GroupTasks`, requestOptions);
+        let data = await response.json();
+        document.getElementById('settingTaskEditUuid').innerText = data[0].uuid;
+        document.getElementById('taskEditName').placeholder = data[0].name;
+        document.getElementById('taskEditDescription').placeholder = data[0].description;
+        document.getElementById('taskEditPoints').placeholder = data[0].points;
+
+    } else if (type === "Complete" || type === "Uncomplete" ){
+        const requestOptions = {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({uuid: uuid})
+        };
+        let response = await fetch(`/${type.toLowerCase()}GroupTasks`, requestOptions);
+        let data = await response.json();
+        if(data.responseMessage){
+            getGroupTasks();
+        }
+    } else if (type === "Confirmed"){
+        const requestOptions = {
+            method: "PUT",
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({uuid: uuid})
+        };
+        let response = await fetch(`/${type.toLowerCase()}GroupTasks`, requestOptions);
+        let data = await response.json();
+        if(data.responseMessage){
+            getGroupTasks();
+        }
+    }
+}
+
 document.getElementById('settingConfirm').addEventListener('click', async function () {
     let settingName = document.getElementById("settingName");
     let settingEmail = document.getElementById("settingEmail");
@@ -268,6 +494,7 @@ document.getElementById('settingConfirm').addEventListener('click', async functi
         if (data.responseMessage === "The user info is updated!") {
             responseMessageDisplay.style.color = "green"
             await getUserInfo()
+            await getUserInfoTasks()
             document.getElementById("settingChangeForm").reset()
         } else {
             responseMessageDisplay.style.color = "red"
@@ -359,10 +586,85 @@ if(document.getElementById('groupConfirm')){
     })
 }
 
+if(document.getElementById('taskCreateConfirm')){
+    document.getElementById('taskCreateConfirm').addEventListener('click', async function() {
+        let taskName = document.getElementById("taskCreateName");
+        let taskDescription = document.getElementById("taskCreateName");
+        let taskPoints = document.getElementById("taskCreatePoints");
+        let taskAssigned = document.getElementById("taskCreateAssigned");
+        let responseMessage =  document.getElementById("settingTaskCreateResponse")
+        if (taskName.value === "" || taskDescription.value === "" || taskPoints.value === ""){
+            responseMessage.innerText = "All fields must be filled out, except assigned!";
+            responseMessage.style.color = "red"
+        } else {
+            let assignedTo = taskAssigned.value === "" ? "none" : taskAssigned.value ;
+            const createTask = {
+                name: taskName.value,
+                description: taskDescription.value,
+                points: taskPoints.value,
+                assignedTo: assignedTo
+            };
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(createTask)
+            };
+            let response = await fetch('/createGroupTasks', requestOptions)
+            let data = await response.json();
+            if (data.responseMessage) {
+                responseMessage.innerText = data.responseMessage;
+                if (data.responseMessage === "The task is created!") {
+                    responseMessage.style.color = "green"
+                    document.getElementById("settingTaskCreateForm").reset()
+                    getGroupTasks() 
+                } else {
+                    responseMessage.style.color = "red"
+                }
+            }
+        }
+    })
+}
 
+if(document.getElementById('taskEditConfirm')){
+    document.getElementById('taskEditConfirm').addEventListener('click', async function() {
+        let editName = document.getElementById("taskEditName");
+        let editDesc = document.getElementById("taskEditDescription");
+        let editPoints = document.getElementById("taskEditPoints");
+        let taskUUID = document.getElementById("settingTaskEditUuid");
+        let responseMessage = document.getElementById("settingTaskEdit");
+        
+        let newName = editName.value === "" ? editName.placeholder : editName.value;
+        let newDesc = editDesc.value === "" ?  editDesc.placeholder : editDesc.value;
+        let newPoints = editPoints.value === "" ? editPoints.placeholder : editPoints.value;
+
+        const updateGroup = {
+            uuid: taskUUID.innerText,
+            name: newName,
+            description: newDesc,
+            points: newPoints
+        };
+        const requestOptions = {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(updateGroup)
+        };
+        console.log(updateGroup)
+        let response = await fetch('/confirmGroupTasks', requestOptions)
+        data = await response.json();
+        if(data.responseMessage){
+           responseMessage.innerText = data.responseMessage;
+           responseMessage.style.color = "green"
+           editName.placeholder = newName;
+           editDesc.placeholder = newDesc;
+           editPoints.placeholder = newPoints;
+           document.getElementById("settingTaskEditForm").reset()
+           getGroupTasks();
+        }
+    })
+}
 
 async function getUserRoles() {
-    let response = await fetch('getUserRoles');
+    let response = await fetch('/getUserRoles');
     let data = await response.json();
     let select = document.getElementById('filterRole');
     data.forEach(role => {
@@ -373,6 +675,13 @@ async function getUserRoles() {
     });
 }
 
+async function getLeaderboard(){
+    let response = await fetch('/getGroupUsers');
+    let data = await response.json();
+    let userPoints = data.userInfo.sort((a, b) => b.points - a.points);
+    let userTasks = data.userInfo.sort((a, b) => b.taskCompleted - a.taskCompleted);    
+}
+
 document.getElementsByClassName('optionButton')[1].addEventListener('click', async function() {
     let response = await fetch('logout');
     let data = await response.json();
@@ -381,6 +690,9 @@ document.getElementsByClassName('optionButton')[1].addEventListener('click', asy
     }
 });
 
-getUserInfo();
-getGroupUsers();
+getUserInfo()
+getGroupTasks()
+getGroupUsers()
 getUserRoles()
+getLeaderboard()
+getUserInfoTasks()
