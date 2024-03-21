@@ -217,7 +217,7 @@ async function getGroupTasks() {
                 </div>`
                 document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
     
-            } else if (task.status === "awating" || task.completedBy === data.requestUUID){
+            } else if (task.status === "awating" && task.completedBy === data.requestUUID){
                 countAwatingTasks++;
                 let taskDiv = `
                 <div>
@@ -232,7 +232,7 @@ async function getGroupTasks() {
                 </div>`
                 document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
     
-            } else if (task.status === "completed" || task.completedBy === data.requestUUID){
+            } else if (task.status === "completed" && task.completedBy === data.requestUUID){
                 countCompletedTasks++
                 let taskDiv = `
                 <div>
