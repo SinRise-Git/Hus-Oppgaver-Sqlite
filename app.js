@@ -277,9 +277,17 @@ async function userConfirm(request, response){
 }
 
 async function confirmGroupTasks(request, response){
-    let sql = db.prepare("UPDATE tasks SET name = ?, description = ?, points = ? WHERE uuid = ?")
-    let editTask = sql.run(request.body.name, request.body.description, request.body.points, request.body.uuid)
-    response.send({responseMessage: "The task is updated!"})
+    let assignedToValue = request.body.assignedTo.toLowerCase() === "none" ? "None" : request.body.assignedTo
+    let checkUser = await checkAvailability("users", "uuid", request.body.assignedTo)
+    if(checkUser === false || assignedToValue === "None"){
+        let sql = db.prepare("UPDATE tasks SET name = ?, description = ?, points = ?, assignedTo = ? WHERE uuid = ?")
+        let editTask = sql.run(request.body.name, request.body.description, request.body.points, assignedToValue, request.body.uuid)
+        response.send({responseMessage: "The task is updated!"})
+    }
+    else{
+        response.send({responseMessage: "There is no user with this uuid!"})
+    }
+
 }
 
 async function completeGroupTasks(request, response){
@@ -300,7 +308,7 @@ async function confirmedGroupTasks(request, response){
 }
 
 async function editGroupTasks(request, response){
-    let sql = db.prepare("SELECT tasks.uuid, tasks.name, tasks.description, tasks.points FROM tasks WHERE tasks.uuid = ?")
+    let sql = db.prepare("SELECT tasks.uuid, tasks.name, tasks.description, tasks.points, tasks.assignedTo FROM tasks WHERE tasks.uuid = ?")
     let getTaskInfo = sql.all(request.body.uuid)
     response.send(getTaskInfo)
 }

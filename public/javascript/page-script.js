@@ -125,7 +125,7 @@ async function getUserInfoTasks(){
     let groupInfoDiv = `
     <div class="userInfo">
        <h2>Welcome ${data[0].name}</h2>
-       <h3>Group: <span>${data[0].workgroup}</span></h3>
+       <p>Group: <span>${data[0].workgroup}</span></p>
        <p>Tasked assigned to: <span>${data[0].taskAssigned}</span></p>
        <p>Total tasks completed: <span>${data[0].taskCompleted}</span></p>
        <p>Total points collected: <span>${data[0].points}</span></p>
@@ -139,7 +139,6 @@ async function getGroupTasks() {
     let countCompletedTasks = 0;
     let response = await fetch('/getGroupTasks');
     let data = await response.json();
-    console.log(data)
     document.querySelector("#activeDiv .tasks").innerHTML = '';
     document.querySelector("#awatingDiv .tasks").innerHTML = '';
     document.querySelector("#completedDiv .tasks").innerHTML = '';
@@ -443,6 +442,7 @@ async function taskAction(type, uuid){
         document.getElementById('taskEditName').placeholder = data[0].name;
         document.getElementById('taskEditDescription').placeholder = data[0].description;
         document.getElementById('taskEditPoints').placeholder = data[0].points;
+        document.getElementById('taskEditAssigned').placeholder = data[0].assignedTo;
 
     } else if (type === "Complete" || type === "Uncomplete" ){
         const requestOptions = {
@@ -638,35 +638,42 @@ if(document.getElementById('taskEditConfirm')){
         let editName = document.getElementById("taskEditName");
         let editDesc = document.getElementById("taskEditDescription");
         let editPoints = document.getElementById("taskEditPoints");
+        let editUUID = document.getElementById("taskEditAssigned");
         let taskUUID = document.getElementById("settingTaskEditUuid");
         let responseMessage = document.getElementById("settingTaskEdit");
         
         let newName = editName.value === "" ? editName.placeholder : editName.value;
         let newDesc = editDesc.value === "" ?  editDesc.placeholder : editDesc.value;
         let newPoints = editPoints.value === "" ? editPoints.placeholder : editPoints.value;
+        let newAssigned = editUUID.value === "" ? editUUID.placeholder : editUUID.value;
 
         const updateGroup = {
             uuid: taskUUID.innerText,
             name: newName,
             description: newDesc,
-            points: newPoints
+            points: newPoints,
+            assignedTo: newAssigned
         };
         const requestOptions = {
             method: 'PUT',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(updateGroup)
         };
-        console.log(updateGroup)
         let response = await fetch('/confirmGroupTasks', requestOptions)
         data = await response.json();
         if(data.responseMessage){
            responseMessage.innerText = data.responseMessage;
-           responseMessage.style.color = "green"
-           editName.placeholder = newName;
-           editDesc.placeholder = newDesc;
-           editPoints.placeholder = newPoints;
-           document.getElementById("settingTaskEditForm").reset()
-           getGroupTasks();
+           if(data.responseMessage === "The task is updated!"){
+               responseMessage.style.color = "green"
+               editName.placeholder = newName;
+               editDesc.placeholder = newDesc;
+               editPoints.placeholder = newPoints;
+               editUUID.placeholder = newAssigned;
+               document.getElementById("settingTaskEditForm").reset()
+               getGroupTasks();
+           } else {
+               responseMessage.style.color = "red"
+           }
         }
     })
 }

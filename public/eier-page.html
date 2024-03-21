@@ -23,11 +23,11 @@
                 </div>
                 <div>
                   <label for="editTaskCompleted">Tasks:</label>
-                  <input type="text" id="editTaskCompleted">
+                  <input type="number" id="editTaskCompleted">
                 </div>
                 <div>
                   <label for="editPoints">Points:</label>
-                  <input type="text" id="editPoints">
+                  <input type="number" id="editPoints">
                 </div>
               </form>
             <div class="buttons">
@@ -126,7 +126,11 @@
                   </div>
                   <div>
                     <label for="taskEditPoints">Points:</label>
-                    <input type="text" id="taskEditPoints">
+                    <input type="number" id="taskEditPoints">
+                  </div>
+                  <div>
+                    <label for="taskEditAssigned">Assigned:</label>
+                    <input type="text" id="taskEditAssigned">
                   </div>
                 </form>
               <div class="buttons">
@@ -185,8 +189,20 @@
               <button onclick="changeGroupPage('awatingDiv')">Awating Tasks</button>
               <button onclick="changeGroupPage('completedDiv')">Completed Tasks</button>
             </div>
-            <div class="filtes">
-
+            <div class="filters">
+              <label for="filterName">Search:</label>
+              <input type="text" id="filterName" placeholder="Search...">
+              <label for="filterAssigned">Assigned:</label>
+              <select id="filterAssigned">
+                <option value="none">Noen</option>
+                <option value="you">You</option>
+              </select>
+              <label for="filterMost">Most:</label>
+              <select id="filterMost">
+                <option value="none">None</option>
+                <option value="points">Points</option>
+                <option value="tasks">Tasks</option>
+              </select>
             </div>
             <div class="groupTasks"> 
               <div id="activeDiv">
