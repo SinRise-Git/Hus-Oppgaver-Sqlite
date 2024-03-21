@@ -241,7 +241,7 @@ body {
       flex-wrap: wrap;
       gap: 20px; }
       .pages #familiy #activeDiv .users div, .pages #familiy #activeDiv .tasks div, .pages #familiy #awatingDiv .users div, .pages #familiy #awatingDiv .tasks div, .pages #familiy #completedDiv .users div, .pages #familiy #completedDiv .tasks div, .pages #tasks #activeDiv .users div, .pages #tasks #activeDiv .tasks div, .pages #tasks #awatingDiv .users div, .pages #tasks #awatingDiv .tasks div, .pages #tasks #completedDiv .users div, .pages #tasks #completedDiv .tasks div {
-        max-width: 200px;
+        max-width: 220px;
         padding: 10px;
         border-radius: 10px;
         background-color: var(--secondary);

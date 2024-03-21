@@ -126,7 +126,7 @@ async function getUserInfoTasks(){
     <div class="userInfo">
        <h2>Welcome ${data[0].name}</h2>
        <p>Group: <span>${data[0].workgroup}</span></p>
-       <p>Tasked assigned to: <span>${data[0].taskAssigned}</span></p>
+       <p>Tasked assigned to you: <span>${data[0].taskAssigned}</span></p>
        <p>Total tasks completed: <span>${data[0].taskCompleted}</span></p>
        <p>Total points collected: <span>${data[0].points}</span></p>
     </div>`
@@ -202,7 +202,7 @@ async function getGroupTasks() {
     } else if (data.requestType === "barn"){
         data.groupTasks.forEach(task => {
             let assignedTo = task.assignedTo ? task.assignedTo : 'None';
-            if(task.status === "active" && (task.assignedToUUID === data.requestUUID || task.assignedTo === "None")){
+            if(task.status === "active" && (task.assignedToUUID === data.requestUUID || task.assignedTo === null)){
                 countActiveTasks++;
                 let taskDiv = `
                 <div>
@@ -345,6 +345,7 @@ async function getGroupUsers() {
                         <p id="userUuid">${user.uuid}</p>
                         <h3>Navn: ${user.name}</h3>
                         <p>Email: ${user.email}</p>
+                        <p>Role: ${user.userRole}</p>
                         <p>Tasks completed: ${user.taskCompleted}</p>
                         <p>Points: ${user.points}</p>
                     </div>`
