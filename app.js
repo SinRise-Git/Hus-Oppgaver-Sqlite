@@ -16,6 +16,7 @@ app.use(express.json());
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
+    
     resave: false,
     saveUninitialized: false
 }))
@@ -54,6 +55,8 @@ app.post("/getUserInfo", getUserInfo)
 app.get("/getGroupUsers", getGroupUsers)
 
 app.get("/getGroupTasks", getGroupTasks)
+
+app.get("/getLeaderboard", getLeaderboard)
 
 app.post("/createGroupTasks", createGroupTasks)
 
@@ -194,10 +197,12 @@ async function getGroupUsers(request, response){
 async function getGroupTasks(request, response){
     let sql = db.prepare(`
     SELECT tasks.uuid, tasks.status, tasks.name, tasks.description, tasks.points, tasks.dateCreated, tasks.dateCompleted, 
-    userCreatedBy.name As createdBy, userAssignedBy.name AS userAssigned, tasks.assignedTo, tasks.completedBy
+    userCreatedBy.name AS createdByName, userAssignedBy.name AS userAssignedName, tasks.assignedTo AS assignedToUUID, 
+    tasks.completedBy AS completedbyUUID, userCompletedBy.name AS completedByName
     FROM tasks
-    INNER JOIN users As userCreatedBy ON tasks.createdBy = userCreatedBy.id
-    LEFT JOIN users As userAssignedBy ON tasks.assignedTo = userAssignedBy.uuid
+    INNER JOIN users AS userCreatedBy ON tasks.createdBy = userCreatedBy.id
+    LEFT JOIN users AS userAssignedBy ON tasks.assignedTo = userAssignedBy.uuid
+    LEFT JOIN users AS userCompletedBy ON tasks.completedBy = userCompletedBy.uuid
     WHERE tasks.workgroup = ? 
     `)
     let rows = sql.all(request.session.userWorkgroup)
@@ -209,10 +214,11 @@ async function getGroupTasks(request, response){
         points: task.points,
         dateCreated: task.dateCreated,
         dateCompleted: task.dateCompleted,
-        createdBy: task.createdBy,
-        assignedTo: task.userAssigned,
-        assignedToUUID: task.assignedTo,
-        completedBy: task.completedBy,
+        createdBy: task.createdByName,
+        assignedTo: task.userAssignedName,
+        assignedToUUID: task.assignedToUUID,
+        completedBy: task.completedByName,
+        completedByUUID: task.completedbyUUID
     }))
     response.send({
        requestType: request.session.isLoggedIn,
@@ -225,10 +231,10 @@ async function getGroupTasks(request, response){
 
 async function createGroupTasks(request, response){
     group = request.body  
+    let date = new Date().toISOString().slice(0, 10);
     if(group.assignedTo === "none"){
         let sqlCreateTask = db.prepare("INSERT INTO tasks (uuid, status, name, description, points, dateCreated, dateCompleted, createdBy, assignedTo, completedBy, workgroup) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
         let UUID = await generatedUuid("tasks")
-        let date = new Date().toISOString()
         let createTask = sqlCreateTask.run(UUID, "active", group.name, group.description, group.points, date, "None", request.session.userID, "None", "None", request.session.userWorkgroup)
         if(createTask){
             response.send({responseMessage: "The task is created!"})
@@ -238,7 +244,6 @@ async function createGroupTasks(request, response){
         if(checkUser === false){
             let sqlCreateTask = db.prepare("INSERT INTO tasks (uuid, status, name, description, points, dateCreated, dateCompleted, createdBy, assignedTo, completedBy, workgroup) values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
             let UUID = await generatedUuid("tasks")
-            let date = new Date().toISOString()
             let createTask = sqlCreateTask.run(UUID, "active", group.name, group.description, group.points, date, "None", request.session.userID, group.assignedTo, "None", request.session.userWorkgroup)
             if(createTask){
                response.send({responseMessage: "The task is created!"})
@@ -292,8 +297,8 @@ async function confirmGroupTasks(request, response){
 
 async function completeGroupTasks(request, response){
     let sql = db.prepare("UPDATE tasks SET status = ?, dateCompleted = ?, completedBy = ? WHERE uuid = ?")
-    let date = new Date().toISOString()
-    let editTask = sql.run("awating", date, request.session.userID, request.body.uuid)
+    let date = new Date().toISOString().slice(0, 10);
+    let editTask = sql.run("awating", date, request.session.userUUID, request.body.uuid)
     response.send({responseMessage: "The task is completed!"})
 }
 
@@ -304,7 +309,10 @@ async function uncompleteGroupTasks(request, response){
 }
 
 async function confirmedGroupTasks(request, response){
-    
+    let sqlTaskPoints = db.prepare("SELECT points, completedBy FROM tasks WHERE uuid = ?").all(request.body.taskUUID)
+    let sqlUpdateTask = db.prepare("UPDATE tasks SET status = ? WHERE uuid = ?").run("completed", request.body.taskUUID)
+    let sqlUpdateUser = db.prepare("UPDATE users SET points = points + ?, taskCompleted = taskCompleted + 1 WHERE uuid = ?").run(sqlTaskPoints[0].points, sqlTaskPoints[0].completedBy)
+    response.send({responseMessage: "The task is completed!"})
 }
 
 async function editGroupTasks(request, response){
@@ -329,6 +337,29 @@ async function groupDelete(request, response){
     //})();
     //request.session.destroy()
     //response.send({responseURL: "login-page.html"})
+}
+
+
+async function getLeaderboard(request, response){
+    let leaderboard = []
+    let totalPoints
+    let totalTaskCompleted
+    let sqlGetGroup = db.prepare(`SELECT workgroup.id, workgroup.name FROM workgroup`).all()
+    sqlGetGroup.forEach(group => {
+        let sqlGetUsers = db.prepare(`SELECT users.name, users.points, users.taskCompleted FROM users WHERE workgroup = ?`).all(group.ID)
+        totalPoints = 0
+        totalTaskCompleted = 0 
+        sqlGetUsers.forEach(user => {
+            totalPoints += user.points
+            totalTaskCompleted += user.taskCompleted
+        })
+        leaderboard.push({
+            groupName: group.name,
+            totalPoints: totalPoints,
+            totalTaskCompleted: totalTaskCompleted
+        });
+    })
+    response.send(leaderboard)
 }
 
 async function checkLogin(request, response){

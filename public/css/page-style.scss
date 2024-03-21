@@ -386,6 +386,54 @@ body {
                 color: var(--input-color); 
             }
         }
+        
+    }
+    #leaderboard{
+        text-align: center;
+        justify-content: center;
+        align-items: center;
+        .leaderboards{
+            .leaderboardName{
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                h1{
+                    background-color: var(--accent);
+                    color: var(--text-secondary);
+                    text-align: center;
+                    padding: 10px;
+                    border-radius: 10px;
+                }
+            }
+            .familiyLeaderBoard, .groupLeaderBoard{
+                .leaderboard{
+                    background-color: var(--secondary); 
+                    color: var(--text-secondary);
+                    padding: 20px;
+                    display: flex;
+                    flex-direction: column;
+                    justify-content: center;
+                    align-items: center;
+                    border-radius: 10px;
+                    h2{
+                        margin: 0px;
+                        font-size: 30px;
+                    }
+                    td{
+                        font-size: 20px;
+                    }
+                    th{
+                        font-size: 20px;
+                    
+                    }
+                }
+                width: 100vw;
+                display: flex;
+                justify-content: center;
+                gap: 100px;
+
+            }
+        }
     }
 
 }

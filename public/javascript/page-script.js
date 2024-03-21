@@ -133,122 +133,138 @@ async function getUserInfoTasks(){
     document.querySelector("#tasks .userInformation").innerHTML = groupInfoDiv
 }
 
+
+document.getElementById("filterNameTasks").addEventListener('input', getGroupTasks)
+document.getElementById("filterAssigned").addEventListener('change', getGroupTasks)
+document.getElementById("filterMostTasks").addEventListener('change', getGroupTasks)
+
 async function getGroupTasks() {
     let countActiveTasks = 0;
     let countAwatingTasks = 0;
     let countCompletedTasks = 0;
     let response = await fetch('/getGroupTasks');
     let data = await response.json();
+    let filterSearch = document.getElementById("filterNameTasks").value.toLowerCase()
+    let filterAssigned = document.getElementById("filterAssigned").value
     document.querySelector("#activeDiv .tasks").innerHTML = '';
     document.querySelector("#awatingDiv .tasks").innerHTML = '';
     document.querySelector("#completedDiv .tasks").innerHTML = '';
-
+    let filterMost = document.getElementById("filterMostTasks").value
+    filterMost === "points" ? data.groupTasks.sort((a, b) => b.points - a.points) : data.groupTasks;
     if(data.requestType === "eier" || data.requestType === "voksen"){
         data.groupTasks.forEach(task => {
-            let assignedTo = task.assignedTo ? task.assignedTo : 'None';
-            if(task.status === "active"){
-                countActiveTasks++;
-                let taskDiv = `
-                <div>
-                    <p id="taskUuid">${task.uuid}</p>
-                    <h3>Name: ${task.name}</h3>
-                    <p>Description: ${task.description}</p>
-                    <p>Points: ${task.points}</p>
-                    <p>Assigned to: ${assignedTo}</p>
-                    <p>Created by: ${task.createdBy}</p>
-                    <p>Created at: ${task.dateCreated}</p>
-                    <button onclick="taskAction('Edit','${task.uuid}')">Edit Task</button>
-                    <button id="deleteButton" onclick="taskAction('Delete','${task.uuid}')">Delete Task</button>
-                </div>`
-                document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
-
-            }else if (task.status === "awating"){
-                countAwatingTasks++;
-                let taskDiv = `
-                <div>
-                    <p id="taskUuid">${task.uuid}</p>
-                    <h3>Name: ${task.name}</h3>
-                    <p>Description: ${task.description}</p>
-                    <p>Points: ${task.points}</p>
-                    <p>Assigned to: ${assignedTo}</p>
-                    <p>Created by: ${task.createdBy}</p>
-                    <p>Completed by: ${task.completedBy}</p>
-                    <p>Created at: ${task.dateCreated}</p>
-                    <p>Completed at: ${task.dateCompleted}</p>
-                    <button onclick="taskAction('Confirmed','${task.uuid}')">Confirm Task</button>
-                    <button id="deleteButton" onclick="taskAction('Uncomplete','${task.uuid}')">Reverse Task</button>
-                </div>`
-                document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
-
-            }else if (task.status === "completed"){
-                countCompletedTasks++
-                let taskDiv = `
-                <div>
-                    <p id="taskUuid">${task.uuid}</p>
-                    <h3>Name: ${task.name}</h3>
-                    <p>Description: ${task.description}</p>
-                    <p>Points: ${task.points}</p>
-                    <p>Assigned to: ${assignedTo}</p>
-                    <p>Created by: ${task.createdBy}</p>
-                    <p>Completed by: ${task.completedBy}</p>
-                    <p>Created at: ${task.dateCreated}</p>
-                    <p>Completed at: ${task.dateCompleted}</p>
-                    <button id="deleteButton" onclick="taskAction('Delete','${task.uuid}')">Delete Task</button>
-                </div>`
-                document.querySelector("#completedDiv .tasks").innerHTML += taskDiv;
-
+            if((filterSearch === "" || task.name.toLowerCase().includes(filterSearch)) && (filterAssigned === "any" ||  task.assignedToUUID === data.requestUUID)){
+                let assignedTo = task.assignedTo ? task.assignedTo : 'None';
+                if(task.status === "active"){
+                    countActiveTasks++;
+                    let taskDiv = `
+                    <div>
+                        <p id="taskUuid">${task.uuid}</p>
+                        <h3>Name: ${task.name}</h3>
+                        <p>Description: ${task.description}</p>
+                        <p>Points: ${task.points}</p>
+                        <p>Assigned to: ${assignedTo}</p>
+                        <p>Created by: ${task.createdBy}</p>
+                        <p>Created at: ${task.dateCreated}</p>
+                        <button onclick="taskAction('Edit','${task.uuid}')">Edit Task</button>
+                        <button id="deleteButton" onclick="taskAction('Delete','${task.uuid}')">Delete Task</button>
+                    </div>`
+                    document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
+    
+                }else if (task.status === "awating"){
+                    countAwatingTasks++;
+                    let taskDiv = `
+                    <div>
+                        <p id="taskUuid">${task.uuid}</p>
+                        <h3>Name: ${task.name}</h3>
+                        <p>Description: ${task.description}</p>
+                        <p>Points: ${task.points}</p>
+                        <p>Assigned to: ${assignedTo}</p>
+                        <p>Created by: ${task.createdBy}</p>
+                        <p>Completed by: ${task.completedBy}</p>
+                        <p>Created at: ${task.dateCreated}</p>
+                        <p>Completed at: ${task.dateCompleted}</p>
+                        <button onclick="taskAction('Confirmed','${task.uuid}')">Confirm Task</button>
+                        <button id="deleteButton" onclick="taskAction('Uncomplete','${task.uuid}')">Reverse Task</button>
+                    </div>`
+                    document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
+    
+                }else if (task.status === "completed"){
+                    countCompletedTasks++
+                    let taskDiv = `
+                    <div>
+                        <p id="taskUuid">${task.uuid}</p>
+                        <h3>Name: ${task.name}</h3>
+                        <p>Description: ${task.description}</p>
+                        <p>Points: ${task.points}</p>
+                        <p>Assigned to: ${assignedTo}</p>
+                        <p>Created by: ${task.createdBy}</p>
+                        <p>Completed by: ${task.completedBy}</p>
+                        <p>Created at: ${task.dateCreated}</p>
+                        <p>Completed at: ${task.dateCompleted}</p>
+                        <button id="deleteButton" onclick="taskAction('Delete','${task.uuid}')">Delete Task</button>
+                    </div>`
+                    document.querySelector("#completedDiv .tasks").innerHTML += taskDiv;
+    
+                }
             }
+
         });
     } else if (data.requestType === "barn"){
         data.groupTasks.forEach(task => {
-            let assignedTo = task.assignedTo ? task.assignedTo : 'None';
-            if(task.status === "active" && (task.assignedToUUID === data.requestUUID || task.assignedTo === null)){
-                countActiveTasks++;
-                let taskDiv = `
-                <div>
-                    <p id="taskUuid">${task.uuid}</p>
-                    <h3>Name: ${task.name}</h3>
-                    <p>Description: ${task.description}</p>
-                    <p>Points: ${task.points}</p>
-                    <p>Assigned to: ${assignedTo}</p>
-                    <p>Created by: ${task.createdBy}</p>
-                    <p>Created at: ${task.dateCreated}</p>
-                    <button onclick="taskAction('Complete','${task.uuid}')">Complete Task</button>
-                </div>`
-                document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
-    
-            } else if (task.status === "awating" && task.completedBy === data.requestUUID){
-                countAwatingTasks++;
-                let taskDiv = `
-                <div>
-                    <p id="taskUuid">${task.uuid}</p>
-                    <h3>Name: ${task.name}</h3>
-                    <p>Description: ${task.description}</p>
-                    <p>Points: ${task.points}</p>
-                    <p>Assigned to: ${assignedTo}</p>
-                    <p>Created by: ${task.createdBy}</p>
-                    <p>Created at: ${task.dateCreated}</p>
-                    <button onclick="taskAction('Uncomplete','${task.uuid}')">Reverse Task</button>
-                </div>`
-                document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
-    
-            } else if (task.status === "completed" && task.completedBy === data.requestUUID){
-                countCompletedTasks++
-                let taskDiv = `
-                <div>
-                    <p id="taskUuid">${task.uuid}</p>
-                    <h3>Name: ${task.name}</h3>
-                    <p>Description: ${task.description}</p>
-                    <p>Points: ${task.points}</p>
-                    <p>Assigned to: ${assignedTo}</p>
-                    <p>Created by: ${task.createdBy}</p>
-                    <p>Created at: ${task.dateCreated}</p>
-                    <button id="deleteButton" onclick="taskAction('delete','${task.uuid}')">Remove Task</button>
-                </div>`
-                document.querySelector("#completedDiv .tasks").innerHTML += taskDiv;
-    
-    
+            if((filterSearch === "" || task.name.toLowerCase().includes(filterSearch)) && (filterAssigned === "any" ||  task.assignedToUUID === data.requestUUID)){
+                let assignedTo = task.assignedTo ? task.assignedTo : 'None';
+                if(task.status === "active" && (task.assignedToUUID === data.requestUUID || task.assignedTo === null)){
+                    countActiveTasks++;
+                    let taskDiv = `
+                    <div>
+                        <p id="taskUuid">${task.uuid}</p>
+                        <h3>Name: ${task.name}</h3>
+                        <p>Description: ${task.description}</p>
+                        <p>Points: ${task.points}</p>
+                        <p>Assigned to: ${assignedTo}</p>
+                        <p>Created by: ${task.createdBy}</p>
+                        <p>Created at: ${task.dateCreated}</p>
+                        <button onclick="taskAction('Complete','${task.uuid}')">Complete Tasks</button>
+                    </div>`
+                    document.querySelector("#activeDiv .tasks").innerHTML += taskDiv;
+        
+                } else if (task.status === "awating" && task.completedByUUID === data.requestUUID){
+                    countAwatingTasks++;
+                    let taskDiv = `
+                    <div>
+                        <p id="taskUuid">${task.uuid}</p>
+                        <h3>Name: ${task.name}</h3>
+                        <p>Description: ${task.description}</p>
+                        <p>Points: ${task.points}</p>
+                        <p>Assigned to: ${assignedTo}</p>
+                        <p>Created by: ${task.createdBy}</p>
+                        <p>Created at: ${task.dateCreated}</p>
+                        <p>Finished at: ${task.dateCompleted}</p>
+                        <button id="deleteButton" onclick="taskAction('Uncomplete','${task.uuid}')">Reverse Task</button>
+                    </div>`
+                    document.querySelector("#awatingDiv .tasks").innerHTML += taskDiv;
+        
+                } else if (task.status === "completed" && task.completedByUUID === data.requestUUID){
+                    countCompletedTasks++
+                    let taskDiv = `
+                    <div>
+                        <p id="taskUuid">${task.uuid}</p>
+                        <h3>Name: ${task.name}</h3>
+                        <p>Description: ${task.description}</p>
+                        <p>Points: ${task.points}</p>
+                        <p>Assigned to: ${assignedTo}</p>
+                        <p>Created by: ${task.createdBy}</p>
+                        <p>Created at: ${task.dateCreated}</p>
+                        <p>Finished at: ${task.dateCompleted}</p>
+                        <button id="deleteButton" onclick="taskAction('delete','${task.uuid}')">Remove Task</button>
+                    </div>`
+                    document.querySelector("#completedDiv .tasks").innerHTML += taskDiv;
+        
+        
+                }
             }
+
         })
     }
     document.getElementById('activeTasksCount').innerText = countActiveTasks;
@@ -295,7 +311,8 @@ async function getGroupUsers() {
     }
     let filterSearch = document.getElementById("filterName").value.toLowerCase()
     let filterRoleElement = document.getElementById("filterRole");
-    let filterRole = filterRoleElement ? filterRoleElement.value : "all"; let filterMost = document.getElementById("filterMost").value
+    let filterRole = filterRoleElement ? filterRoleElement.value : "all"; 
+    let filterMost = document.getElementById("filterMost").value
     filterMost === "points" ? data.userInfo.sort((a, b) => b.points - a.points) : data.userInfo.sort((a, b) => b.taskCompleted - a.taskCompleted);
     document.querySelector("#familiy .group").innerHTML = groupInfoDiv
     document.querySelector(".userDiv #activeDiv .users").innerHTML = '';
@@ -417,12 +434,12 @@ async function deleteGroup(){
     }
 }
 
-async function taskAction(type, uuid){
+async function taskAction(type, taskUUID){
     if(type === "Delete"){
         const requestOptions = {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({uuid: uuid})
+            body: JSON.stringify({uuid: taskUUID})
         };
         let response = await fetch(`/${type.toLowerCase()}GroupTasks`, requestOptions);
         let data = await response.json();
@@ -435,7 +452,7 @@ async function taskAction(type, uuid){
         const requestOptions = {
             method: "POST",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({uuid: uuid})
+            body: JSON.stringify({uuid: taskUUID})
         };
         let response = await fetch(`/${type.toLowerCase()}GroupTasks`, requestOptions);
         let data = await response.json();
@@ -449,7 +466,7 @@ async function taskAction(type, uuid){
         const requestOptions = {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({uuid: uuid})
+            body: JSON.stringify({uuid: taskUUID})
         };
         let response = await fetch(`/${type.toLowerCase()}GroupTasks`, requestOptions);
         let data = await response.json();
@@ -460,12 +477,13 @@ async function taskAction(type, uuid){
         const requestOptions = {
             method: "PUT",
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({uuid: uuid})
+            body: JSON.stringify({taskUUID: taskUUID})
         };
         let response = await fetch(`/${type.toLowerCase()}GroupTasks`, requestOptions);
         let data = await response.json();
         if(data.responseMessage){
             getGroupTasks();
+            getGroupUsers(); 
         }
     }
 }
@@ -692,11 +710,51 @@ async function getUserRoles() {
 }
 
 async function getLeaderboard(){
-    let response = await fetch('/getGroupUsers');
-    let data = await response.json();
-    let userPoints = data.userInfo.sort((a, b) => b.points - a.points);
-    let userTasks = data.userInfo.sort((a, b) => b.taskCompleted - a.taskCompleted);    
+    let responseUsers = await fetch('/getGroupUsers');
+    let responseFamiliy = await fetch('/getLeaderboard');
+    let dataUsers = await responseUsers.json();
+    let dataFamiliy = await responseFamiliy.json();
+    let userPoints = dataUsers.userInfo.sort((a, b) => b.points - a.points);
+    let userTasks = dataUsers.userInfo.sort((a, b) => b.taskCompleted - a.taskCompleted); 
+    let groupPoints = dataFamiliy.sort((a, b) => b.points - a.points);
+    let GroupTasks = dataFamiliy.sort((a, b) => b.taskCompleted - a.taskCompleted);
+    let fPointsLeaderboardTable = document.querySelector('.leaderboard .pointsFamiliyTable tbody');
+    let fTasksLeaderboardTable = document.querySelector('.leaderboard .tasksFamiliyTable tbody');
+    let gPointsLeaderboardTable = document.querySelector('.leaderboard .pointsGroupTable tbody');
+    let gTasksLeaderboardTable = document.querySelector('.leaderboard .tasksGroupTable tbody');
+
+    userPoints.forEach((user, index) => {
+        if(index < 5){
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>${index + 1}</td><td>${user.name}</td><td>${user.points}</td>`;
+            fPointsLeaderboardTable.appendChild(row);
+        }
+    });
+
+    userTasks.forEach((user, index) => {
+        if (index < 5){
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>${index + 1}</td><td>${user.name}</td><td>${user.taskCompleted}</td>`;
+            fTasksLeaderboardTable.appendChild(row);
+        }
+    });
+    
+    groupPoints.forEach((group, index) => {
+        if(index < 5){
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>${index + 1}</td><td>${group.groupName}</td><td>${group.totalPoints}</td>`;
+            gPointsLeaderboardTable.appendChild(row);
+        }
+    });
+    GroupTasks.forEach((group, index) => {
+        if(index < 5){
+            let row = document.createElement('tr');
+            row.innerHTML = `<td>${index + 1}</td><td>${group.groupName}</td><td>${group.totalTaskCompleted}</td>`;
+            gTasksLeaderboardTable.appendChild(row);
+        }
+    });
 }
+
 
 document.getElementsByClassName('optionButton')[1].addEventListener('click', async function() {
     let response = await fetch('logout');

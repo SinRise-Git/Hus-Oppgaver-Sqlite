@@ -142,9 +142,6 @@
                 <button onclick="changePage('familiy')" class="optionPage">Familiy</button>
               </li>
               <li>
-                <button onclick="changePage('shop')" class="optionPage">Shop</button>
-              </li>
-              <li>
                 <button onclick="changePage('leaderboard')" class="optionPage">Leaderboard</button>
               </li>
               <li>
@@ -168,8 +165,19 @@
               <button onclick="changeGroupPage('awatingDiv')">Awating Tasks</button>
               <button onclick="changeGroupPage('completedDiv')">Completed Tasks</button>
             </div>
-            <div class="filtes">
-
+            <div class="filters">
+              <label for="filterNameTasks">Search:</label>
+              <input type="text" id="filterNameTasks" placeholder="Search...">
+              <label for="filterAssigned">Assigned:</label>
+              <select id="filterAssigned">
+                <option value="any">Any</option>
+                <option value="you">You</option>
+              </select>
+              <label for="filterMostTasks">Most:</label>
+              <select id="filterMostTasks">
+                <option value="none">None</option>
+                <option value="points">Points</option>
+              </select>
             </div>
             <div class="groupTasks"> 
               <div id="activeDiv">
@@ -232,11 +240,84 @@
               </div>
             </div>
           </div>
-          <div id="shop">
-            <h1>Shop</h1>
-          </div>
           <div id="leaderboard">
-            <h1>Leaderboard</h1>
+            <div class="leaderboards">
+              <div class="leaderboardName">
+                <h1>Familiy Leaderboard</h1>
+              </div>
+              <div class="familiyLeaderBoard">
+                <div class="leaderboard">
+                  <h2>Points Leaderboard</h2>
+                  <table class="pointsFamiliyTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Name</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+  
+                    </tbody>
+                </table>
+
+                </div>
+                <div class="leaderboard">
+                  <h2>Task Leaderboard</h2>
+                  <table class="tasksFamiliyTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>User Name</th>
+                            <th>Tasks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+  
+                    </tbody>
+                </table>
+
+                </div>
+              </div>
+              <div class="leaderboardName">
+                <h1>Group Leaderboard</h1>
+              </div>
+              <div class="groupLeaderBoard">
+                <div class="leaderboard">
+                  <h2>Points Leaderboard</h2>
+                  <table class="pointsGroupTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Group name</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+  
+                    </tbody>
+                </table>
+
+                </div>
+                <div class="leaderboard">
+                  <h2>Task Leaderboard</h2>
+                  <table class="tasksGroupTable">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Group name</th>
+                            <th>Tasks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+  
+                    </tbody>
+                </table>
+              
+                </div>
+              </div>
+            </div>
+          </div>
           </div>
         </div>
       </div>

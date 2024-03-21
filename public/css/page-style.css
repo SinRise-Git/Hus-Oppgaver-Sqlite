@@ -309,6 +309,42 @@ body {
       background-color: var(--text-background-color);
       color: var(--input-color); }
 
+.pages #leaderboard {
+  text-align: center;
+  justify-content: center;
+  align-items: center; }
+  .pages #leaderboard .leaderboards .leaderboardName {
+    display: flex;
+    align-items: center;
+    justify-content: center; }
+    .pages #leaderboard .leaderboards .leaderboardName h1 {
+      background-color: var(--accent);
+      color: var(--text-secondary);
+      text-align: center;
+      padding: 10px;
+      border-radius: 10px; }
+  .pages #leaderboard .leaderboards .familiyLeaderBoard, .pages #leaderboard .leaderboards .groupLeaderBoard {
+    width: 100vw;
+    display: flex;
+    justify-content: center;
+    gap: 100px; }
+    .pages #leaderboard .leaderboards .familiyLeaderBoard .leaderboard, .pages #leaderboard .leaderboards .groupLeaderBoard .leaderboard {
+      background-color: var(--secondary);
+      color: var(--text-secondary);
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      border-radius: 10px; }
+      .pages #leaderboard .leaderboards .familiyLeaderBoard .leaderboard h2, .pages #leaderboard .leaderboards .groupLeaderBoard .leaderboard h2 {
+        margin: 0px;
+        font-size: 30px; }
+      .pages #leaderboard .leaderboards .familiyLeaderBoard .leaderboard td, .pages #leaderboard .leaderboards .groupLeaderBoard .leaderboard td {
+        font-size: 20px; }
+      .pages #leaderboard .leaderboards .familiyLeaderBoard .leaderboard th, .pages #leaderboard .leaderboards .groupLeaderBoard .leaderboard th {
+        font-size: 20px; }
+
 @keyframes pageIn {
   0% {
     width: 0;
