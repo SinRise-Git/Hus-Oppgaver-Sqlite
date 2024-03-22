@@ -716,8 +716,8 @@ async function getLeaderboard(){
     let dataFamiliy = await responseFamiliy.json();
     let userPoints = dataUsers.userInfo.sort((a, b) => b.points - a.points);
     let userTasks = dataUsers.userInfo.sort((a, b) => b.taskCompleted - a.taskCompleted); 
-    let groupPoints = dataFamiliy.sort((a, b) => b.points - a.points);
-    let GroupTasks = dataFamiliy.sort((a, b) => b.taskCompleted - a.taskCompleted);
+    let groupPoints = dataFamiliy.sort((a, b) => b.totalPoints - a.totalPoints);
+    let groupTasks = dataFamiliy.sort((a, b) => b.totalTaskCompleted - a.totalTaskCompleted);
     let fPointsLeaderboardTable = document.querySelector('.leaderboard .pointsFamiliyTable tbody');
     let fTasksLeaderboardTable = document.querySelector('.leaderboard .tasksFamiliyTable tbody');
     let gPointsLeaderboardTable = document.querySelector('.leaderboard .pointsGroupTable tbody');
@@ -746,7 +746,7 @@ async function getLeaderboard(){
             gPointsLeaderboardTable.appendChild(row);
         }
     });
-    GroupTasks.forEach((group, index) => {
+    groupTasks.forEach((group, index) => {
         if(index < 5){
             let row = document.createElement('tr');
             row.innerHTML = `<td>${index + 1}</td><td>${group.groupName}</td><td>${group.totalTaskCompleted}</td>`;

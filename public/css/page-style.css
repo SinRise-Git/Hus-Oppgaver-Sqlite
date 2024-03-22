@@ -164,7 +164,7 @@ body {
         .navbar .navbar-links.active button {
           font-size: 20px; } }
 
-.pages #tasks, .pages #familiy, .pages #shop, .pages #leaderboard {
+.pages #familiy, .pages #leaderboard {
   display: none; }
 
 .pages #familiy, .pages #tasks {
