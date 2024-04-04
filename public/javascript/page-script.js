@@ -755,7 +755,6 @@ async function getLeaderboard(){
     });
 }
 
-
 document.getElementsByClassName('optionButton')[1].addEventListener('click', async function() {
     let response = await fetch('logout');
     let data = await response.json();

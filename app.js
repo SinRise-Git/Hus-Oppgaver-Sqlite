@@ -32,6 +32,11 @@ function checkAuthorization(allowedRole) {
         next();
     };
 }
+
+app.get('/', (req, res) => {
+    res.sendFile(path.join(staticPath, 'login-page.html'));
+});
+
 app.get('/eier-page.html', checkAuthorization('eier'), (request, response) => {
   response.sendFile(path.join(staticPath, '/eier-page.html'));
 });
